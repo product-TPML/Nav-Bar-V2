@@ -1791,7 +1791,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     padding: 0 8px 0 0;
     border-color: transparent;
     border-radius: 0;
-    background: var(--cream);
+    background: transparent;
     box-shadow: none;
     color: var(--premium-text);
     font-weight: 700;
@@ -1801,8 +1801,9 @@ body:not(.is-subscriber-view) .site-header__topics {
     position: absolute;
     top: 0;
     bottom: 0;
+    z-index: 3;
     left: -16px;
-    width: 16px;
+    width: calc(100%);
     background: var(--cream);
     content: "";
   }
@@ -1814,9 +1815,9 @@ body:not(.is-subscriber-view) .site-header__topics {
     bottom: 0;
     z-index: 4;
     width: 32px;
-    left: calc(100% - 8px);
+    left: calc(100% - 16px);
     transform: none;
-    background: linear-gradient(90deg, var(--cream) 0%, var(--cream) 22%, rgba(255, 243, 198, 0.78) 46%, rgba(255, 243, 198, 0.35) 70%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(90deg, var(--cream) 0%, var(--cream) 10%, rgba(255, 243, 198, 0.78) 42%, rgba(255, 243, 198, 0.35) 70%, rgba(255, 255, 255, 0) 100%);
     content: "";
     pointer-events: none;
   }

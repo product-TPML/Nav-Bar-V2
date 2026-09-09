@@ -1356,12 +1356,12 @@ body:not(.is-subscriber-view) .site-header__topics {
 
 .drawer__premium-item {
   display: flex;
-  min-height: 102px;
+  min-height: 72px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 4px 8px;
+  gap: 4px;
+  padding: 6px 4px 4px;
   border: 1px solid #d29a10;
   border-radius: 9px;
   background: linear-gradient(180deg, #fff8d9 0%, #ffe9a0 100%);
@@ -1414,7 +1414,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   display: flex;
   min-height: 52px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 8px;
   margin-top: 12px;
   padding: 0 14px;
@@ -1462,8 +1462,9 @@ body:not(.is-subscriber-view) .site-header__topics {
 }
 
 .drawer__premium-cta span:nth-child(2) {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
+  text-align: center;
 }
 
 .drawer__catalog {
@@ -1694,13 +1695,21 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .drawer__premium-grid {
     gap: 7px;
+    margin-right: 4px;
+    margin-left: 4px;
   }
 
   .drawer__premium-item {
-    min-height: 94px;
-    gap: 7px;
-    padding: 8px 3px;
+    min-height: 72px;
+    gap: 4px;
+    padding: 6px 3px 4px;
     font-size: 14px;
+  }
+
+  .drawer__premium-cta {
+    width: auto;
+    margin-right: 4px;
+    margin-left: 4px;
   }
 
   .drawer__premium-item svg {
@@ -2659,9 +2668,9 @@ body:not(.is-subscriber-view) .site-header__topics {
     position: relative;
     top: 0;
     width: 48px;
-    height: 32px;
+    height: 30px;
     min-width: 48px;
-    min-height: 32px;
+    min-height: 30px;
     flex: 0 0 48px;
     padding-right: 4px;
     padding-left: 4px;
@@ -2699,14 +2708,14 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .mobile-bottomnav__badge .premium-badge__icon,
   .mobile-bottomnav__badge .premium-badge__icon svg {
-    width: 21px;
-    height: 21px;
+    width: 20px;
+    height: 20px;
     color: #211700;
   }
 
   .mobile-bottomnav__badge .premium-badge__icon.premium-icon {
-    width: 21px;
-    height: 21px;
+    width: 20px;
+    height: 20px;
   }
 
   .mobile-bottomnav__badge .mobile-bottomnav__premium-label {

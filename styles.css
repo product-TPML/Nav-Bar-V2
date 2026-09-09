@@ -870,7 +870,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 }
 
-.premium-badge--pop {
+.mobile-bottomnav__badge.premium-badge--pop {
   animation: badge-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
@@ -1625,7 +1625,8 @@ body:not(.is-subscriber-view) .site-header__topics {
     font-size: 11px;
   }
 
-  .site-header__subscribe {
+  .site-header__subscribe,
+  .drawer__subscribe {
     min-height: 30px;
     font-size: 12px;
   }
@@ -1967,7 +1968,8 @@ body:not(.is-subscriber-view) .site-header__topics {
     display: inline-flex;
   }
 
-  .site-header__subscribe {
+  .site-header__subscribe,
+  .drawer__subscribe {
     min-height: 36px;
     padding: 0 13px;
     font-size: 13px;

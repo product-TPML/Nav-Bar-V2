@@ -1789,7 +1789,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     justify-content: flex-start;
     gap: 4px;
     padding: 0 8px 0 0;
-    border-color: var(--gold-deep);
+    border-color: transparent;
     border-radius: 0;
     background: var(--cream);
     box-shadow: none;
@@ -1810,10 +1810,12 @@ body:not(.is-subscriber-view) .site-header__topics {
   .is-subscriber-view .site-header__topics .site-header__topic-premium::after {
     position: absolute;
     top: 0;
-    right: -28px;
+    right: auto;
     bottom: 0;
     z-index: 4;
-    width: 54px;
+    width: 32px;
+    left: calc(100% - 8px);
+    transform: none;
     background: linear-gradient(90deg, var(--cream) 0%, var(--cream) 22%, rgba(255, 243, 198, 0.78) 46%, rgba(255, 243, 198, 0.35) 70%, rgba(255, 255, 255, 0) 100%);
     content: "";
     pointer-events: none;

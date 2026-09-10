@@ -2859,12 +2859,10 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .is-subscriber-view .site-header__mobile-epaper {
     font-size: 14px;
-    border: 1px solid var(--premium-border);
-    background: linear-gradient(150deg, var(--premium-badge-start) 0%, var(--premium-badge-end) 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      var(--shadow-sm);
-    color: var(--premium-on-gold);
+    border: 3px solid var(--gold);
+    background: transparent;
+    box-shadow: none;
+    color: var(--gold);
   }
 
   .site-header__logo-image,

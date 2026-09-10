@@ -21,6 +21,7 @@
   --brand-300: #eeb3b7;
   --brand-400: #da7279;
   --brand-500: #b82831;
+  --brand-header: #c6535a;
   --brand-600: #a31f28;
   --brand-700: #891923;
   --brand-800: #6e141c;
@@ -2794,18 +2795,18 @@ body:not(.is-subscriber-view) .site-header__topics {
 /* Mobile publication chrome: brand-forward navigation, neutral editorial surfaces. */
 @media (max-width: 1023px) {
   .site-header {
-    background: var(--brand-500);
+    background: var(--brand-header);
     border-bottom-color: var(--brand-600);
   }
 
   .site-header__top {
-    background: var(--brand-500);
+    background: var(--brand-header);
     border-bottom: 1px solid var(--brand-600);
   }
 
   .site-header__icon-btn,
   .site-header__mobile-epaper {
-    color: #ffffff;
+    color: #000000;
   }
 
   .is-subscriber-view .site-header__mobile-epaper {
@@ -2818,17 +2819,17 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .site-header__logo-image,
   .drawer__logo-image {
-    filter: brightness(0) invert(1);
+    filter: none;
   }
 
   .is-subscriber-view .site-header__profile,
   .is-subscriber-view .drawer__profile {
-    color: #ffffff;
+    color: #000000;
   }
 
   .site-header__profile > [data-icon="user"] svg,
   .drawer__profile > [data-icon="user"] svg {
-    filter: invert(1);
+    filter: none;
   }
 
   .site-header__utility {
@@ -2912,7 +2913,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .drawer__topbar {
-    background: var(--brand-500);
+    background: var(--brand-header);
     border-bottom-color: var(--brand-600);
   }
 

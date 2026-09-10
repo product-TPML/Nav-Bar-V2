@@ -1886,23 +1886,15 @@ body:not(.is-subscriber-view) .site-header__topics {
     bottom: 0;
     left: -16px;
     z-index: 3;
-    width: var(--premium-tab-solid-width);
+    width: calc(100% + 16px);
+    border-radius: 0 10px 10px 0;
     background: var(--gold);
+    box-shadow: 4px 2px 8px rgba(0, 0, 0, 0.18);
     content: "";
   }
 
   .is-subscriber-view .site-header__topics .site-header__topic-premium::after {
-    position: absolute;
-    top: 0;
-    right: auto;
-    bottom: 0;
-    z-index: 12;
-    width: var(--premium-tab-fade-width);
-    left: calc(100% - 16px);
-    transform: none;
-    background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 25%, rgba(255, 211, 77, 0.78) 48%, rgba(255, 211, 77, 0.35) 78%, rgba(255, 211, 77, 0) 100%);
-    content: "";
-    pointer-events: none;
+    display: none;
   }
 
   .is-subscriber-view .site-header__topics .site-header__topic-premium > * {

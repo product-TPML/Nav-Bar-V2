@@ -2809,11 +2809,13 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .is-subscriber-view .site-header__mobile-epaper {
-    color: var(--gold);
     font-size: 14px;
-    border: 1px solid var(--gold-border);
-    background: transparent;
-    box-shadow: none;
+    border: 1px solid var(--premium-border);
+    background: linear-gradient(150deg, var(--premium-badge-start) 0%, var(--premium-badge-end) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      var(--shadow-sm);
+    color: var(--premium-on-gold);
   }
 
   .site-header__logo-image,
@@ -2859,6 +2861,12 @@ body:not(.is-subscriber-view) .site-header__topics {
     box-shadow: inset 0 -3px 0 var(--brand-500);
     color: var(--brand-500);
     font-weight: 700;
+  }
+
+  .is-subscriber-view .site-header__topics .site-header__topic-premium,
+  .is-subscriber-view .site-header__topics .site-header__topic-premium:hover,
+  .is-subscriber-view .site-header__topics .site-header__topic-premium:focus-visible {
+    color: #000000;
   }
 
   .mobile-bottomnav {

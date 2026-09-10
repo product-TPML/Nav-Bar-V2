@@ -68,7 +68,7 @@
 
     setPublicationCopy(".site-header__primary a", ["E-paper", "Districts", "News", "Entertainment", "Opinion", "Astrology", "Our Voice"], isDh);
     setPublicationCopy(".site-header__utility-link span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
-    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-epaper > span:last-child, .site-header__topic-premium-extra, .site-header__topics > a:not(.site-header__topic-premium):not(.site-header__topic-epaper):not(.site-header__topic-premium-extra)", ["Premium", "E-paper", "Sudha", "Mayura", "Districts", "News", "Astrology", "Entertainment", "Sports", "Business", "Technology & Auto"], isDh);
+    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-epaper > span:last-child, .site-header__topic-premium-extra > span:last-child, .site-header__topics > a:not(.site-header__topic-premium):not(.site-header__topic-epaper):not(.site-header__topic-premium-extra)", ["Premium", "E-paper", "Sudha", "Mayura", "Districts", "News", "Astrology", "Entertainment", "Sports", "Business", "Technology & Auto"], isDh);
     setPublicationCopy(".site-header__subscribe-label, .site-header__mobile-epaper .site-header__epaper-label", ["Subscribe", "E-paper"], isDh);
 
     setPublicationCopy(".story__title", [

@@ -3290,6 +3290,10 @@ body.is-dh .publication-view-toggle {
 }
 
 @media (min-width: 1024px) {
+  .is-subscriber-view .site-header__topics .site-header__premium-group {
+    display: none;
+  }
+
   .site-header__secondary {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -3349,17 +3353,24 @@ body.is-dh .publication-view-toggle {
   }
 
   .site-header__premium-group a {
+    gap: 6px;
     border-radius: 8px;
-    border-color: var(--gold-deep);
-    background: var(--cream);
-    color: var(--premium-text);
+    border-color: rgba(255, 211, 77, 0.45);
+    background: var(--brown-900);
+    color: var(--gold);
   }
 
   .site-header__premium-group a:hover,
   .site-header__premium-group a:focus-visible {
-    border-color: var(--gold-border);
-    background: #ffe8a0;
-    color: var(--premium-text);
+    border-color: var(--gold);
+    background: var(--brown-800);
+    color: var(--gold);
+  }
+
+  .site-header__premium-group a > span:first-child {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
   }
 }
 

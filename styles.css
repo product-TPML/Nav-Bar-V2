@@ -1817,7 +1817,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     left: -16px;
     z-index: 3;
     width: var(--premium-tab-solid-width);
-    background: var(--premium-gold-end);
+    background: var(--gold);
     content: "";
   }
 
@@ -1830,7 +1830,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     width: var(--premium-tab-fade-width);
     left: calc(100% - 16px);
     transform: none;
-    background: linear-gradient(90deg, var(--premium-gold-end) 0%, var(--premium-gold-end) 25%, rgba(249, 200, 64, 0.78) 48%, rgba(249, 200, 64, 0.35) 78%, rgba(249, 200, 64, 0) 100%);
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold) 25%, rgba(255, 211, 77, 0.78) 48%, rgba(255, 211, 77, 0.35) 78%, rgba(255, 211, 77, 0) 100%);
     content: "";
     pointer-events: none;
   }

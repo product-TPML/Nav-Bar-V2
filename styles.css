@@ -2967,6 +2967,21 @@ body:not(.is-subscriber-view) .site-header__topics {
     background: var(--brand-100);
   }
 
+  .mobile-bottomnav__item.is-active:first-child {
+    color: var(--nav-top-fg);
+  }
+
+  .mobile-bottomnav__item.is-active:first-child .mobile-bottomnav__icon {
+    width: 23px;
+    height: 23px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .mobile-bottomnav__item.is-active:first-child > span:last-child {
+    transform: translateY(4px);
+  }
+
   .mobile-bottomnav__icon {
     color: currentColor;
   }

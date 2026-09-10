@@ -118,6 +118,21 @@
     }
   }
 
+  function applySecondaryNavOrder(isSecondaryNavFirst) {
+    var toggle = document.querySelector("[data-secondary-nav-toggle]");
+    document.body.classList.toggle("is-secondary-nav-first", isSecondaryNavFirst);
+
+    if (toggle) {
+      toggle.setAttribute("aria-pressed", String(isSecondaryNavFirst));
+      toggle.setAttribute(
+        "aria-label",
+        isSecondaryNavFirst
+          ? "Move Premium offerings above secondary navigation"
+          : "Move secondary navigation above Premium offerings"
+      );
+    }
+  }
+
   function setBodyLock(locked) {
     document.body.classList.toggle("is-locked", locked);
   }
@@ -407,6 +422,7 @@
       var submenuToggle = event.target.closest("[data-toggle-submenu]");
       var subscriberToggle = event.target.closest("[data-subscriber-toggle]");
       var publicationToggle = event.target.closest("[data-publication-toggle]");
+      var secondaryNavToggle = event.target.closest("[data-secondary-nav-toggle]");
 
       if (premiumTrigger) {
         event.preventDefault();
@@ -433,6 +449,13 @@
         event.preventDefault();
         var isDh = publicationToggle.getAttribute("aria-pressed") === "true";
         applyDeccanHeraldMode(!isDh);
+        return;
+      }
+
+      if (secondaryNavToggle) {
+        event.preventDefault();
+        var isSecondaryNavFirst = secondaryNavToggle.getAttribute("aria-pressed") === "true";
+        applySecondaryNavOrder(!isSecondaryNavFirst);
         return;
       }
 

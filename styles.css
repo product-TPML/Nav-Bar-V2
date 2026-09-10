@@ -3294,7 +3294,7 @@ body.is-dh .publication-view-toggle {
   .site-header,
   .site-header__top,
   .drawer__topbar {
-    border-bottom-color: #ffffff;
+    border-bottom-color: var(--brand-200);
   }
 
   body.is-secondary-nav-first .drawer__quicklinks-shell {

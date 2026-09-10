@@ -2844,6 +2844,25 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .mobile-bottomnav__item {
     color: var(--nav-top-fg);
+    text-align: center;
+  }
+
+  .mobile-bottomnav__item,
+  .mobile-bottomnav__badge-wrap {
+    height: 43px;
+  }
+
+  .mobile-bottomnav__item > span:last-child {
+    width: 100%;
+    text-align: center;
+  }
+
+  .mobile-bottomnav__item:not(.is-active) > span:last-child {
+    transform: translateY(4px);
+  }
+
+  .mobile-bottomnav__premium-label {
+    transform: translateY(4.5px);
   }
 
   .mobile-bottomnav__item.is-active,
@@ -2852,6 +2871,8 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .mobile-bottomnav__item.is-active .mobile-bottomnav__icon {
+    width: 31px;
+    height: 31px;
     padding: 4px;
     border-radius: var(--radius-full);
     background: var(--brand-100);

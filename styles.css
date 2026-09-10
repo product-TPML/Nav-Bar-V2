@@ -2794,18 +2794,41 @@ body:not(.is-subscriber-view) .site-header__topics {
 /* Mobile publication chrome: brand-forward navigation, neutral editorial surfaces. */
 @media (max-width: 1023px) {
   .site-header {
-    background: var(--nav-top-bg);
-    border-bottom-color: var(--nav-top-border);
+    background: var(--brand-500);
+    border-bottom-color: var(--brand-600);
   }
 
   .site-header__top {
-    background: var(--nav-top-bg);
-    border-bottom: 1px solid var(--nav-top-border);
+    background: var(--brand-500);
+    border-bottom: 1px solid var(--brand-600);
   }
 
   .site-header__icon-btn,
   .site-header__mobile-epaper {
-    color: var(--nav-top-fg);
+    color: #ffffff;
+  }
+
+  .is-subscriber-view .site-header__mobile-epaper {
+    color: var(--gold);
+    font-size: 14px;
+    border: 1px solid var(--gold-border);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header__logo-image,
+  .drawer__logo-image {
+    filter: brightness(0) invert(1);
+  }
+
+  .is-subscriber-view .site-header__profile,
+  .is-subscriber-view .drawer__profile {
+    color: #ffffff;
+  }
+
+  .site-header__profile > [data-icon="user"] svg,
+  .drawer__profile > [data-icon="user"] svg {
+    filter: invert(1);
   }
 
   .site-header__utility {
@@ -2813,12 +2836,12 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .site-header__topics {
-    background: var(--nav-section-bg);
+    background: var(--nav-top-bg);
     border-top-color: var(--nav-top-border);
   }
 
   .site-header__topics-shell::after {
-    background: linear-gradient(90deg, rgba(252, 235, 236, 0), var(--nav-section-bg) 82%);
+    background: linear-gradient(90deg, rgba(255, 247, 247, 0), var(--nav-top-bg) 82%);
   }
 
   .site-header__topics a {
@@ -2827,13 +2850,14 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .site-header__topics a.is-active,
   .site-header__topics a:hover {
-    background: var(--nav-active-bg);
-    border-color: var(--brand-300);
+    background: transparent;
+    border-color: transparent;
     color: var(--nav-active);
   }
 
   .site-header__topics a.is-active {
-    box-shadow: inset 0 -2px 0 var(--nav-active);
+    box-shadow: inset 0 -3px 0 var(--brand-500);
+    color: var(--brand-500);
     font-weight: 700;
   }
 
@@ -2888,8 +2912,8 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .drawer__topbar {
-    background: var(--brand-100);
-    border-bottom-color: var(--drawer-border);
+    background: var(--brand-500);
+    border-bottom-color: var(--brand-600);
   }
 
   .drawer__brand,

@@ -68,7 +68,7 @@
 
     setPublicationCopy(".site-header__primary a", ["E-paper", "Districts", "News", "Entertainment", "Opinion", "Astrology", "Our Voice"], isDh);
     setPublicationCopy(".site-header__utility-link span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
-    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-premium-extra, .site-header__topics > a:not(.site-header__topic-premium):not(.site-header__topic-premium-extra)", ["Premium", "Sudha", "Mayura", "Districts", "News", "Astrology", "Entertainment", "Sports", "Business", "Technology & Auto"], isDh);
+    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-epaper > span:last-child, .site-header__topic-premium-extra, .site-header__topics > a:not(.site-header__topic-premium):not(.site-header__topic-epaper):not(.site-header__topic-premium-extra)", ["Premium", "E-paper", "Sudha", "Mayura", "Districts", "News", "Astrology", "Entertainment", "Sports", "Business", "Technology & Auto"], isDh);
     setPublicationCopy(".site-header__subscribe-label, .site-header__mobile-epaper .site-header__epaper-label", ["Subscribe", "E-paper"], isDh);
 
     setPublicationCopy(".story__title", [
@@ -104,6 +104,11 @@
         image.setAttribute("data-pv-src", image.getAttribute("src") || "");
       }
       image.setAttribute("src", isDh ? dhLogoUrl : image.getAttribute("data-pv-src"));
+      image.addEventListener("error", function () {
+        if (image.getAttribute("src") !== image.getAttribute("data-pv-src")) {
+          image.setAttribute("src", image.getAttribute("data-pv-src"));
+        }
+      }, { once: true });
     });
     setPublicationAttributes(".site-header__search-input, .drawer__searchform-input", "placeholder", ["Search Deccan Herald...", "Search Deccan Herald..."], isDh);
     setPublicationAttributes(".site-header__search-input, .drawer__searchform-input", "aria-label", ["Search", "Search"], isDh);

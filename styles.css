@@ -2919,7 +2919,11 @@ body:not(.is-subscriber-view) .site-header__topics {
   .drawer__brand,
   .drawer__toolbar-btn,
   .drawer__mobile-search {
-    color: var(--nav-top-fg);
+    color: #ffffff;
+  }
+
+  .drawer__subscribe {
+    display: none;
   }
 
   .drawer__quicklinks {

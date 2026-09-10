@@ -25,6 +25,99 @@
     return Array.prototype.slice.call((context || document).querySelectorAll(selector));
   }
 
+  function setPublicationCopy(selector, values, isDh) {
+    qsa(selector).forEach(function (element, index) {
+      if (!element.hasAttribute("data-pv-copy")) {
+        element.setAttribute("data-pv-copy", element.textContent.trim());
+      }
+
+      if (isDh && values[index] !== undefined) {
+        element.textContent = values[index];
+      } else {
+        element.textContent = element.getAttribute("data-pv-copy");
+      }
+    });
+  }
+
+  function setPublicationAttributes(selector, attribute, values, isDh) {
+    qsa(selector).forEach(function (element, index) {
+      var originalAttribute = "data-pv-" + attribute;
+
+      if (!element.hasAttribute(originalAttribute)) {
+        element.setAttribute(originalAttribute, element.getAttribute(attribute) || "");
+      }
+
+      if (isDh && values[index] !== undefined) {
+        element.setAttribute(attribute, values[index]);
+      } else {
+        element.setAttribute(attribute, element.getAttribute(originalAttribute));
+      }
+    });
+  }
+
+  function applyDeccanHeraldMode(isDh) {
+    var root = document.documentElement;
+    var body = document.body;
+    var publicationToggle = document.querySelector("[data-publication-toggle]");
+    var dhLogoUrl = "https://images.assettype.com/deccanherald/2025-08-20/h9a4ohs5/DH-Logo";
+
+    body.classList.toggle("is-dh", isDh);
+    root.setAttribute("data-publication", isDh ? "deccan-herald" : "prajavani");
+    root.setAttribute("lang", isDh ? "en" : "kn");
+    document.title = isDh ? "Deccan Herald" : "ಪ್ರಜಾವಾಣಿ";
+
+    setPublicationCopy(".site-header__primary a", ["E-paper", "Districts", "News", "Entertainment", "Opinion", "Astrology", "Our Voice"], isDh);
+    setPublicationCopy(".site-header__utility-link span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
+    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-premium-extra, .site-header__topics > a:not(.site-header__topic-premium):not(.site-header__topic-premium-extra)", ["Premium", "Sudha", "Mayura", "Districts", "News", "Astrology", "Entertainment", "Sports", "Business", "Technology & Auto"], isDh);
+    setPublicationCopy(".site-header__subscribe-label, .site-header__mobile-epaper .site-header__epaper-label", ["Subscribe", "E-paper"], isDh);
+
+    setPublicationCopy(".story__title", [
+      "Karnataka Rains: Heavy showers lash Vijayapura district and other parts of the state",
+      "Tomato farmers hope for better prices this season",
+      "North India sees another wet Sunday as rain continues",
+      "Queue for PG accommodation raises questions about safety",
+      "Karnataka weather: Major updates as rain activity spreads across the region",
+      "Bengaluru roadwork covers 4,800 km across the city",
+      "Video: Complete details of the police operation",
+      "Fresh debate over the Lok Sabha election; key leaders respond",
+      "Bigg Boss Kannada 13: New contestants announced",
+      "Internet guide: Essential travel information for airports"
+    ], isDh);
+    setPublicationCopy(".story__summary", ["Rain moves towards the highways linking the southern and northern districts of Karnataka", "Good yields and better prices bring smiles to farmers"], isDh);
+    setPublicationCopy(".feature-card__label, .rail-link", ["More →", "Stay connected for the latest news"], isDh);
+
+    setPublicationCopy(".mobile-bottomnav__item > span:last-child, .mobile-bottomnav__premium-label", ["Home", "Podcast", "Premium", "Menu"], isDh);
+    setPublicationCopy(".premium-popup__title > span:last-child, .premium-popup__item > span:last-child", ["Premium", "Premium news", "E-paper", "Sudha", "Mayura"], isDh);
+
+    setPublicationCopy(".drawer__tagline", ["The Kannada Press, Mysuru"], isDh);
+    setPublicationCopy(".drawer__quickchip", ["City", "Sports", "Features", "Campus", "Agri Desk"], isDh);
+    setPublicationCopy(".drawer__premium-title, .drawer__premium-item > span:last-child, .drawer__premium-cta > span:nth-child(2)", ["Premium Features", "Premium", "E-paper", "Sudha", "Mayura", "Subscribe now for full access"], isDh);
+    setPublicationCopy(".drawer-card__title", ["E-paper", "Districts", "News", "Entertainment", "Opinion", "Astrology", "Information", "Columns", "Sports", "Business", "Technology & Auto", "Health & Food", "Education & Careers", "Society", "Arts & Literature", "Agriculture", "Public Voice", "Travel"], isDh);
+    setPublicationCopy(".drawer-card__meta", ["Udupi, Uttara Kannada and more", "Politics, national and digital news", "TV, digital and OTT", "Podcasts and discussions", "Horoscopes and panchang", "Explainers and fact checks", "Translation and analysis", "Cricket and leagues", "Budgets and markets", "AI and tech reviews", "Recipes and wellness", "Jobs, exams and guidance", "Festivals, faith and culture", "Books and literature", "Farming, technology and environment", "Election infographics and candidates", "PR spots and itineraries"], isDh);
+    setPublicationCopy(".drawer-card__submenu-link", ["Udupi", "Uttara Kannada", "Mysuru", "Politics", "National", "Bengaluru", "Digital", "TV", "Digital", "Hollywood", "Editorial", "Analysis", "Magazine", "Horoscopes", "Panchang", "Vastu", "Explainers", "Fact Check", "Features", "Translation", "Research", "Reviews", "Cricket", "Football", "Kabaddi", "Budget", "Markets", "Startups", "AI", "Gadgets", "Auto", "Health", "Food", "Fitness", "Jobs", "Exams", "Guidance", "Faith", "Tradition", "Culture", "Books", "Literature", "Reviews", "Agriculture", "Environment", "Technology", "Elections", "Candidates", "Infographics", "Destinations", "Itineraries", "Travel Stories"], isDh);
+    setPublicationCopy(".drawer__footer-label", ["Follow us", "Contact us"], isDh);
+
+    setPublicationAttributes(".site-header__logo, .drawer__brand", "aria-label", ["Deccan Herald home", "Deccan Herald home"], isDh);
+    setPublicationAttributes(".site-header__logo-image, .drawer__logo-image", "alt", ["Deccan Herald", "Deccan Herald"], isDh);
+    qsa(".site-header__logo-image, .drawer__logo-image").forEach(function (image) {
+      if (!image.hasAttribute("data-pv-src")) {
+        image.setAttribute("data-pv-src", image.getAttribute("src") || "");
+      }
+      image.setAttribute("src", isDh ? dhLogoUrl : image.getAttribute("data-pv-src"));
+    });
+    setPublicationAttributes(".site-header__search-input, .drawer__searchform-input", "placeholder", ["Search Deccan Herald...", "Search Deccan Herald..."], isDh);
+    setPublicationAttributes(".site-header__search-input, .drawer__searchform-input", "aria-label", ["Search", "Search"], isDh);
+
+    if (publicationToggle) {
+      publicationToggle.setAttribute("aria-pressed", String(isDh));
+      publicationToggle.setAttribute("aria-label", isDh ? "Switch to Prajavani" : "Switch to Deccan Herald");
+      var mark = publicationToggle.querySelector(".publication-view-toggle__mark");
+      var label = publicationToggle.querySelector(".publication-view-toggle__label");
+      if (mark) mark.textContent = isDh ? "PV" : "DH";
+      if (label) label.textContent = isDh ? "PV" : "DH";
+    }
+  }
+
   function setBodyLock(locked) {
     document.body.classList.toggle("is-locked", locked);
   }
@@ -313,6 +406,7 @@
       var closePopupTrigger = event.target.closest("[data-close-popup]");
       var submenuToggle = event.target.closest("[data-toggle-submenu]");
       var subscriberToggle = event.target.closest("[data-subscriber-toggle]");
+      var publicationToggle = event.target.closest("[data-publication-toggle]");
 
       if (premiumTrigger) {
         event.preventDefault();
@@ -332,6 +426,13 @@
         siteHeader.classList.remove("is-compact");
         siteHeader.classList.remove("is-menu-hidden");
         siteHeader.classList.remove("is-utility-hidden");
+        return;
+      }
+
+      if (publicationToggle) {
+        event.preventDefault();
+        var isDh = publicationToggle.getAttribute("aria-pressed") === "true";
+        applyDeccanHeraldMode(!isDh);
         return;
       }
 

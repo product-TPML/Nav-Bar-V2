@@ -1467,6 +1467,7 @@ body:not(.is-subscriber-view) .site-header__topics {
 .drawer__premium-cta {
   display: flex;
   position: relative;
+  overflow: hidden;
   min-height: 52px;
   align-items: center;
   justify-content: center;
@@ -3064,4 +3065,163 @@ body:not(.is-subscriber-view) .site-header__topics {
     border-color: var(--drawer-border);
     background: var(--drawer-raised-bg);
   }
+}
+
+/* Deccan Herald publication mode. Subscription state remains independent. */
+body.is-dh {
+  --brand-50: #f1fbfc;
+  --brand-100: #e2f5f7;
+  --brand-200: #b9e5ea;
+  --brand-300: #83ced8;
+  --brand-400: #43b2c1;
+  --brand-500: #0091ac;
+  --brand-600: #007d95;
+  --brand-700: #00697e;
+  --brand-800: #005568;
+  --brand-900: #003e4c;
+  --brand-950: #002934;
+  --publication-primary: var(--brand-500);
+  --brand-red: var(--publication-primary);
+  --brand-red-dark: var(--brand-600);
+  --nav-top-bg: var(--brand-50);
+  --nav-top-border: var(--brand-200);
+  --nav-top-fg: var(--brand-950);
+  --nav-section-bg: var(--brand-100);
+  --nav-section-fg: var(--brand-950);
+  --nav-active: var(--brand-700);
+  --nav-active-bg: var(--brand-200);
+  --bottomnav-bg: var(--brand-50);
+  --bottomnav-border: var(--brand-200);
+  --drawer-bg: var(--brand-50);
+  --drawer-expanded-bg: var(--brand-100);
+  --drawer-border: var(--brand-200);
+  --brand-focus: var(--brand-500);
+  font-family: "Roboto Slab", Georgia, serif;
+}
+
+body.is-dh .site-header__logo,
+body.is-dh .drawer__brand {
+  justify-content: flex-start;
+  margin-left: 0;
+  color: #ffffff;
+  text-align: left;
+}
+
+body.is-dh .site-header__logo-image,
+body.is-dh .drawer__logo-image {
+  display: block;
+  filter: brightness(0) invert(1);
+  object-position: left center;
+}
+
+body.is-dh .site-header__logo::before,
+body.is-dh .drawer__brand::before {
+  content: none;
+}
+
+body.is-dh h1,
+body.is-dh h2,
+body.is-dh h3,
+body.is-dh .story__title,
+body.is-dh .feature-card__title,
+body.is-dh .drawer-card__title,
+body.is-dh .premium-popup__title {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+body.is-dh .site-header__top,
+body.is-dh .drawer__topbar {
+  background: var(--brand-500);
+}
+
+body.is-dh .drawer__tagline {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.publication-view-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 156px;
+  z-index: var(--header-z);
+  display: inline-flex;
+  min-width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 10px;
+  border: 1px solid var(--brand-500);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  color: var(--brand-700);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.publication-view-toggle__mark {
+  font-size: 16px;
+}
+
+.publication-view-toggle[aria-pressed="true"] {
+  border-color: var(--brand-500);
+  background: var(--brand-500);
+  color: #ffffff;
+}
+
+body.is-dh .publication-view-toggle {
+  border-color: #ffffff;
+  background: var(--brand-900);
+  color: #ffffff;
+}
+
+body.is-subscriber-view .site-header__mobile-epaper,
+body.is-subscriber-view .site-header__epaper {
+  border: 3px solid var(--gold);
+  background: var(--gold);
+  color: #000000;
+  box-shadow: none;
+}
+
+@media (min-width: 1024px) {
+  .publication-view-toggle {
+    right: 24px;
+    bottom: 96px;
+  }
+}
+
+@media (max-width: 480px) {
+  .publication-view-toggle {
+    right: 16px;
+    bottom: 154px;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    padding: 0;
+  }
+
+  .publication-view-toggle__label {
+    display: none;
+  }
+}
+
+/* Keep the DH typography system consistent across every component. */
+body.is-dh,
+body.is-dh * {
+  font-family: "Roboto Slab", Georgia, serif;
+}
+
+body.is-dh h1,
+body.is-dh h2,
+body.is-dh h3,
+body.is-dh .story__title,
+body.is-dh .feature-card__title,
+body.is-dh .drawer-card__title,
+body.is-dh .drawer__premium-title,
+body.is-dh .premium-popup__title,
+body.is-dh .publication-view-toggle {
+  font-family: "Playfair Display", Georgia, serif;
 }

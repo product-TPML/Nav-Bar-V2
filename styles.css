@@ -3492,6 +3492,71 @@ body.is-dh .site-header__utility {
   }
 }
 
+/* Hamburger-only visual polish: surfaces, focus states, and child-link affordances. */
+.drawer__catalog {
+  gap: 14px;
+}
+
+.drawer__catalog .drawer-card {
+  border: 1px solid var(--drawer-border);
+  background: var(--drawer-raised-bg);
+  box-shadow: 0 2px 8px rgba(47, 8, 11, 0.06);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.drawer__catalog .drawer-card:hover {
+  border-color: var(--brand-200);
+  box-shadow: 0 4px 12px rgba(47, 8, 11, 0.1);
+}
+
+.drawer__catalog .drawer-card__trigger,
+.drawer__catalog .drawer-card--link {
+  color: var(--brand-950);
+}
+
+.drawer__catalog .drawer-card__trigger:focus-visible,
+.drawer__catalog .drawer-card--link:focus-visible,
+.drawer__catalog .drawer-card__icon:focus-visible,
+.drawer__catalog .drawer-card__submenu-link:focus-visible {
+  outline: 2px solid var(--brand-focus);
+  outline-offset: -2px;
+}
+
+.drawer__catalog .drawer-card__icon {
+  color: var(--brand-700);
+}
+
+.drawer__catalog .drawer-card__submenu.is-expanded {
+  border: 1px solid var(--drawer-border);
+  border-top: 0;
+  background: var(--drawer-expanded-bg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.drawer__catalog .drawer-card__submenu-link {
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.drawer__catalog .drawer-card__submenu-link:hover,
+.drawer__catalog .drawer-card__submenu-link:focus-visible {
+  background: var(--brand-50);
+  color: var(--brand-800);
+}
+
+@media (min-width: 1024px) {
+  .drawer__catalog.has-expanded-card .drawer-card__trigger,
+  .drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main {
+    border: 1px solid var(--drawer-border);
+    box-shadow: 0 2px 8px rgba(47, 8, 11, 0.06);
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__trigger {
+    border-color: var(--brand-600);
+    box-shadow: 0 3px 10px rgba(47, 8, 11, 0.1);
+  }
+}
+
 body.is-dh .site-header__topic-premium,
 body.is-dh .site-header__topic-epaper {
   border-color: rgba(255, 211, 77, 0.45) !important;
@@ -4010,4 +4075,11 @@ body.is-dh .publication-view-toggle {
   .drawer__quicklinks {
     border-top: 0;
   }
+}
+
+/* Keep the hamburger canvas neutral while preserving its brand rail and cards. */
+.drawer__surface,
+.drawer__inner,
+.drawer__catalog {
+  background: #ffffff;
 }

@@ -3593,6 +3593,34 @@ body.is-dh .site-header__topic-epaper {
   color: var(--nav-offering-fg) !important;
 }
 
+@media (max-width: 1023px) {
+  body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper {
+    border: 0 !important;
+    background: transparent !important;
+    color: var(--brand-950) !important;
+  }
+
+  body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper > .epaper-icon {
+    background-color: var(--brand-950) !important;
+    color: var(--brand-950) !important;
+  }
+
+  body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium {
+    border: 0 !important;
+    background: transparent !important;
+    color: #000000 !important;
+  }
+
+  body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium svg {
+    color: #000000 !important;
+  }
+
+  body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium > .premium-icon {
+    background-color: #000000 !important;
+    color: #000000 !important;
+  }
+}
+
 body.is-dh .site-header__utility-link svg,
 body.is-dh .site-header__topic-premium svg,
 body.is-dh .site-header__topic-epaper svg {

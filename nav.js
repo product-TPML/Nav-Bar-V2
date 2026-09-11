@@ -105,7 +105,12 @@
   }
 
   function getApiMenuItems(group, fallback) {
-    return group && Array.isArray(group.items) && group.items.length ? group.items : fallback;
+    var items = group && Array.isArray(group.items) ? group.items : [];
+    var hasUsableItems = items.some(function (item) {
+      return item && item.title && !isSubscriptionOffering(item.title);
+    });
+
+    return hasUsableItems ? items : fallback;
   }
 
   function getRootApiMenuItems(items) {
@@ -312,17 +317,94 @@
     }
   }
 
+  function fallbackMenuItem(id, title, url, parentId) {
+    return {
+      id: id,
+      title: title,
+      url: url,
+      "parent-id": parentId == null ? null : parentId
+    };
+  }
+
   function getFallbackMenus(brand) {
     if (brand === "dh") {
       return {
-        primary: ["Districts", "News", "Entertainment", "Opinion", "Astrology", "Our Voice"],
-        secondary: ["Districts", "News", "Entertainment", "Opinion", "Astrology", "Sports", "Business"]
+        primary: [
+          fallbackMenuItem("dh-india", "India", "/top-india-news"),
+          fallbackMenuItem("dh-karnataka", "Karnataka", "/top-karnataka-news"),
+          fallbackMenuItem("dh-opinion", "Opinion", "/top-opinion-news"),
+          fallbackMenuItem("dh-world", "World", "/world"),
+          fallbackMenuItem("dh-business", "Business", "/top-business-news"),
+          fallbackMenuItem("dh-sports", "Sports", "/top-sports-news"),
+          fallbackMenuItem("dh-video", "Video", "/top-videos-today")
+        ],
+        secondary: [
+          fallbackMenuItem("dh-secondary-india", "India", "/top-india-news"),
+          fallbackMenuItem("dh-secondary-karnataka", "Karnataka", "/top-karnataka-news"),
+          fallbackMenuItem("dh-secondary-opinion", "Opinion", "/top-opinion-news"),
+          fallbackMenuItem("dh-secondary-world", "World", "/world"),
+          fallbackMenuItem("dh-secondary-business", "Business", "/top-business-news"),
+          fallbackMenuItem("dh-secondary-sports", "Sports", "/top-sports-news"),
+          fallbackMenuItem("dh-secondary-video", "Video", "/top-videos-today")
+        ]
       };
     }
 
+    var pvPrimary = [
+      fallbackMenuItem("pv-district", "ಜಿಲ್ಲೆ", "/district"),
+      fallbackMenuItem("pv-news", "ಸುದ್ದಿ", "/news"),
+      fallbackMenuItem("pv-entertainment", "ಸಿನಿಮಾ ರಂಜನೆ", "/entertainment"),
+      fallbackMenuItem("pv-opinion", "ಅಭಿಮತ", "/op-ed"),
+      fallbackMenuItem("pv-astrology", "ವಾಸ್ತು-ಜ್ಯೋತಿಷ್ಯ", "/astro-vastu/vaastu"),
+      fallbackMenuItem("pv-explainer", "ಸಮಗ್ರ ಮಾಹಿತಿ", "/explainer"),
+      fallbackMenuItem("pv-columns", "ಅಂಕಣಗಳು", "/columns"),
+      fallbackMenuItem("pv-sports", "ಕ್ರೀಡೆ", "/sports"),
+      fallbackMenuItem("pv-business", "ವಾಣಿಜ್ಯ", "/business"),
+      fallbackMenuItem("pv-technology", "ತಂತ್ರಜ್ಞಾನ–ಆಟೊಮೊಬೈಲ್‌", "/technology")
+    ];
+
     return {
-      primary: ["ಜಿಲ್ಲೆ", "ಸುದ್ದಿ", "ಸಿನಿಮಾ ರಂಜನೆ", "ಅಭಿಮತ", "ವಾಸ್ತು-ಜ್ಯೋತಿಷ್ಯ", "ನಮ್ಮ ಮಾತುತಿ"],
-      secondary: ["ಜಿಲ್ಲೆ", "ಸುದ್ದಿ", "ಸಿನಿಮಾ ರಂಜನೆ", "ಅಭಿಮತ", "ವಾಸ್ತು-ಜ್ಯೋತಿಷ್ಯ", "ಕ್ರೀಡೆ", "ವ್ಯಾಪಾರ"]
+      primary: pvPrimary.concat([
+        fallbackMenuItem("pv-district-udupi", "ಉಡುಪಿ", "/district/udupi", "pv-district"),
+        fallbackMenuItem("pv-district-uttara-kannada", "ಉತ್ತರ ಕನ್ನಡ", "/district/uttara-kannada", "pv-district"),
+        fallbackMenuItem("pv-district-kalaburagi", "ಕಲಬುರಗಿ", "/district/kalaburagi", "pv-district"),
+        fallbackMenuItem("pv-news-state", "ರಾಜ್ಯ", "/news/karnataka-news", "pv-news"),
+        fallbackMenuItem("pv-news-national", "ರಾಷ್ಟ್ರೀಯ", "/news/india-news", "pv-news"),
+        fallbackMenuItem("pv-news-world", "ವಿದೇಶ", "/news/world-news", "pv-news"),
+        fallbackMenuItem("pv-entertainment-tv", "ಟಿವಿ", "/entertainment/tv", "pv-entertainment"),
+        fallbackMenuItem("pv-entertainment-digital", "ಡಿಜಿಟಲ್-ಒಟಿಟಿ", "/entertainment/digital-ott", "pv-entertainment"),
+        fallbackMenuItem("pv-entertainment-review", "ಸಿನಿಮಾ ವಿಮರ್ಶೆ", "/entertainment/movie-review", "pv-entertainment"),
+        fallbackMenuItem("pv-opinion-podcast", "ಪಾಡ್‌ಕಾಸ್ಟ್‌", "/op-ed/podcast", "pv-opinion"),
+        fallbackMenuItem("pv-opinion-discussion", "ಚರ್ಚೆ", "/op-ed/discussion", "pv-opinion"),
+        fallbackMenuItem("pv-opinion-editorial", "ಸಂಪಾದಕೀಯ", "/op-ed/editorial", "pv-opinion"),
+        fallbackMenuItem("pv-astrology-horoscope", "ಭವಿಷ್ಯ", "/astro-vastu/horoscope", "pv-astrology"),
+        fallbackMenuItem("pv-astrology-panchanga", "ಪಂಚಾಂಗ", "/astro-vastu/panchanga", "pv-astrology"),
+        fallbackMenuItem("pv-astrology-vaastu", "ವಾಸ್ತು", "/astro-vastu/vaastu", "pv-astrology"),
+        fallbackMenuItem("pv-explainer-detail", "ಆಳ–ಅಗಲ", "/explainer/detail", "pv-explainer"),
+        fallbackMenuItem("pv-explainer-insight", "ಒಳನೋಟ", "/explainer/olanota", "pv-explainer"),
+        fallbackMenuItem("pv-explainer-digest", "ಸಂಕಲನ", "/explainer/digest", "pv-explainer"),
+        fallbackMenuItem("pv-columns-anuranana", "ಅನುರಣನ", "/columns/anuranana", "pv-columns"),
+        fallbackMenuItem("pv-columns-anusandhaana", "ಅನುಸಂಧಾನ", "/columns/anusandhaana", "pv-columns"),
+        fallbackMenuItem("pv-columns-gathibimba", "ಗತಿಬಿಂಬ", "/columns/gathibimba", "pv-columns"),
+        fallbackMenuItem("pv-sports-cricket", "ಕ್ರಿಕೆಟ್", "/sports/cricket", "pv-sports"),
+        fallbackMenuItem("pv-sports-other", "ಕ್ರೀಡೆಗಳು", "/sports/other-sports", "pv-sports"),
+        fallbackMenuItem("pv-sports-tennis", "ಟೆನಿಸ್", "/sports/tennis", "pv-sports"),
+        fallbackMenuItem("pv-business-startup", "ನವೋದ್ಯಮ", "/business/startup", "pv-business"),
+        fallbackMenuItem("pv-business-budget", "ಬಜೆಟ್", "/business/budget", "pv-business"),
+        fallbackMenuItem("pv-business-real-estate", "ರಿಯಲ್ ಎಸ್ಟೇಟ್", "/business/real-estate", "pv-business"),
+        fallbackMenuItem("pv-technology-ai", "AI", "/technology/ai", "pv-technology"),
+        fallbackMenuItem("pv-technology-test-drive", "ಟೆಸ್ಟ್‌ ಡ್ರೈವ್‌", "/technology/test-drive", "pv-technology"),
+        fallbackMenuItem("pv-technology-science", "ವಿಜ್ಞಾನ", "/technology/science", "pv-technology")
+      ]),
+      secondary: [
+        fallbackMenuItem("pv-secondary-crossword", "ಪದಬಂಧ", "/crossword"),
+        fallbackMenuItem("pv-secondary-sports", "ಕ್ರೀಡೆ", "/sports"),
+        fallbackMenuItem("pv-secondary-bhoomika", "ಭೂಮಿಕಾ", "/miscellaneous/women"),
+        fallbackMenuItem("pv-secondary-sahapaathi", "ಸಹಪಾಠಿ", "/education-career/education"),
+        fallbackMenuItem("pv-secondary-agriculture", "ಕೃಷಿ ದರ್ಶನ", "/agriculture/farming"),
+        fallbackMenuItem("pv-secondary-nrk", "ಹೊರನಾಡ ಕನ್ನಡಿಗರು", "/news/nrk"),
+        fallbackMenuItem("pv-secondary-epaper", "ಇ–ಪೇಪರ್‌", "https://epaper.prajavani.net/")
+      ]
     };
   }
 
@@ -352,6 +434,8 @@
       .catch(function (error) {
         renderApiMenu("default", fallback.primary, 7, true);
         renderApiMenu("secondary-menu", fallback.secondary, 7);
+        renderDrawerQuicklinks(fallback.secondary, menuApiBases[brand]);
+        renderDrawerCatalog(fallback.primary, menuApiBases[brand]);
         qsa("[data-api-menu-status]").forEach(function (status) {
           status.hidden = true;
         });

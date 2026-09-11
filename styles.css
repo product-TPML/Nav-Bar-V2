@@ -3697,7 +3697,7 @@ body.is-dh .publication-view-toggle {
   }
 
   .site-header__secondary {
-    border-top: 1px solid var(--brand-600);
+    border-top: 1px solid var(--brand-900);
   }
 
   .drawer__topbar::before {
@@ -3705,6 +3705,6 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__quicklinks {
-    border-top-color: var(--brand-600);
+    border-top: 1px solid var(--brand-900);
   }
 }

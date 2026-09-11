@@ -4197,6 +4197,10 @@ body.is-dh .publication-view-toggle {
 
 /* Desktop publication divider: keep it on the darker brand-600 color. */
 @media (min-width: 1024px) {
+  body.is-dh .drawer__topbar {
+    border-bottom-color: transparent;
+  }
+
   .site-header,
   .site-header__topics {
     border-bottom-color: var(--brand-600);

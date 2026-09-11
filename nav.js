@@ -104,6 +104,134 @@
     return base + (href.charAt(0) === "/" ? href : "/" + href);
   }
 
+  function getApiMenuItems(group, fallback) {
+    return group && Array.isArray(group.items) && group.items.length ? group.items : fallback;
+  }
+
+  function getRootApiMenuItems(items) {
+    return (Array.isArray(items) ? items : []).filter(function (item) {
+      return item && item.title && (item["parent-id"] == null || item["parent-id"] === 0);
+    });
+  }
+
+  function isMenuItemExcluded(item) {
+    return !item || !item.title || isSubscriptionOffering(item.title);
+  }
+
+  function isDrawerMenuItemExcluded(item) {
+    return !item || !item.title || /premium|sudha|mayura|subscribe|subscription/i.test(item.title);
+  }
+
+  function renderDrawerQuicklinks(items, base) {
+    var quicklinks = document.querySelector(".drawer__quicklinks");
+    if (!quicklinks || !Array.isArray(items) || !items.length) {
+      return;
+    }
+
+    qsa(".drawer__quickchip", quicklinks).forEach(function (link) {
+      link.remove();
+    });
+
+    getRootApiMenuItems(items).slice(0, 7).filter(function (item) {
+      return !isDrawerMenuItemExcluded(item);
+    }).forEach(function (item) {
+      var link = document.createElement("a");
+      link.className = "drawer__quickchip";
+      link.href = getApiMenuHref(item, base);
+      link.textContent = item.title.trim();
+      link.setAttribute("data-api-menu-item", "true");
+      quicklinks.appendChild(link);
+    });
+  }
+
+  function renderDrawerCatalog(items, base) {
+    var catalog = document.querySelector(".drawer__catalog");
+    var roots = getRootApiMenuItems(items).filter(function (item) {
+      return !isDrawerMenuItemExcluded(item);
+    });
+
+    if (!catalog || !roots.length) {
+      return;
+    }
+
+    var allItems = Array.isArray(items) ? items : [];
+    var fragment = document.createDocumentFragment();
+
+    roots.forEach(function (rootItem) {
+      var children = allItems.filter(function (item) {
+        return item && String(item["parent-id"]) === String(rootItem.id) && !isDrawerMenuItemExcluded(item);
+      });
+      var rootHref = getApiMenuHref(rootItem, base);
+
+      if (!children.length) {
+        var directLink = document.createElement("a");
+        directLink.href = rootHref;
+        directLink.className = "drawer-card drawer-card--link";
+        directLink.setAttribute("data-api-menu-item", "true");
+        var directMain = document.createElement("span");
+        directMain.className = "drawer-card__main";
+        var directTitle = document.createElement("span");
+        directTitle.className = "drawer-card__title";
+        directTitle.textContent = rootItem.title.trim();
+        directMain.appendChild(directTitle);
+        directLink.appendChild(directMain);
+        fragment.appendChild(directLink);
+        return;
+      }
+
+      var card = document.createElement("div");
+      card.className = "drawer-card";
+      var trigger = document.createElement("div");
+      trigger.className = "drawer-card__trigger";
+      var submenuId = "api-submenu-" + rootItem.id;
+
+      var main = document.createElement("a");
+      main.className = "drawer-card__main";
+      main.href = rootHref;
+      main.setAttribute("data-api-menu-item", "true");
+      var title = document.createElement("span");
+      title.className = "drawer-card__title";
+      title.textContent = rootItem.title.trim();
+      main.appendChild(title);
+
+      var meta = document.createElement("span");
+      meta.className = "drawer-card__meta";
+      meta.textContent = children.slice(0, 3).map(function (item) {
+        return item.title.trim();
+      }).join(", ") + (children.length > 3 ? " …" : "");
+      main.appendChild(meta);
+
+      var icon = document.createElement("button");
+      icon.type = "button";
+      icon.className = "drawer-card__icon";
+      icon.setAttribute("data-toggle-submenu", "true");
+      icon.setAttribute("aria-expanded", "false");
+      icon.setAttribute("aria-controls", submenuId);
+      icon.setAttribute("aria-label", "Expand " + rootItem.title.trim());
+      icon.setAttribute("data-icon", "arrow");
+      trigger.appendChild(main);
+      trigger.appendChild(icon);
+      card.appendChild(trigger);
+
+      var submenu = document.createElement("div");
+      submenu.className = "drawer-card__submenu";
+      submenu.id = submenuId;
+      children.forEach(function (child) {
+        var childLink = document.createElement("a");
+        childLink.className = "drawer-card__submenu-link";
+        childLink.href = getApiMenuHref(child, base);
+        childLink.textContent = child.title.trim();
+        childLink.setAttribute("data-api-menu-item", "true");
+        submenu.appendChild(childLink);
+      });
+      card.appendChild(submenu);
+      fragment.appendChild(card);
+    });
+
+    catalog.replaceChildren(fragment);
+    buildIcons();
+  }
+
   function isSubscriptionOffering(title) {
     return /premium|e-?paper|sudha|mayura|subscribe|subscription/i.test(title || "");
   }
@@ -131,11 +259,39 @@
       .slice(0, limit);
 
     visibleItems.forEach(function (item) {
+      var base = menuApiBases[document.body.classList.contains("is-dh") ? "dh" : "pv"];
       var link = document.createElement("a");
-      link.href = getApiMenuHref(item, menuApiBases[document.body.classList.contains("is-dh") ? "dh" : "pv"]);
+      link.href = getApiMenuHref(item, base);
       link.textContent = item.title.trim();
       link.setAttribute("data-api-menu-item", "true");
-      status.before(link);
+
+      if (menuName === "default" && rootsOnly) {
+        var wrapper = document.createElement("div");
+        wrapper.className = "site-header__primary-item";
+        wrapper.appendChild(link);
+
+        var children = (Array.isArray(items) ? items : []).filter(function (child) {
+          return child && child.title && String(child["parent-id"]) === String(item.id) && !isMenuItemExcluded(child);
+        });
+
+        if (children.length) {
+          var dropdown = document.createElement("div");
+          dropdown.className = "site-header__primary-dropdown";
+          children.forEach(function (child) {
+            var childLink = document.createElement("a");
+            childLink.className = "site-header__primary-dropdown-link";
+            childLink.href = getApiMenuHref(child, base);
+            childLink.textContent = child.title.trim();
+            childLink.setAttribute("data-api-menu-item", "true");
+            dropdown.appendChild(childLink);
+          });
+          wrapper.appendChild(dropdown);
+        }
+
+        status.before(wrapper);
+      } else {
+        status.before(link);
+      }
     });
 
     status.hidden = visibleItems.length > 0;
@@ -172,9 +328,14 @@
         var groups = payload && payload["menu-groups"] ? payload["menu-groups"] : {};
         var primary = groups.default || {};
         var secondary = groups["secondary-menu"] || groups.secondary || {};
+        var base = menuApiBases[brand];
+        var primaryItems = getApiMenuItems(primary, fallback.primary);
+        var secondaryItems = getApiMenuItems(secondary, fallback.secondary);
 
-        renderApiMenu("default", primary.items && primary.items.length ? primary.items : fallback.primary, 7, true);
-        renderApiMenu("secondary-menu", secondary.items && secondary.items.length ? secondary.items : fallback.secondary, 7);
+        renderApiMenu("default", primaryItems, 7, true);
+        renderApiMenu("secondary-menu", secondaryItems, 7);
+        renderDrawerQuicklinks(secondaryItems, base);
+        renderDrawerCatalog(primaryItems, base);
       })
       .catch(function (error) {
         renderApiMenu("default", fallback.primary, 7, true);
@@ -396,8 +557,46 @@
       toggle.setAttribute("aria-expanded", "false");
     });
 
+    qsa(".drawer-card.is-expanded", drawer).forEach(function (card) {
+      card.classList.remove("is-expanded");
+    });
+
     qsa(".drawer-card__submenu", drawer).forEach(function (submenu) {
       submenu.classList.remove("is-expanded");
+    });
+
+    updateDesktopDrawerGrid();
+  }
+
+  function updateDesktopDrawerGrid() {
+    var catalog = document.querySelector(".drawer__catalog");
+    if (!catalog) {
+      return;
+    }
+
+    var cards = Array.prototype.slice.call(catalog.querySelectorAll(":scope > .drawer-card"));
+    var expandedIndex = cards.findIndex(function (card) {
+      return card.classList.contains("is-expanded");
+    });
+
+    if (expandedIndex < 0) {
+      catalog.classList.remove("has-expanded-card");
+      cards.forEach(function (card) {
+        card.style.removeProperty("--drawer-grid-column");
+        card.style.removeProperty("--drawer-grid-row");
+        card.style.removeProperty("--drawer-submenu-row");
+      });
+      return;
+    }
+
+    var expandedRow = Math.floor(expandedIndex / 3) + 1;
+    catalog.classList.add("has-expanded-card");
+    cards.forEach(function (card, index) {
+      var baseRow = Math.floor(index / 3) + 1;
+      var row = baseRow + (baseRow > expandedRow ? 1 : 0);
+      card.style.setProperty("--drawer-grid-column", String((index % 3) + 1));
+      card.style.setProperty("--drawer-grid-row", String(row));
+      card.style.setProperty("--drawer-submenu-row", String(expandedRow + 1));
     });
   }
 
@@ -422,8 +621,19 @@
       }
     });
 
+    qsa(".drawer-card.is-expanded", drawer).forEach(function (card) {
+      if (card !== toggle.closest(".drawer-card")) {
+        card.classList.remove("is-expanded");
+      }
+    });
+
     toggle.setAttribute("aria-expanded", String(!expanded));
     submenu.classList.toggle("is-expanded", !expanded);
+    var card = toggle.closest(".drawer-card");
+    if (card) {
+      card.classList.toggle("is-expanded", !expanded);
+    }
+    updateDesktopDrawerGrid();
   }
 
   function preventSearchSubmit() {

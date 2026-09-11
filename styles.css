@@ -1636,7 +1636,8 @@ body:not(.is-subscriber-view) .site-header__topics {
   transition: transform 0.2s ease;
 }
 
-.drawer-card__trigger[aria-expanded="true"] .drawer-card__icon svg {
+.drawer-card__trigger[aria-expanded="true"] .drawer-card__icon svg,
+.drawer-card__icon[aria-expanded="true"] svg {
   transform: rotate(90deg);
 }
 
@@ -1997,6 +1998,58 @@ body:not(.is-subscriber-view) .site-header__topics {
     font-size: 15px;
     font-weight: 700;
     line-height: 1;
+  }
+
+  .site-header__primary-item {
+    position: relative;
+    display: flex;
+    height: 64px;
+    align-items: center;
+  }
+
+  .site-header__primary-dropdown {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 0;
+    z-index: 20;
+    display: grid;
+    min-width: 210px;
+    max-height: calc(100vh - 84px);
+    padding: 6px 0;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    visibility: hidden;
+  }
+
+  .site-header__primary-item:hover .site-header__primary-dropdown,
+  .site-header__primary-item:focus-within .site-header__primary-dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .site-header__primary-dropdown-link {
+    display: block;
+    padding: 9px 14px;
+    color: var(--text-900) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap;
+  }
+
+  .site-header__primary-dropdown-link:hover,
+  .site-header__primary-dropdown-link:focus-visible {
+    background: var(--brand-50);
+    color: var(--brand-700) !important;
   }
 
   .is-subscriber-view .site-header__primary .site-header__primary-premium {
@@ -2413,11 +2466,20 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .drawer-card__trigger,
   .drawer-card--link {
-    min-height: 92px;
+    min-height: 64px;
   }
 
   .drawer-card__main {
-    padding: 16px 24px;
+    padding: 12px 18px;
+    text-decoration: none;
+  }
+
+  .drawer-card__icon {
+    width: 54px;
+    border: 0;
+    border-left: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
   }
 
   .drawer__footer {
@@ -3271,6 +3333,165 @@ body.is-dh .site-header__utility {
   }
 }
 
+/* Match the Next.js hamburger section treatment without affecting the header rail. */
+.drawer__catalog .drawer-card {
+  border: 0;
+  border-radius: 12px;
+  box-shadow: none;
+  background: var(--surface);
+}
+
+.drawer__catalog .drawer-card__trigger,
+.drawer__catalog .drawer-card--link {
+  min-height: 48px;
+  border-radius: 12px;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.drawer__catalog .drawer-card__trigger {
+  padding: 0 0 0 16px;
+  overflow: hidden;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.drawer__catalog .drawer-card--link {
+  align-items: center;
+  padding: 0 16px;
+  background: var(--drawer-raised-bg);
+  color: var(--brand-950);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.drawer__catalog .drawer-card__main {
+  gap: 2px;
+  padding: 16px 0;
+}
+
+.drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--drawer-raised-bg);
+  color: var(--brand-950);
+}
+
+.drawer__catalog .drawer-card__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.drawer__catalog .drawer-card__meta {
+  color: var(--text-500);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.drawer__catalog .drawer-card__icon {
+  width: 48px;
+  min-width: 48px;
+  border-left-color: var(--drawer-border);
+  background: transparent;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.drawer__catalog .drawer-card__icon:hover,
+.drawer__catalog .drawer-card__icon:focus-visible {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.drawer__catalog .drawer-card__submenu {
+  gap: 0 24px;
+  padding: 0;
+  border-top: 0;
+  background: var(--surface);
+}
+
+.drawer__catalog .drawer-card__submenu.is-expanded {
+  padding: 8px 16px 16px;
+  border-top: 1px solid var(--drawer-border);
+}
+
+.drawer__catalog .drawer-card__submenu-link {
+  min-height: 34px;
+  padding: 8px 0;
+  color: var(--text-700);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.drawer__catalog .drawer-card__submenu-link:hover,
+.drawer__catalog .drawer-card__submenu-link:focus-visible {
+  color: var(--brand-700);
+}
+
+.drawer__catalog .drawer-card__trigger:hover,
+.drawer__catalog .drawer-card--link:hover {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+
+.drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main:hover {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+
+.drawer__catalog .drawer-card.is-expanded .drawer-card__trigger {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+
+@media (min-width: 1024px) {
+  /* The wrapper becomes display: contents for grid ordering, so retain the
+     Next.js card surface on every non-expanded parent trigger. */
+  .drawer__catalog.has-expanded-card .drawer-card__trigger {
+    background: var(--drawer-raised-bg);
+    color: var(--brand-950);
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card__trigger:hover,
+  .drawer__catalog.has-expanded-card .drawer-card__trigger:focus-within {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__trigger {
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+}
+
+@media (max-width: 767px) {
+  .drawer__catalog .drawer-card__submenu {
+    border-top: 0;
+    border-radius: 12px;
+    background: var(--drawer-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .drawer__catalog .drawer-card__trigger:hover,
+  .drawer__catalog .drawer-card--link:hover {
+    background: var(--brand-50);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Next.js toggles the desktop child band discretely, preventing sibling
+     parent cards from animating as the grid rows are recalculated. */
+  .drawer__catalog .drawer-card__submenu {
+    transition: none;
+  }
+
+  .drawer__catalog .drawer-card--link {
+    height: 100%;
+  }
+}
+
 body.is-dh .site-header__topic-premium,
 body.is-dh .site-header__topic-epaper {
   border-color: rgba(255, 211, 77, 0.45) !important;
@@ -3344,6 +3565,11 @@ body.is-subscriber-view .site-header__epaper {
 }
 
 @media (max-width: 1023px) {
+  .drawer-card__submenu.is-expanded {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+  }
+
   .drawer__quicklinks-shell {
     background: var(--brand-500);
   }
@@ -3376,6 +3602,34 @@ body.is-subscriber-view .site-header__epaper {
 
   .drawer__quicklead svg {
     color: #ffffff;
+  }
+}
+
+@media (min-width: 1024px) {
+  .drawer__catalog.has-expanded-card .drawer-card {
+    display: contents;
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main,
+  .drawer__catalog.has-expanded-card .drawer-card__trigger {
+    grid-column: var(--drawer-grid-column);
+    grid-row: var(--drawer-grid-row);
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__trigger {
+    border: 1px solid var(--drawer-border);
+    border-radius: 10px;
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card__submenu.is-expanded {
+    grid-column: 1 / -1;
+    grid-row: var(--drawer-submenu-row);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 24px;
+    border: 1px solid var(--drawer-border);
+    border-radius: 10px;
   }
 }
 

@@ -20,6 +20,10 @@
   var upwardBurstStartedAt = 0;
   var upwardBurstResetTimer = null;
   var subscriberBottomRevealTimer = null;
+  var menuApiBases = {
+    pv: "https://www.prajavani.net",
+    dh: "https://www.deccanherald.com"
+  };
 
   function qsa(selector, context) {
     return Array.prototype.slice.call((context || document).querySelectorAll(selector));
@@ -55,6 +59,134 @@
     });
   }
 
+  function syncDesktopOfferingLinks(isDh) {
+    var drawerOfferings = qsa(".drawer__premium-item");
+    var desktopOfferings = [
+      ".site-header__primary-premium",
+      ".site-header__utility-link--highlight",
+      ".site-header__topic-premium"
+    ];
+    var desktopEpaper = [
+      ".site-header__mobile-epaper",
+      ".site-header__utility-link:nth-child(2)",
+      ".site-header__topic-epaper"
+    ];
+
+    desktopOfferings.forEach(function (selector) {
+      var link = document.querySelector(selector);
+      if (link && drawerOfferings[0]) {
+        link.href = drawerOfferings[0].href;
+      }
+    });
+
+    desktopEpaper.forEach(function (selector) {
+      var link = document.querySelector(selector);
+      if (link && drawerOfferings[1]) {
+        link.href = drawerOfferings[1].href;
+      }
+    });
+
+    qsa(".site-header__utility-link:nth-child(n+3), .site-header__topic-premium-extra").forEach(function (link) {
+      link.hidden = isDh;
+    });
+  }
+
+  function getApiMenuHref(item, base) {
+    var href = item && (item.url || (item.data && item.data.link) || item["collection-slug"]);
+    if (!href) {
+      return "#";
+    }
+
+    if (/^https?:\/\//i.test(href)) {
+      return href;
+    }
+
+    return base + (href.charAt(0) === "/" ? href : "/" + href);
+  }
+
+  function isSubscriptionOffering(title) {
+    return /premium|e-?paper|sudha|mayura|subscribe|subscription/i.test(title || "");
+  }
+
+  function renderApiMenu(menuName, items, limit, rootsOnly) {
+    var status = document.querySelector('[data-api-menu-status="' + menuName + '"]');
+    var container = status ? status.parentElement : null;
+    if (!container || !status) {
+      return;
+    }
+
+    qsa("a[data-api-menu-item]", container).forEach(function (link) {
+      link.remove();
+    });
+
+    var visibleItems = (Array.isArray(items) ? items : [])
+      .filter(function (item) {
+        if (!item || !item.title || isSubscriptionOffering(item.title)) {
+          return false;
+        }
+
+        var isRoot = item["parent-id"] == null || item["parent-id"] === 0;
+        return !rootsOnly || isRoot;
+      })
+      .slice(0, limit);
+
+    visibleItems.forEach(function (item) {
+      var link = document.createElement("a");
+      link.href = getApiMenuHref(item, menuApiBases[document.body.classList.contains("is-dh") ? "dh" : "pv"]);
+      link.textContent = item.title.trim();
+      link.setAttribute("data-api-menu-item", "true");
+      status.before(link);
+    });
+
+    status.hidden = visibleItems.length > 0;
+    if (visibleItems.length === 0) {
+      status.textContent = "ವಿಭಾಗಗಳು ಲಭ್ಯವಿಲ್ಲ";
+    }
+  }
+
+  function getFallbackMenus(brand) {
+    if (brand === "dh") {
+      return {
+        primary: ["Districts", "News", "Entertainment", "Opinion", "Astrology", "Our Voice"],
+        secondary: ["Districts", "News", "Entertainment", "Opinion", "Astrology", "Sports", "Business"]
+      };
+    }
+
+    return {
+      primary: ["ಜಿಲ್ಲೆ", "ಸುದ್ದಿ", "ಸಿನಿಮಾ ರಂಜನೆ", "ಅಭಿಮತ", "ವಾಸ್ತು-ಜ್ಯೋತಿಷ್ಯ", "ನಮ್ಮ ಮಾತುತಿ"],
+      secondary: ["ಜಿಲ್ಲೆ", "ಸುದ್ದಿ", "ಸಿನಿಮಾ ರಂಜನೆ", "ಅಭಿಮತ", "ವಾಸ್ತು-ಜ್ಯೋತಿಷ್ಯ", "ಕ್ರೀಡೆ", "ವ್ಯಾಪಾರ"]
+    };
+  }
+
+  function loadApiMenus() {
+    var brand = document.body.classList.contains("is-dh") ? "dh" : "pv";
+    var base = menuApiBases[brand];
+    var fallback = getFallbackMenus(brand);
+    return fetch("/api/menu-groups?brand=" + brand)
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("Menu API returned " + response.status);
+        }
+        return response.json();
+      })
+      .then(function (payload) {
+        var groups = payload && payload["menu-groups"] ? payload["menu-groups"] : {};
+        var primary = groups.default || {};
+        var secondary = groups["secondary-menu"] || groups.secondary || {};
+
+        renderApiMenu("default", primary.items && primary.items.length ? primary.items : fallback.primary, 7, true);
+        renderApiMenu("secondary-menu", secondary.items && secondary.items.length ? secondary.items : fallback.secondary, 7);
+      })
+      .catch(function (error) {
+        renderApiMenu("default", fallback.primary, 7, true);
+        renderApiMenu("secondary-menu", fallback.secondary, 7);
+        qsa("[data-api-menu-status]").forEach(function (status) {
+          status.hidden = true;
+        });
+        console.warn("Unable to load navigation menus", error);
+      });
+  }
+
   function applyDeccanHeraldMode(isDh) {
     var root = document.documentElement;
     var body = document.body;
@@ -67,10 +199,10 @@
     document.title = isDh ? "Deccan Herald" : "ಪ್ರಜಾವಾಣಿ";
 
     setPublicationCopy(".site-header__primary-premium > span:last-child", ["Premium"], isDh);
-    setPublicationCopy(".site-header__primary a:not(.site-header__primary-premium)", ["E-paper", "Districts", "News", "Entertainment", "Opinion", "Astrology", "Our Voice"], isDh);
     setPublicationCopy(".site-header__utility-link span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
-    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-epaper > span:last-child, .site-header__topic-premium-extra > span:last-child, .site-header__topics > a:not(.site-header__topic-premium):not(.site-header__topic-epaper):not(.site-header__topic-premium-extra)", ["Premium", "E-paper", "Sudha", "Mayura", "Districts", "News", "Astrology", "Entertainment", "Sports", "Business", "Technology & Auto"], isDh);
+    setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-epaper > span:last-child, .site-header__topic-premium-extra > span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
     setPublicationCopy(".site-header__subscribe-label, .site-header__mobile-epaper .site-header__epaper-label", ["Subscribe", "E-paper"], isDh);
+    syncDesktopOfferingLinks(isDh);
 
     setPublicationCopy(".story__title", [
       "Karnataka Rains: Heavy showers lash Vijayapura district and other parts of the state",
@@ -122,6 +254,8 @@
       if (mark) mark.textContent = isDh ? "PV" : "DH";
       if (label) label.textContent = isDh ? "PV" : "DH";
     }
+
+    loadApiMenus();
   }
 
   function setBodyLock(locked) {
@@ -489,6 +623,7 @@
     preventSearchSubmit();
     bindEvents();
     bindScrollBehavior();
+    loadApiMenus();
   }
 
   if (document.readyState === "loading") {

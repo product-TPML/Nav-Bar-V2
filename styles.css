@@ -4432,8 +4432,25 @@ body.is-dh .publication-view-toggle {
     border-radius: 0 4px 4px 0 !important;
   }
 
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__main,
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__icon {
+    border-top-color: var(--brand-500) !important;
+    border-bottom-color: var(--brand-500) !important;
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__main {
+    border-left-color: var(--brand-500) !important;
+  }
+
+  .drawer__catalog.has-expanded-card .drawer-card.is-expanded .drawer-card__icon {
+    border-left-color: var(--brand-400) !important;
+    border-right-color: var(--brand-500) !important;
+  }
+
   .drawer__catalog.has-expanded-card .drawer-card__submenu.is-expanded {
     background: var(--brand-50);
+    max-height: none !important;
+    overflow: visible;
     padding: 8px 16px 12px !important;
   }
 }

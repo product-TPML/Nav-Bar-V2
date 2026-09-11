@@ -196,9 +196,10 @@
 
       var meta = document.createElement("span");
       meta.className = "drawer-card__meta";
-      meta.textContent = children.slice(0, 3).map(function (item) {
+      var moreLabel = document.body.classList.contains("is-dh") ? "and more" : "ಇನ್ನುಷ್ಟು";
+      meta.textContent = children.slice(0, 2).map(function (item) {
         return item.title.trim();
-      }).join(", ") + (children.length > 3 ? " …" : "");
+      }).join(", ") + (children.length > 2 ? " " + moreLabel : "");
       main.appendChild(meta);
 
       var icon = document.createElement("button");
@@ -389,6 +390,14 @@
     setPublicationCopy(".drawer-card__meta", ["Udupi, Uttara Kannada and more", "Politics, national and digital news", "TV, digital and OTT", "Podcasts and discussions", "Horoscopes and panchang", "Explainers and fact checks", "Translation and analysis", "Cricket and leagues", "Budgets and markets", "AI and tech reviews", "Recipes and wellness", "Jobs, exams and guidance", "Festivals, faith and culture", "Books and literature", "Farming, technology and environment", "Election infographics and candidates", "PR spots and itineraries"], isDh);
     setPublicationCopy(".drawer-card__submenu-link", ["Udupi", "Uttara Kannada", "Mysuru", "Politics", "National", "Bengaluru", "Digital", "TV", "Digital", "Hollywood", "Editorial", "Analysis", "Magazine", "Horoscopes", "Panchang", "Vastu", "Explainers", "Fact Check", "Features", "Translation", "Research", "Reviews", "Cricket", "Football", "Kabaddi", "Budget", "Markets", "Startups", "AI", "Gadgets", "Auto", "Health", "Food", "Fitness", "Jobs", "Exams", "Guidance", "Faith", "Tradition", "Culture", "Books", "Literature", "Reviews", "Agriculture", "Environment", "Technology", "Elections", "Candidates", "Infographics", "Destinations", "Itineraries", "Travel Stories"], isDh);
     setPublicationCopy(".drawer__footer-label", ["Follow us", "Contact us"], isDh);
+    qsa('.drawer__footer-contact a[href^="mailto:"]').forEach(function (link) {
+      var email = isDh ? "support@deccanherald.com" : "support@prajavani.net";
+      link.href = "mailto:" + email;
+      var label = link.querySelector("span:last-child");
+      if (label) {
+        label.textContent = email;
+      }
+    });
 
     setPublicationAttributes(".site-header__logo, .drawer__brand", "aria-label", ["Deccan Herald home", "Deccan Herald home"], isDh);
     setPublicationAttributes(".site-header__logo-image, .drawer__logo-image", "alt", ["Deccan Herald", "Deccan Herald"], isDh);
@@ -435,7 +444,14 @@
       paper: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"></path><path d="M9 6h6"></path><path d="M9 10h6"></path><path d="M9 14h4"></path></svg>',
       book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
       map: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 4.5l-6 2.1-4-1.6A1 1 0 004 5.9v13.2a1 1 0 00.62.92l4.38 1.75 6-2.1 4 1.6a1 1 0 001.38-.92V7.16a1 1 0 00-.62-.92L15 4.5zm-5 15.1l-4-1.5V7.4l4 1.5v10.7zm1-10.7l4-1.4v10.7l-4 1.4V8.9zm9 9.7l-4-1.5V6.4l4 1.5v10.7z"></path></svg>',
-      megaphone: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5a1 1 0 00-1.56-.83L13.7 7H6a2 2 0 00-2 2v3.5a2 2 0 001.6 1.96l.92 4.6A2 2 0 008.48 21h1.12a2 2 0 001.96-2.39l-.72-3.61h2.86l4.74 3.33A1 1 0 0020 17.5v-13zm-9.76 14.29a.5.5 0 01-.49.61H8.48a.5.5 0 01-.49-.4l-.8-4h2.24l.81 4.05zM18.5 15.57L14 12.4V9.6l4.5-3.17v9.14z"></path></svg>'
+      megaphone: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4.5a1 1 0 00-1.56-.83L13.7 7H6a2 2 0 00-2 2v3.5a2 2 0 001.6 1.96l.92 4.6A2 2 0 008.48 21h1.12a2 2 0 001.96-2.39l-.72-3.61h2.86l4.74 3.33A1 1 0 0020 17.5v-13zm-9.76 14.29a.5.5 0 01-.49.61H8.48a.5.5 0 01-.49-.4l-.8-4h2.24l.81 4.05zM18.5 15.57L14 12.4V9.6l4.5-3.17v9.14z"></path></svg>',
+      whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.66 15l-1.1 4 4.1-1.08A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.13l-.3-.18-2.43.64.65-2.36-.2-.31A8 8 0 1 1 12 20Zm4.4-5.93c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-1.38-.69-2.28-1.23-3.18-2.78-.24-.41.24-.38.69-1.26.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62 1.52.66 2.12.72 2.88.61.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"></path></svg>',
+      facebook: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.67.33-1 1-1Z"></path></svg>',
+      x: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h4.8l3.45 4.82L16.2 3H20l-5.95 7.03L20.5 21h-4.8l-3.78-5.28L7.1 21H3.3l6.3-7.48L4 3Zm3.1 2 8.9 14h1.4L8.5 5H7.1Z"></path></svg>',
+      instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>',
+      youtube: '<svg viewBox="0 0 30 22" fill="currentColor"><path d="M29.4 3.45a3.7 3.7 0 0 0-2.6-2.6C24.5.2 15 .2 15 .2S5.5.2 3.2.85a3.7 3.7 0 0 0-2.6 2.6C0 5.75 0 11 0 11s0 5.25.6 7.55a3.7 3.7 0 0 0 2.6 2.6c2.3.65 11.8.65 11.8.65s9.5 0 11.8-.65a3.7 3.7 0 0 0 2.6-2.6C30 16.25 30 11 30 11s0-5.25-.6-7.55ZM12 15.9V6.1l8 4.9-8 4.9Z"></path></svg>',
+      telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 3.3 18.4 20c-.25 1.18-.91 1.47-1.85.92l-5.1-3.76-2.46 2.37c-.27.27-.5.5-1.02.5l.36-5.2 9.47-8.55c.41-.36-.09-.56-.64-.2L5.46 13.57.42 11.99c-1.1-.35-1.12-1.1.23-1.6L20.35 2.8c.91-.34 1.7.2 1.35.5Z"></path></svg>'
+      ,mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"></rect><path d="m4 7 8 6 8-6"></path></svg>'
     };
 
     qsa("[data-icon]").forEach(function (element) {

@@ -36,6 +36,10 @@
   --nav-section-fg: var(--brand-950);
   --nav-active: var(--brand-700);
   --nav-active-bg: var(--brand-200);
+  --nav-offering-bg: var(--brown-900);
+  --nav-offering-fg: var(--gold);
+  --nav-offering-border: var(--gold-deep);
+  --nav-offering-hover-bg: var(--brown-800);
   --bottomnav-bg: var(--brand-50);
   --bottomnav-border: var(--brand-200);
   --drawer-bg: var(--brand-50);
@@ -3143,6 +3147,10 @@ body.is-dh {
   --drawer-expanded-bg: var(--brand-100);
   --drawer-border: var(--brand-200);
   --brand-focus: var(--brand-500);
+  --nav-offering-bg: var(--brand-900);
+  --nav-offering-fg: var(--gold);
+  --nav-offering-border: var(--brand-700);
+  --nav-offering-hover-bg: var(--brand-800);
   font-family: "Roboto Slab", Georgia, serif;
 }
 
@@ -3245,12 +3253,16 @@ body.is-dh .drawer__premium-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+body.is-dh .site-header__utility {
+  background: var(--nav-offering-bg);
+}
+
 @media (min-width: 1024px) {
   body.is-dh .site-header__utility-link {
-    border: 1px solid var(--brand-700);
+    border: 1px solid var(--nav-offering-border);
     border-radius: 8px;
-    background: #003e4c !important;
-    color: var(--gold);
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg);
   }
 
   body.is-dh .site-header__utility-link:not(:last-child)::after {
@@ -3260,14 +3272,15 @@ body.is-dh .drawer__premium-grid {
 
 body.is-dh .site-header__topic-premium,
 body.is-dh .site-header__topic-epaper {
-  background: #003e4c !important;
-  color: var(--gold) !important;
+  border-color: var(--nav-offering-border) !important;
+  background: var(--nav-offering-bg) !important;
+  color: var(--nav-offering-fg) !important;
 }
 
 body.is-dh .site-header__utility-link svg,
 body.is-dh .site-header__topic-premium svg,
 body.is-dh .site-header__topic-epaper svg {
-  color: var(--gold) !important;
+  color: var(--nav-offering-fg) !important;
   fill: currentColor;
   stroke: currentColor;
 }
@@ -3276,8 +3289,8 @@ body.is-dh .site-header__utility-link > .premium-icon,
 body.is-dh .site-header__utility-link > .epaper-icon,
 body.is-dh .site-header__topic-premium > .premium-icon,
 body.is-dh .site-header__topic-epaper > .epaper-icon {
-  background-color: var(--gold) !important;
-  color: var(--gold) !important;
+  background-color: var(--nav-offering-fg) !important;
+  color: var(--nav-offering-fg) !important;
 }
 
 body.is-subscriber-view .site-header__mobile-epaper,
@@ -3631,6 +3644,7 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__premium-cta {
+    min-height: 42px;
     flex-basis: 190px;
   }
 

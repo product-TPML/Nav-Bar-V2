@@ -160,7 +160,6 @@
 
   function loadApiMenus() {
     var brand = document.body.classList.contains("is-dh") ? "dh" : "pv";
-    var base = menuApiBases[brand];
     var fallback = getFallbackMenus(brand);
     return fetch("/api/menu-groups?brand=" + brand)
       .then(function (response) {

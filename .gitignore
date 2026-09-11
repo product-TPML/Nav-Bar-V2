@@ -1,0 +1,4 @@
+.playwright-mcp/
+/*-screenshot.*
+/screenshot-*.*
+/desktop-secondary-nav.png

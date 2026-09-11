@@ -192,6 +192,10 @@ input:focus-visible {
   display: none;
 }
 
+.site-header__primary-premium {
+  display: none !important;
+}
+
 .site-header__actions {
   display: grid;
   grid-auto-flow: column;
@@ -1980,6 +1984,28 @@ body:not(.is-subscriber-view) .site-header__topics {
     line-height: 1;
   }
 
+  .is-subscriber-view .site-header__primary .site-header__primary-premium {
+    display: inline-flex !important;
+    min-height: 32px;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    border: 1px solid var(--gold-border);
+    border-radius: 8px;
+    background: var(--gold);
+    color: var(--premium-text);
+  }
+
+  .is-subscriber-view .site-header__primary .site-header__primary-premium > span:first-child {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .is-subscriber-view .site-header__primary a:last-child {
+    display: none;
+  }
+
   .site-header__primary a:hover,
   .site-header__primary a:focus-visible {
     color: var(--brand-red);
@@ -2016,8 +2042,15 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .is-subscriber-view .site-header__search {
-    width: 80px;
-    flex-basis: 80px;
+    width: 146px;
+    flex-basis: 146px;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+
+  .is-subscriber-view .site-header__search-submit {
+    flex: 0 0 40px;
+    order: -1;
   }
 
   .is-subscriber-view .site-header__epaper {
@@ -2302,6 +2335,8 @@ body:not(.is-subscriber-view) .site-header__topics {
     min-height: 36px;
     flex: 1;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 6px;
     padding: 0 10px;
     border-width: 1px;
@@ -3342,6 +3377,7 @@ body.is-dh .publication-view-toggle {
     background: var(--chip-bg);
     color: var(--chip-text);
     white-space: nowrap;
+    text-align: center;
   }
 
   .site-header__topics a:hover,
@@ -3431,15 +3467,41 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__topbar {
-    background: var(--brand-500);
-    border-bottom-color: var(--brand-400);
+    position: relative;
+    width: calc(100% - 400px);
+    max-width: none;
+    padding-right: 0;
+    padding-left: 0;
+    background: transparent;
+    border-bottom-color: transparent;
     color: #ffffff;
   }
 
+  .drawer__topbar::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    z-index: 0;
+    width: 100vw;
+    border-bottom: 1px solid var(--brand-400);
+    background: var(--brand-500);
+    content: "";
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+
   .drawer__brand,
+  .drawer__toolbar,
   .drawer__toolbar-btn,
   .drawer__mobile-search {
+    position: relative;
+    z-index: 1;
     color: #ffffff;
+  }
+
+  .drawer__profile > [data-icon="user"] svg {
+    filter: invert(1);
   }
 
   .drawer__logo-image {
@@ -3457,9 +3519,10 @@ body.is-dh .publication-view-toggle {
 
   .drawer__quicklinks-shell {
     display: block;
-    width: calc(100% - 400px);
+    width: 100%;
+    max-width: none;
     margin: 0 auto;
-    background: var(--nav-section-bg);
+    background: var(--brand-500);
   }
 
   .drawer__quicklinks {
@@ -3467,21 +3530,22 @@ body.is-dh .publication-view-toggle {
     width: 100%;
     min-height: 40px;
     align-items: center;
-    padding: 4px 0 6px;
+    justify-content: center;
+    padding: 4px 24px 6px;
     border-bottom-color: var(--drawer-border);
-    background: var(--nav-section-bg);
+    background: var(--brand-500);
   }
 
   .drawer__quicklinks-shell::after {
     width: 24px;
-    background: linear-gradient(90deg, rgba(252, 235, 236, 0), var(--nav-section-bg) 82%);
+    background: linear-gradient(90deg, transparent, var(--brand-500) 82%);
   }
 
   .drawer__quickchip {
     min-height: 32px;
     padding: 0 14px;
     border: 1px solid var(--chip-border);
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--chip-bg);
     color: var(--chip-text);
     font-size: 13px;
@@ -3492,7 +3556,37 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__premium {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    padding: 10px 14px;
     background: var(--brand-900);
+  }
+
+  .drawer__premium-title {
+    margin: 0;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .drawer__premium-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .drawer__premium-item {
+    min-width: 0;
+    min-height: 42px;
+    justify-content: center;
+    padding: 0 10px;
+  }
+
+  .drawer__premium-cta {
+    flex-basis: 190px;
   }
 
   .drawer__catalog,

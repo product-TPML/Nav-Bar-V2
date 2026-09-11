@@ -3314,7 +3314,7 @@ body.is-dh .drawer__topbar::before {
 }
 
 body.is-dh .drawer__quicklinks {
-  border-top: 1px solid var(--brand-900);
+  border-top: 0;
 }
 
 body.is-subscriber-view .site-header__mobile-epaper,
@@ -3614,13 +3614,14 @@ body.is-dh .publication-view-toggle {
     align-items: center;
     justify-content: center;
     padding: 4px 24px 6px;
-    border-bottom-color: var(--drawer-border);
-    background: var(--brand-500);
+    border-top: 0;
+    border-bottom: 1px solid var(--brand-600);
+    background: var(--nav-top-bg);
   }
 
   .drawer__quicklinks-shell::after {
     width: 24px;
-    background: linear-gradient(90deg, transparent, var(--brand-500) 82%);
+    background: linear-gradient(90deg, transparent, var(--nav-top-bg) 82%);
   }
 
   .drawer__quickchip {
@@ -3707,6 +3708,6 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__quicklinks {
-    border-top: 1px solid var(--brand-900);
+    border-top: 0;
   }
 }

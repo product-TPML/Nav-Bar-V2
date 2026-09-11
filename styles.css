@@ -3550,10 +3550,10 @@ body.is-dh .publication-view-toggle {
 
   .drawer__topbar {
     position: relative;
-    width: var(--desktop-content-width);
+    width: 100%;
     max-width: none;
-    padding-right: 0;
-    padding-left: 0;
+    padding-right: max(24px, calc((100vw - 1280px) / 2 + 24px));
+    padding-left: max(24px, calc((100vw - 1280px) / 2 + 24px));
     background: transparent;
     border-bottom-color: transparent;
     color: #ffffff;
@@ -3702,6 +3702,7 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__topbar::before {
+    border-bottom-width: 1px;
     border-bottom-color: var(--brand-600);
   }
 

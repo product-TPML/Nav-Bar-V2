@@ -284,6 +284,11 @@
         if (children.length) {
           var dropdown = document.createElement("div");
           dropdown.className = "site-header__primary-dropdown";
+          if (children.length > 10) {
+            dropdown.classList.add("is-multi-column");
+            dropdown.style.setProperty("--primary-submenu-columns", String(Math.ceil(children.length / 10)));
+            dropdown.style.setProperty("--primary-submenu-rows", "10");
+          }
           children.forEach(function (child) {
             var childLink = document.createElement("a");
             childLink.className = "site-header__primary-dropdown-link";

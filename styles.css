@@ -3470,14 +3470,14 @@ body.is-dh .publication-view-toggle {
     gap: 6px;
     border-radius: 8px;
     border-color: rgba(255, 211, 77, 0.45);
-    background: var(--brown-900);
+    background: var(--brand-900);
     color: var(--gold);
   }
 
   .site-header__premium-group a:hover,
   .site-header__premium-group a:focus-visible {
     border-color: var(--gold);
-    background: var(--brown-800);
+    background: var(--brand-800);
     color: var(--gold);
   }
 

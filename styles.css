@@ -2125,29 +2125,29 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .is-subscriber-view .site-header__primary .site-header__primary-premium {
     display: inline-flex !important;
-    height: 40px;
-    min-height: 40px;
+    height: auto;
+    min-height: 0;
     align-items: center;
     gap: 6px;
     align-self: center;
-    padding: 0 12px;
+    margin: -8px -10px;
+    padding: 8px 10px;
     border: 0;
-    border-radius: 0;
-    background:
-      linear-gradient(90deg, rgba(255, 211, 77, 0) 0%, var(--gold) 14%, var(--gold) 86%, rgba(255, 211, 77, 0) 100%);
-    box-shadow: inset 0 5px 8px -8px rgba(255, 255, 255, 0.95);
-    color: var(--premium-text);
+    border-radius: 6px !important;
+    background: transparent;
+    box-shadow: none;
+    color: var(--gold) !important;
     position: relative;
   }
 
   .is-subscriber-view .site-header__primary .site-header__primary-premium::after {
     position: absolute;
-    right: 12%;
+    right: 0;
     bottom: 0;
-    left: 12%;
-    height: 3px;
+    left: 0;
+    height: 2px;
     border-radius: 999px;
-    background: var(--gold-border);
+    background: var(--brand-500);
     content: "";
     transform: scaleX(0);
     transform-origin: center;
@@ -2162,14 +2162,14 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .is-subscriber-view .site-header__primary .site-header__primary-premium:hover,
   .is-subscriber-view .site-header__primary .site-header__primary-premium:focus-visible {
-    background:
-      linear-gradient(90deg, rgba(255, 215, 97, 0) 0%, var(--premium-gold-start) 14%, var(--premium-gold-start) 86%, rgba(255, 215, 97, 0) 100%);
-    box-shadow: inset 0 5px 8px -8px rgba(255, 255, 255, 0.95);
-    color: var(--premium-text);
+    background: var(--premium-gold-start);
+    border-radius: 0 !important;
+    color: var(--premium-text) !important;
   }
 
   .is-subscriber-view .site-header__primary .site-header__primary-premium:hover::after,
   .is-subscriber-view .site-header__primary .site-header__primary-premium:focus-visible::after {
+    background: var(--gold-border);
     transform: scaleX(1);
   }
 
@@ -3430,6 +3430,7 @@ body.is-dh .site-header__utility {
   body.is-dh .site-header__utility-link:not(:last-child)::after {
     display: none;
   }
+
 }
 
 /* Match the Next.js hamburger section treatment without affecting the header rail. */
@@ -3705,6 +3706,17 @@ body.is-dh .site-header__topic-premium > .premium-icon,
 body.is-dh .site-header__topic-epaper > .epaper-icon {
   background-color: var(--nav-offering-fg) !important;
   color: var(--nav-offering-fg) !important;
+}
+
+@media (min-width: 1024px) {
+  body.is-dh .site-header__topics .site-header__topic-premium:hover,
+  body.is-dh .site-header__topics .site-header__topic-premium:focus-visible,
+  body.is-dh .site-header__topics .site-header__topic-epaper:hover,
+  body.is-dh .site-header__topics .site-header__topic-epaper:focus-visible {
+    border-color: var(--gold) !important;
+    background: var(--nav-offering-hover-bg) !important;
+    color: var(--gold) !important;
+  }
 }
 
 body.is-dh .site-header,
@@ -4132,36 +4144,48 @@ body.is-dh .publication-view-toggle {
 
   .drawer__premium {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
     gap: 16px;
-    margin-top: 12px;
+    margin-top: 0;
     padding: 10px 14px;
+    border: 0;
     background: var(--brand-900);
+    box-shadow: 0 0 0 100vmax var(--brand-900);
+    clip-path: inset(0 -100vmax);
   }
 
   .drawer__premium-title {
+    align-self: start;
+    grid-column: 1 / -1;
+    justify-self: center;
     margin: 0;
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
   }
 
   .drawer__premium-grid {
+    grid-column: 1;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
+    gap: 12px;
     min-width: 0;
   }
 
   .drawer__premium-item {
     min-width: 0;
-    min-height: 42px;
+    min-height: 72px;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
     justify-content: center;
-    padding: 0 10px;
+    padding: 6px 4px 4px;
   }
 
   .drawer__premium-cta {
-    min-height: 42px;
+    grid-column: 2;
+    min-height: 72px;
+    align-self: start;
     flex-basis: 190px;
   }
 
@@ -4350,6 +4374,24 @@ body.is-dh .publication-view-toggle {
     flex-wrap: wrap;
     justify-content: center;
   }
+}
+
+/* Keep rectangular chips and buttons consistent with hamburger card corners. */
+.site-header__subscribe,
+.site-header__mobile-epaper,
+.site-header__epaper,
+.site-header__topics a,
+.site-header__utility-link,
+.site-header__primary-premium,
+.site-header__primary-dropdown,
+.site-header__primary-dropdown-link,
+.drawer__quickchip,
+.drawer__premium-item,
+.drawer__premium-cta,
+.premium-popup__item,
+.mobile-bottomnav__badge,
+.drawer__footer-contact a {
+  border-radius: 4px !important;
 }
 
 /* Match the live PV hamburger boxes: flat white 75px rows with a 58px arrow area. */

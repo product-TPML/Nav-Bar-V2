@@ -800,6 +800,16 @@
         var isSubscriberView = subscriberToggle.getAttribute("aria-pressed") === "true";
         subscriberToggle.setAttribute("aria-pressed", String(!isSubscriberView));
         document.body.classList.toggle("is-subscriber-view", !isSubscriberView);
+        if (!isSubscriberView) {
+          qsa(".site-header__profile, .drawer__profile").forEach(function (profileTrigger) {
+            profileTrigger.classList.remove("is-login");
+            profileTrigger.setAttribute("aria-pressed", "false");
+            var loginArrow = profileTrigger.querySelector('[data-icon="loginArrow"]');
+            if (loginArrow) {
+              loginArrow.remove();
+            }
+          });
+        }
         buildIcons();
         document.body.classList.remove("is-subscriber-bottom-hidden");
         document.body.classList.remove("is-nonsubscriber-bottom-hidden");
@@ -819,6 +829,9 @@
 
       if (profileTrigger) {
         event.preventDefault();
+        if (document.body.classList.contains("is-subscriber-view")) {
+          return;
+        }
         var isLoginVariant = profileTrigger.classList.toggle("is-login");
         profileTrigger.setAttribute("aria-pressed", String(isLoginVariant));
         var loginArrow = profileTrigger.querySelector('[data-icon="loginArrow"]');

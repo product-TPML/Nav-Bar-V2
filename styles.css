@@ -2099,10 +2099,6 @@ body:not(.is-subscriber-view) .site-header__topics {
     flex-shrink: 0;
   }
 
-  .is-subscriber-view .site-header__primary a:last-child {
-    display: none;
-  }
-
   .site-header__primary a:hover,
   .site-header__primary a:focus-visible {
     color: var(--brand-red);

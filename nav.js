@@ -244,9 +244,15 @@
       return;
     }
 
-    qsa("a[data-api-menu-item]", container).forEach(function (link) {
-      link.remove();
-    });
+    if (menuName === "default" && rootsOnly) {
+      qsa(".site-header__primary-item", container).forEach(function (item) {
+        item.remove();
+      });
+    } else {
+      qsa("a[data-api-menu-item]", container).forEach(function (link) {
+        link.remove();
+      });
+    }
 
     var visibleItems = (Array.isArray(items) ? items : [])
       .filter(function (item) {
@@ -362,7 +368,9 @@
     setPublicationCopy(".site-header__primary-premium > span:last-child", ["Premium"], isDh);
     setPublicationCopy(".site-header__utility-link span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
     setPublicationCopy(".site-header__topic-premium > span:last-child, .site-header__topic-epaper > span:last-child, .site-header__topic-premium-extra > span:last-child", ["Premium", "E-paper", "Sudha", "Mayura"], isDh);
-    setPublicationCopy(".site-header__subscribe-label, .site-header__mobile-epaper .site-header__epaper-label", ["Subscribe", "E-paper"], isDh);
+    setPublicationCopy(".site-header__subscribe-label", ["Subscribe"], isDh);
+    setPublicationCopy(".site-header__epaper .site-header__epaper-label", ["E-paper"], isDh);
+    setPublicationCopy(".site-header__mobile-epaper .site-header__epaper-label", ["E-paper"], isDh);
     syncDesktopOfferingLinks(isDh);
 
     setPublicationCopy(".story__title", [

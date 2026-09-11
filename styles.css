@@ -3150,7 +3150,7 @@ body.is-dh {
   --brand-focus: var(--brand-500);
   --nav-offering-bg: var(--brand-900);
   --nav-offering-fg: var(--gold);
-  --nav-offering-border: var(--brand-700);
+  --nav-offering-border: var(--gold-deep);
   --nav-offering-hover-bg: var(--brand-800);
   font-family: "Roboto Slab", Georgia, serif;
 }
@@ -3273,7 +3273,7 @@ body.is-dh .site-header__utility {
 
 body.is-dh .site-header__topic-premium,
 body.is-dh .site-header__topic-epaper {
-  border-color: var(--nav-offering-border) !important;
+  border-color: rgba(255, 211, 77, 0.45) !important;
   background: var(--nav-offering-bg) !important;
   color: var(--nav-offering-fg) !important;
 }
@@ -3297,15 +3297,11 @@ body.is-dh .site-header__topic-epaper > .epaper-icon {
 body.is-dh .site-header,
 body.is-dh .site-header__top,
 body.is-dh .drawer__topbar {
-  border-bottom-color: var(--brand-900);
+  border-bottom-color: var(--brand-600);
 }
 
 body.is-dh .site-header__topics {
   border-top-color: var(--brand-900);
-  border-bottom: 1px solid var(--brand-900);
-}
-
-body.is-dh .site-header__secondary {
   border-bottom: 1px solid var(--brand-900);
 }
 

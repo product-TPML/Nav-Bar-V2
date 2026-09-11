@@ -454,6 +454,8 @@
       ,mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"></rect><path d="m4 7 8 6 8-6"></path></svg>'
     };
 
+    icons.loginArrow = '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="10" viewBox="0 0 11 10" fill="none" style="overflow:visible"><path d="M0 4.12509H7.78474L4.73854 1.15503L5.92317 0L11.0002 4.95011L5.92317 9.90022L4.73854 8.74519L7.78474 5.77513H0V4.12509Z" fill="black" stroke="white" stroke-width="3" stroke-linejoin="round" paint-order="stroke"></path></svg>';
+
     qsa("[data-icon]").forEach(function (element) {
       var iconName = element.getAttribute("data-icon");
 
@@ -772,6 +774,7 @@
       var submenuToggle = event.target.closest("[data-toggle-submenu]");
       var subscriberToggle = event.target.closest("[data-subscriber-toggle]");
       var publicationToggle = event.target.closest("[data-publication-toggle]");
+      var profileTrigger = event.target.closest(".site-header__profile, .drawer__profile");
 
       if (premiumTrigger) {
         event.preventDefault();
@@ -798,6 +801,24 @@
         event.preventDefault();
         var isDh = publicationToggle.getAttribute("aria-pressed") === "true";
         applyDeccanHeraldMode(!isDh);
+        return;
+      }
+
+      if (profileTrigger) {
+        event.preventDefault();
+        var isLoginVariant = profileTrigger.classList.toggle("is-login");
+        profileTrigger.setAttribute("aria-pressed", String(isLoginVariant));
+        var loginArrow = profileTrigger.querySelector('[data-icon="loginArrow"]');
+        if (isLoginVariant && !loginArrow) {
+          loginArrow = document.createElement("span");
+          loginArrow.className = "profile-login-arrow";
+          loginArrow.setAttribute("data-icon", "loginArrow");
+          loginArrow.setAttribute("aria-hidden", "true");
+          profileTrigger.appendChild(loginArrow);
+        } else if (!isLoginVariant && loginArrow) {
+          loginArrow.remove();
+        }
+        buildIcons();
         return;
       }
 

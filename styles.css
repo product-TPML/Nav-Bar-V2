@@ -4040,10 +4040,10 @@ body.is-dh .publication-view-toggle {
 
   .drawer__topbar {
     position: relative;
-    width: 100%;
+    width: var(--desktop-content-width);
     max-width: none;
-    padding-right: max(24px, calc((100vw - 1280px) / 2 + 24px));
-    padding-left: max(24px, calc((100vw - 1280px) / 2 + 24px));
+    margin: 0 auto;
+    padding: 0;
     background: transparent;
     border-bottom-color: transparent;
     color: #ffffff;

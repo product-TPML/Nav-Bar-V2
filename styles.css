@@ -4380,6 +4380,219 @@ body.is-dh .publication-view-toggle {
   }
 }
 
+/* Final DH header color cascade. Keep the existing responsive layout unchanged. */
+body.is-dh .site-header__utility {
+  background: var(--offering-surface) !important;
+}
+
+body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper {
+  border-color: var(--offering-divider) !important;
+  background: var(--offering-surface) !important;
+  color: var(--offering-label) !important;
+}
+
+body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper > .epaper-icon {
+  background-color: var(--topic-active) !important;
+  color: var(--topic-active) !important;
+}
+
+body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium {
+  border-color: var(--gold-deep) !important;
+  background: var(--gold) !important;
+  color: var(--premium-text) !important;
+}
+
+body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium > .premium-icon {
+  background-color: var(--premium-on-gold) !important;
+  color: var(--premium-on-gold) !important;
+}
+
+/* Light publication header colors. Keep the existing header structure and dimensions. */
+:root {
+  --header-surface: #ffffff;
+  --header-border: #e8c4c7;
+  --offering-surface: #fff4f5;
+  --offering-label: #791b23;
+  --offering-divider: #e4bfc2;
+  --topic-surface: #ffffff;
+  --topic-label: #3a3031;
+  --topic-active: #b82831;
+  --topic-active-bg: #f7e4e6;
+}
+
+body.is-dh {
+  --header-border: #b9e5ea;
+  --offering-surface: #f1fbfc;
+  --offering-label: #005568;
+  --offering-divider: #b9e5ea;
+  --topic-label: #244248;
+  --topic-active: #0091ac;
+  --topic-active-bg: #e2f5f7;
+}
+
+.site-header,
+.site-header__top {
+  background: var(--header-surface);
+  border-bottom-color: var(--header-border);
+}
+
+.site-header__logo-image {
+  filter: brightness(0) saturate(100%) invert(22%) sepia(53%) saturate(3577%) hue-rotate(329deg) brightness(83%) contrast(90%);
+}
+
+body.is-dh .site-header,
+body.is-dh .site-header__top {
+  background: var(--header-surface) !important;
+  border-bottom-color: var(--header-border) !important;
+}
+
+body.is-dh .site-header__logo-image {
+  filter: none !important;
+}
+
+.site-header__primary a,
+.site-header__search-submit,
+.site-header__icon-btn {
+  color: var(--topic-active) !important;
+}
+
+.site-header__mobile-epaper,
+.site-header__epaper {
+  color: var(--gold-deep) !important;
+}
+
+.site-header__profile > [data-icon="user"] svg {
+  filter: none !important;
+}
+
+.site-header__profile > [data-icon="user"] svg path {
+  fill: var(--topic-active) !important;
+}
+
+body.is-subscriber-view .site-header__mobile-epaper,
+body.is-subscriber-view .site-header__epaper {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none;
+  color: var(--gold-deep) !important;
+}
+
+.site-header__utility {
+  background: var(--offering-surface);
+}
+
+.site-header__utility-link {
+  color: var(--offering-label);
+}
+
+.site-header__utility-link:not(:last-child)::after {
+  background: var(--offering-divider);
+}
+
+.site-header__utility-link:not(.site-header__utility-link--highlight) > .premium-icon,
+.site-header__utility-link:not(.site-header__utility-link--highlight) > .epaper-icon,
+.site-header__utility-link:not(.site-header__utility-link--highlight) > .magazine-icon {
+  background-color: var(--topic-active) !important;
+  color: var(--topic-active) !important;
+}
+
+.site-header__utility-link--highlight {
+  background: var(--gold) !important;
+  color: var(--premium-text) !important;
+}
+
+.site-header__utility-link--highlight > .premium-icon {
+  background-color: var(--premium-on-gold) !important;
+  color: var(--premium-on-gold) !important;
+}
+
+body.is-dh .site-header__utility-link:not(.site-header__utility-link--highlight) {
+  background: var(--offering-surface) !important;
+  color: var(--offering-label) !important;
+}
+
+.site-header__topics,
+body .site-header__secondary .site-header__topics {
+  background: var(--topic-surface) !important;
+  border-top-color: var(--header-border);
+  border-bottom-color: var(--header-border) !important;
+}
+
+.site-header__topics a {
+  border-color: transparent;
+  background: transparent;
+  color: var(--topic-label);
+}
+
+.site-header__topics a:hover,
+.site-header__topics a:focus-visible {
+  border-color: transparent;
+  background: var(--topic-active-bg);
+  color: var(--topic-active);
+}
+
+.site-header__topics a.is-active {
+  border-color: transparent;
+  background: var(--topic-active-bg);
+  box-shadow: inset 0 -3px 0 var(--topic-active);
+  color: var(--topic-active);
+}
+
+.site-header__premium-group a {
+  border-color: var(--offering-divider);
+  background: var(--offering-surface);
+  color: var(--offering-label);
+}
+
+.site-header__premium-group a:hover,
+.site-header__premium-group a:focus-visible {
+  border-color: var(--offering-divider);
+  background: var(--topic-active-bg);
+  color: var(--topic-active);
+}
+
+.site-header__premium-group a:not(.site-header__topic-premium) > .premium-icon,
+.site-header__premium-group a:not(.site-header__topic-premium) > .epaper-icon,
+.site-header__premium-group a:not(.site-header__topic-premium) > .magazine-icon {
+  background-color: var(--topic-active) !important;
+  color: var(--topic-active) !important;
+}
+
+.site-header__premium-group .site-header__topic-premium {
+  border-color: var(--gold-deep) !important;
+  background: var(--gold) !important;
+  color: var(--premium-text) !important;
+}
+
+.site-header__premium-group .site-header__topic-premium > .premium-icon {
+  background-color: var(--premium-on-gold) !important;
+  color: var(--premium-on-gold) !important;
+}
+
+body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) {
+  border-color: var(--offering-divider) !important;
+  background: var(--offering-surface) !important;
+  color: var(--offering-label) !important;
+}
+
+body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) > .premium-icon,
+body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) > .epaper-icon,
+body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) > .magazine-icon {
+  background-color: var(--topic-active) !important;
+  color: var(--topic-active) !important;
+}
+
+body.is-dh .site-header__premium-group .site-header__topic-premium {
+  border-color: var(--gold-deep) !important;
+  background: var(--gold) !important;
+  color: var(--premium-text) !important;
+}
+
+body.is-dh .site-header__premium-group .site-header__topic-premium > .premium-icon {
+  background-color: var(--premium-on-gold) !important;
+  color: var(--premium-on-gold) !important;
+}
+
 /* Keep rectangular chips and buttons consistent with hamburger card corners. */
 .site-header__subscribe,
 .site-header__mobile-epaper,

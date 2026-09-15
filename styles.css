@@ -5503,6 +5503,47 @@ body.is-dh .drawer__toolbar-btn {
   }
 }
 
+/* Match the desktop subscriber E-paper control to the secondary-nav offerings. */
+@media (min-width: 1024px) {
+  body.is-subscriber-view .site-header__epaper {
+    border-color: rgba(255, 211, 77, 0.45) !important;
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
+
+  body.is-subscriber-view .site-header__epaper:hover,
+  body.is-subscriber-view .site-header__epaper:focus-visible {
+    border-color: var(--gold) !important;
+    background: var(--nav-offering-hover-bg) !important;
+    color: var(--gold) !important;
+  }
+
+  body.is-subscriber-view .site-header__epaper > .epaper-icon {
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  body.is-subscriber-view .site-header__mobile-epaper {
+    border: 1px solid rgba(255, 211, 77, 0.45) !important;
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
+
+  body.is-subscriber-view .site-header__mobile-epaper:hover,
+  body.is-subscriber-view .site-header__mobile-epaper:focus-visible {
+    border-color: var(--gold) !important;
+    background: var(--nav-offering-hover-bg) !important;
+    color: var(--gold) !important;
+  }
+
+  body.is-subscriber-view .site-header__mobile-epaper > .epaper-icon {
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
+}
+
 /* Add compact publication-colored separators between primary edit-nav items. */
 @media (min-width: 1024px) {
   .site-header__primary-item:not(:last-of-type)::after {

@@ -15,38 +15,7 @@
 }
 
 :root {
-  --brand-50: #fff7f7;
-  --brand-100: #fcebec;
-  --brand-200: #f7d7d9;
-  --brand-300: #eeb3b7;
-  --brand-400: #da7279;
-  --brand-500: #b82831;
-  --brand-600: #a31f28;
-  --brand-700: #891923;
-  --brand-800: #6e141c;
-  --brand-900: #500d13;
-  --brand-950: #2f080b;
-  --publication-primary: var(--brand-500);
-  --brand-red: var(--publication-primary);
-  --brand-red-dark: var(--brand-600);
-  --nav-top-bg: var(--brand-50);
-  --nav-top-border: var(--brand-200);
-  --nav-top-fg: var(--brand-950);
-  --nav-section-bg: var(--brand-100);
-  --nav-section-fg: var(--brand-950);
-  --nav-active: var(--brand-700);
-  --nav-active-bg: var(--brand-200);
-  --nav-offering-bg: var(--brown-900);
-  --nav-offering-fg: var(--gold);
-  --nav-offering-border: var(--gold-deep);
-  --nav-offering-hover-bg: var(--brown-800);
-  --bottomnav-bg: var(--brand-50);
-  --bottomnav-border: var(--brand-200);
-  --drawer-bg: var(--brand-50);
   --drawer-raised-bg: #fffcfc;
-  --drawer-expanded-bg: var(--brand-100);
-  --drawer-border: var(--brand-200);
-  --brand-focus: var(--brand-500);
   --gold: #ffd34d;
   --gold-deep: #d5a22d;
   --gold-border: #c98900;
@@ -88,6 +57,93 @@
   --header-z: 1000;
   --drawer-z: 1100;
   --popup-z: 1200;
+}
+
+/* Publication themes: keep brand values explicit instead of treating PV as the fallback. */
+html[data-publication="prajavani"] {
+  --brand-50: #fff7f7;
+  --brand-100: #fcebec;
+  --brand-200: #f7d7d9;
+  --brand-300: #eeb3b7;
+  --brand-400: #da7279;
+  --brand-500: #b82831;
+  --brand-600: #a31f28;
+  --brand-700: #891923;
+  --brand-800: #6e141c;
+  --brand-900: #500d13;
+  --brand-950: #2f080b;
+  --publication-primary: var(--brand-500);
+  --brand-red: var(--publication-primary);
+  --brand-red-dark: var(--brand-600);
+  --nav-top-bg: var(--brand-50);
+  --nav-top-border: var(--brand-200);
+  --nav-top-fg: var(--brand-950);
+  --nav-section-bg: var(--brand-100);
+  --nav-section-fg: var(--brand-950);
+  --nav-active: var(--brand-700);
+  --nav-active-bg: var(--brand-200);
+  --nav-offering-bg: var(--brown-900);
+  --nav-offering-fg: var(--gold);
+  --nav-offering-border: var(--gold-deep);
+  --nav-offering-hover-bg: var(--brown-800);
+  --bottomnav-bg: var(--brand-50);
+  --bottomnav-border: var(--brand-200);
+  --drawer-bg: var(--brand-50);
+  --drawer-expanded-bg: var(--brand-100);
+  --drawer-border: var(--brand-200);
+  --brand-focus: var(--brand-500);
+  --header-surface: #ffffff;
+  --header-border: #e8c4c7;
+  --offering-surface: #fff4f5;
+  --offering-label: #791b23;
+  --offering-divider: #e4bfc2;
+  --topic-surface: #ffffff;
+  --topic-label: #3a3031;
+  --topic-active: #b82831;
+  --topic-active-bg: #f7e4e6;
+}
+
+html[data-publication="deccan-herald"] {
+  --brand-50: #f1fbfc;
+  --brand-100: #e2f5f7;
+  --brand-200: #b9e5ea;
+  --brand-300: #83ced8;
+  --brand-400: #43b2c1;
+  --brand-500: #0091ac;
+  --brand-600: #007d95;
+  --brand-700: #00697e;
+  --brand-800: #005568;
+  --brand-900: #003e4c;
+  --brand-950: #002934;
+  --publication-primary: var(--brand-500);
+  --brand-red: var(--publication-primary);
+  --brand-red-dark: var(--brand-600);
+  --nav-top-bg: var(--brand-50);
+  --nav-top-border: var(--brand-200);
+  --nav-top-fg: var(--brand-950);
+  --nav-section-bg: var(--brand-100);
+  --nav-section-fg: var(--brand-950);
+  --nav-active: var(--brand-700);
+  --nav-active-bg: var(--brand-200);
+  --nav-offering-bg: var(--brand-900);
+  --nav-offering-fg: var(--gold);
+  --nav-offering-border: var(--gold-deep);
+  --nav-offering-hover-bg: var(--brand-800);
+  --bottomnav-bg: var(--brand-50);
+  --bottomnav-border: var(--brand-200);
+  --drawer-bg: var(--brand-50);
+  --drawer-expanded-bg: var(--brand-100);
+  --drawer-border: var(--brand-200);
+  --brand-focus: var(--brand-500);
+  --header-surface: #ffffff;
+  --header-border: #b9e5ea;
+  --offering-surface: #f1fbfc;
+  --offering-label: #005568;
+  --offering-divider: #b9e5ea;
+  --topic-surface: #ffffff;
+  --topic-label: #244248;
+  --topic-active: #0091ac;
+  --topic-active-bg: #e2f5f7;
 }
 
 * {
@@ -3280,39 +3336,8 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 }
 
-/* Deccan Herald publication mode. Subscription state remains independent. */
-body.is-dh {
-  --brand-50: #f1fbfc;
-  --brand-100: #e2f5f7;
-  --brand-200: #b9e5ea;
-  --brand-300: #83ced8;
-  --brand-400: #43b2c1;
-  --brand-500: #0091ac;
-  --brand-600: #007d95;
-  --brand-700: #00697e;
-  --brand-800: #005568;
-  --brand-900: #003e4c;
-  --brand-950: #002934;
-  --publication-primary: var(--brand-500);
-  --brand-red: var(--publication-primary);
-  --brand-red-dark: var(--brand-600);
-  --nav-top-bg: var(--brand-50);
-  --nav-top-border: var(--brand-200);
-  --nav-top-fg: var(--brand-950);
-  --nav-section-bg: var(--brand-100);
-  --nav-section-fg: var(--brand-950);
-  --nav-active: var(--brand-700);
-  --nav-active-bg: var(--brand-200);
-  --bottomnav-bg: var(--brand-50);
-  --bottomnav-border: var(--brand-200);
-  --drawer-bg: var(--brand-50);
-  --drawer-expanded-bg: var(--brand-100);
-  --drawer-border: var(--brand-200);
-  --brand-focus: var(--brand-500);
-  --nav-offering-bg: var(--brand-900);
-  --nav-offering-fg: var(--gold);
-  --nav-offering-border: var(--gold-deep);
-  --nav-offering-hover-bg: var(--brand-800);
+/* Deccan Herald typography remains publication-specific; tokens are defined above. */
+html[data-publication="deccan-herald"] body {
   font-family: "Roboto Slab", Georgia, serif;
 }
 
@@ -3344,11 +3369,6 @@ body.is-dh .feature-card__title,
 body.is-dh .drawer-card__title,
 body.is-dh .premium-popup__title {
   font-family: "Playfair Display", Georgia, serif;
-}
-
-body.is-dh .site-header__top,
-body.is-dh .drawer__topbar {
-  background: var(--brand-500);
 }
 
 body.is-dh .drawer__tagline {
@@ -3717,12 +3737,6 @@ body.is-dh .site-header__topic-epaper > .epaper-icon {
     background: var(--nav-offering-hover-bg) !important;
     color: var(--gold) !important;
   }
-}
-
-body.is-dh .site-header,
-body.is-dh .site-header__top,
-body.is-dh .drawer__topbar {
-  border-bottom-color: var(--brand-600);
 }
 
 body.is-dh .site-header__topics {
@@ -4414,29 +4428,6 @@ body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium >
   color: var(--premium-on-gold) !important;
 }
 
-/* Light publication header colors. Keep the existing header structure and dimensions. */
-:root {
-  --header-surface: #ffffff;
-  --header-border: #e8c4c7;
-  --offering-surface: #fff4f5;
-  --offering-label: #791b23;
-  --offering-divider: #e4bfc2;
-  --topic-surface: #ffffff;
-  --topic-label: #3a3031;
-  --topic-active: #b82831;
-  --topic-active-bg: #f7e4e6;
-}
-
-body.is-dh {
-  --header-border: #b9e5ea;
-  --offering-surface: #f1fbfc;
-  --offering-label: #005568;
-  --offering-divider: #b9e5ea;
-  --topic-label: #244248;
-  --topic-active: #0091ac;
-  --topic-active-bg: #e2f5f7;
-}
-
 .site-header,
 .site-header__top {
   background: var(--header-surface);
@@ -4445,12 +4436,6 @@ body.is-dh {
 
 .site-header__logo-image {
   filter: brightness(0) saturate(100%) invert(22%) sepia(53%) saturate(3577%) hue-rotate(329deg) brightness(83%) contrast(90%);
-}
-
-body.is-dh .site-header,
-body.is-dh .site-header__top {
-  background: var(--header-surface) !important;
-  border-bottom-color: var(--header-border) !important;
 }
 
 body.is-dh .site-header__logo-image {

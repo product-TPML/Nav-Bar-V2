@@ -82,10 +82,10 @@ html[data-publication="prajavani"] {
   --nav-section-fg: var(--brand-950);
   --nav-active: var(--brand-700);
   --nav-active-bg: var(--brand-200);
-  --nav-offering-bg: var(--brown-900);
+  --nav-offering-bg: var(--brand-900);
   --nav-offering-fg: var(--gold);
   --nav-offering-border: var(--gold-deep);
-  --nav-offering-hover-bg: var(--brown-800);
+  --nav-offering-hover-bg: var(--brand-800);
   --bottomnav-bg: var(--brand-50);
   --bottomnav-border: var(--brand-200);
   --drawer-bg: var(--brand-50);
@@ -2273,7 +2273,6 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .is-subscriber-view .site-header__search-submit {
     flex: 0 0 40px;
-    order: -1;
   }
 
   .is-subscriber-view .site-header__epaper {
@@ -2284,7 +2283,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     gap: 4px;
     justify-content: center;
     padding: 0 6px;
-    border: 0;
+    border: 1px solid var(--gold-deep);
     border-radius: 8px;
     background: transparent;
     box-shadow: none;
@@ -3415,11 +3414,6 @@ body.is-dh .publication-view-toggle {
   color: #ffffff;
 }
 
-body.is-dh .mobile-bottomnav__badge {
-  width: 56px;
-  min-width: 56px;
-}
-
 body.is-dh .site-header__utility-link:nth-child(3),
 body.is-dh .site-header__utility-link:nth-child(4),
 body.is-dh .site-header__topic-premium-extra,
@@ -3677,11 +3671,13 @@ body.is-dh .site-header__utility {
   }
 }
 
-body.is-dh .site-header__topic-premium,
-body.is-dh .site-header__topic-epaper {
-  border-color: rgba(255, 211, 77, 0.45) !important;
-  background: var(--nav-offering-bg) !important;
-  color: var(--nav-offering-fg) !important;
+@media (min-width: 1024px) {
+  body.is-dh .site-header__topic-premium,
+  body.is-dh .site-header__topic-epaper {
+    border-color: rgba(255, 211, 77, 0.45) !important;
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
 }
 
 @media (max-width: 1023px) {
@@ -3696,36 +3692,34 @@ body.is-dh .site-header__topic-epaper {
     color: var(--brand-950) !important;
   }
 
-  body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium {
-    border: 0 !important;
-    background: transparent !important;
-    color: #000000 !important;
-  }
-
-  body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium svg {
-    color: #000000 !important;
-  }
-
-  body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium > .premium-icon {
-    background-color: #000000 !important;
-    color: #000000 !important;
-  }
 }
 
 body.is-dh .site-header__utility-link svg,
-body.is-dh .site-header__topic-premium svg,
-body.is-dh .site-header__topic-epaper svg {
+body.is-dh .site-header__utility-link svg {
   color: var(--nav-offering-fg) !important;
   fill: currentColor;
   stroke: currentColor;
 }
 
 body.is-dh .site-header__utility-link > .premium-icon,
-body.is-dh .site-header__utility-link > .epaper-icon,
-body.is-dh .site-header__topic-premium > .premium-icon,
-body.is-dh .site-header__topic-epaper > .epaper-icon {
+body.is-dh .site-header__utility-link > .epaper-icon {
   background-color: var(--nav-offering-fg) !important;
   color: var(--nav-offering-fg) !important;
+}
+
+@media (min-width: 1024px) {
+  body.is-dh .site-header__topic-premium svg,
+  body.is-dh .site-header__topic-epaper svg {
+    color: var(--nav-offering-fg) !important;
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  body.is-dh .site-header__topic-premium > .premium-icon,
+  body.is-dh .site-header__topic-epaper > .epaper-icon {
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -3911,10 +3905,6 @@ body.is-dh .publication-view-toggle {
 }
 
 @media (min-width: 1024px) {
-  .is-subscriber-view .site-header__topics .site-header__premium-group {
-    display: none;
-  }
-
   .site-header__secondary {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -4394,13 +4384,6 @@ body.is-dh .publication-view-toggle {
   }
 }
 
-/* Keep the existing desktop offerings group visible for subscribers. */
-@media (min-width: 1024px) {
-  body.is-subscriber-view .site-header__topics .site-header__premium-group {
-    display: contents !important;
-  }
-}
-
 /* Final DH header color cascade. Keep the existing responsive layout unchanged. */
 body.is-dh .site-header__utility {
   background: var(--offering-surface) !important;
@@ -4415,17 +4398,6 @@ body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epa
 body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper > .epaper-icon {
   background-color: var(--topic-active) !important;
   color: var(--topic-active) !important;
-}
-
-body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium {
-  border-color: var(--gold-deep) !important;
-  background: var(--gold) !important;
-  color: var(--premium-text) !important;
-}
-
-body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-premium > .premium-icon {
-  background-color: var(--premium-on-gold) !important;
-  color: var(--premium-on-gold) !important;
 }
 
 .site-header,
@@ -4467,6 +4439,12 @@ body.is-subscriber-view .site-header__epaper {
   background: transparent !important;
   box-shadow: none;
   color: var(--gold-deep) !important;
+}
+
+@media (min-width: 1024px) {
+  body.is-subscriber-view .site-header__epaper {
+    border: 1px solid var(--gold-deep) !important;
+  }
 }
 
 .site-header__utility {
@@ -4574,15 +4552,17 @@ body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) > .mag
   color: var(--topic-active) !important;
 }
 
-body.is-dh .site-header__premium-group .site-header__topic-premium {
-  border-color: var(--gold-deep) !important;
-  background: var(--gold) !important;
-  color: var(--premium-text) !important;
-}
+@media (min-width: 1024px) {
+  body.is-dh .site-header__premium-group .site-header__topic-premium {
+    border-color: var(--gold-deep) !important;
+    background: var(--gold) !important;
+    color: var(--premium-text) !important;
+  }
 
-body.is-dh .site-header__premium-group .site-header__topic-premium > .premium-icon {
-  background-color: var(--premium-on-gold) !important;
-  color: var(--premium-on-gold) !important;
+  body.is-dh .site-header__premium-group .site-header__topic-premium > .premium-icon {
+    background-color: var(--premium-on-gold) !important;
+    color: var(--premium-on-gold) !important;
+  }
 }
 
 body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper {
@@ -4605,7 +4585,7 @@ body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper > 
 
 @media (max-width: 1023px) {
   .site-header__utility {
-    background: var(--brown-900) !important;
+    background: var(--nav-offering-bg) !important;
   }
 
   .site-header__utility-link,
@@ -4693,7 +4673,7 @@ body.is-dh .drawer__logo-image {
 }
 
 .drawer__premium {
-  background: var(--brown-900);
+  background: var(--nav-offering-bg);
   color: var(--gold);
 }
 
@@ -4815,14 +4795,14 @@ body.is-dh .drawer__toolbar-btn {
 
   body:not(.is-subscriber-view) .site-header__premium-group a {
     border-color: rgba(255, 211, 77, 0.45) !important;
-    background: var(--brown-900) !important;
+    background: var(--nav-offering-bg) !important;
     color: var(--gold) !important;
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a:hover,
   body:not(.is-subscriber-view) .site-header__premium-group a:focus-visible {
     border-color: var(--gold) !important;
-    background: var(--brown-800) !important;
+    background: var(--nav-offering-hover-bg) !important;
     color: var(--gold) !important;
   }
 
@@ -5386,5 +5366,53 @@ body.is-dh .drawer__toolbar-btn {
   .drawer__footer-contact {
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+/* Use publication brand accents on desktop navigation rails without changing layout. */
+@media (min-width: 1024px) {
+  .site-header__primary {
+    border-bottom: 0;
+  }
+
+  .site-header__topics,
+  body .site-header__secondary .site-header__topics {
+    border-top-color: var(--brand-300) !important;
+    border-bottom-color: var(--brand-400) !important;
+  }
+
+  .drawer__topbar,
+  .drawer__topbar::before {
+    border-bottom-color: var(--brand-300) !important;
+  }
+
+  .drawer__quicklinks {
+    border-top: 1px solid var(--brand-300);
+    border-bottom-color: var(--brand-400) !important;
+  }
+
+  .site-header {
+    border-bottom: 0 !important;
+  }
+
+  .site-header__secondary {
+    border-top: 1px solid var(--brand-300) !important;
+  }
+
+}
+
+/* Keep PV mobile sub-offerings on the same dark/gold treatment as desktop. */
+@media (max-width: 1023px) {
+  html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a {
+    border-color: var(--nav-offering-border) !important;
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg) !important;
+  }
+
+  html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a > .premium-icon,
+  html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a > .epaper-icon,
+  html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a > .magazine-icon {
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
   }
 }

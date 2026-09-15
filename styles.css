@@ -5409,10 +5409,52 @@ body.is-dh .drawer__toolbar-btn {
     color: var(--nav-offering-fg) !important;
   }
 
+  .site-header__topics-shell {
+    border-bottom: 1px solid var(--brand-300);
+  }
+
   html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a > .premium-icon,
   html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a > .epaper-icon,
   html[data-publication="prajavani"] body:not(.is-subscriber-view) .site-header__topics .site-header__premium-group > a > .magazine-icon {
     background-color: var(--nav-offering-fg) !important;
     color: var(--nav-offering-fg) !important;
+  }
+}
+
+/* Give primary edit-nav labels a publication-colored treatment at every viewport. */
+.site-header__primary-item > a,
+.site-header__topics > a[data-api-menu-item] {
+  color: var(--brand-700) !important;
+}
+
+.site-header__primary-item > a:hover,
+.site-header__primary-item > a:focus-visible,
+.site-header__topics > a[data-api-menu-item]:hover,
+.site-header__topics > a[data-api-menu-item]:focus-visible {
+  color: var(--brand-800) !important;
+}
+
+/* Match the mobile hamburger secondary rail to its desktop treatment. */
+@media (max-width: 1023px) {
+  .drawer__quicklinks-shell {
+    background: var(--topic-surface);
+  }
+
+  .drawer__quicklinks {
+    background: var(--topic-surface) !important;
+    border-bottom-color: var(--header-border) !important;
+  }
+
+  .drawer__quicklinks-shell::after {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--topic-surface) 82%);
+  }
+
+  .drawer__quicklead {
+    background: var(--topic-surface) !important;
+    color: var(--topic-active) !important;
+  }
+
+  .drawer__quicklead svg {
+    color: var(--topic-active);
   }
 }

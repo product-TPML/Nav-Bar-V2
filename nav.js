@@ -239,7 +239,7 @@
   }
 
   function isSubscriptionOffering(title) {
-    return /premium|e-?paper|sudha|mayura|subscribe|subscription/i.test(title || "");
+    return /premium|e[–—-]?paper|sudha|mayura|subscribe|subscription|ಪ್ರೀಮಿಯಂ|ಇ[–—-]?ಪೇಪರ್|ಸುಧಾ|ಮಯೂರ|ಚಂದಾದಾರ/i.test(title || "");
   }
 
   function renderApiMenu(menuName, items, limit, rootsOnly) {

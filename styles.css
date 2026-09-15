@@ -4642,6 +4642,15 @@ body:not(.is-subscriber-view) .site-header__topic-epaper {
   }
 }
 
+@media (max-width: 1023px) {
+  .is-subscriber-view .site-header__topics .site-header__topic-premium {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
 /* Keep rectangular chips and buttons consistent with hamburger card corners. */
 .site-header__subscribe,
 .site-header__mobile-epaper,

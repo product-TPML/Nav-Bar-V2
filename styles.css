@@ -4380,6 +4380,13 @@ body.is-dh .publication-view-toggle {
   }
 }
 
+/* Keep the existing desktop offerings group visible for subscribers. */
+@media (min-width: 1024px) {
+  body.is-subscriber-view .site-header__topics .site-header__premium-group {
+    display: contents !important;
+  }
+}
+
 /* Final DH header color cascade. Keep the existing responsive layout unchanged. */
 body.is-dh .site-header__utility {
   background: var(--offering-surface) !important;
@@ -4604,9 +4611,11 @@ body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper > 
   color: var(--premium-on-gold) !important;
 }
 
-/* Remove only the non-subscriber ePaper navigation item below the offerings row. */
-body:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper {
-  display: none !important;
+/* Remove the non-subscriber E-paper item only from the mobile editorial row. */
+@media (max-width: 1023px) {
+  body:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper {
+    display: none !important;
+  }
 }
 
 @media (max-width: 1023px) {

@@ -20,9 +20,15 @@
   var upwardBurstStartedAt = 0;
   var upwardBurstResetTimer = null;
   var subscriberBottomRevealTimer = null;
+  var loadedMenuData = null;
   var menuApiBases = {
     pv: "https://www.prajavani.net",
     dh: "https://www.deccanherald.com"
+  };
+  var subscriptionOfferingOrder = ["premium", "epaper", "sudha", "mayura"];
+  var subscriptionOfferingSets = {
+    pv: ["premium", "epaper", "sudha", "mayura"],
+    dh: ["premium", "epaper"]
   };
 
   function qsa(selector, context) {
@@ -88,6 +94,23 @@
 
     qsa(".site-header__utility-link:nth-child(n+3), .site-header__topic-premium-extra").forEach(function (link) {
       link.hidden = isDh;
+    });
+  }
+
+  function renderSubscriptionOfferings(isDh) {
+    var brand = isDh ? "dh" : "pv";
+    var visibleOfferings = subscriptionOfferingSets[brand];
+    var offeringSelectors = [
+      ".site-header__utility-link",
+      ".site-header__topics .site-header__premium-group > a",
+      ".drawer__premium-item",
+      ".premium-popup__item"
+    ];
+
+    offeringSelectors.forEach(function (selector) {
+      qsa(selector).forEach(function (element, index) {
+        element.hidden = visibleOfferings.indexOf(subscriptionOfferingOrder[index]) < 0;
+      });
     });
   }
 
@@ -339,13 +362,13 @@
           fallbackMenuItem("dh-video", "Video", "/top-videos-today")
         ],
         secondary: [
-          fallbackMenuItem("dh-secondary-india", "India", "/top-india-news"),
-          fallbackMenuItem("dh-secondary-karnataka", "Karnataka", "/top-karnataka-news"),
-          fallbackMenuItem("dh-secondary-opinion", "Opinion", "/top-opinion-news"),
-          fallbackMenuItem("dh-secondary-world", "World", "/world"),
-          fallbackMenuItem("dh-secondary-business", "Business", "/top-business-news"),
-          fallbackMenuItem("dh-secondary-sports", "Sports", "/top-sports-news"),
-          fallbackMenuItem("dh-secondary-video", "Video", "/top-videos-today")
+          fallbackMenuItem("dh-secondary-politics", "Politics", "/tags/indian-politics"),
+          fallbackMenuItem("dh-secondary-bengaluru", "Bengaluru", "/top-bengaluru-news"),
+          fallbackMenuItem("dh-secondary-features", "Features", "/tags/specials"),
+          fallbackMenuItem("dh-secondary-health", "Health", "/health"),
+          fallbackMenuItem("dh-secondary-education", "Education", "/education"),
+          fallbackMenuItem("dh-secondary-technology", "Technology", "/technology"),
+          fallbackMenuItem("dh-secondary-brandspot", "DH Brandspot", "/dhbrandspot")
         ]
       };
     }
@@ -421,19 +444,27 @@
       .then(function (payload) {
         var groups = payload && payload["menu-groups"] ? payload["menu-groups"] : {};
         var primary = groups.default || {};
-        var secondary = groups["secondary-menu"] || groups.secondary || {};
+        var secondary = groups.secondary || {};
         var base = menuApiBases[brand];
         var primaryItems = getApiMenuItems(primary, fallback.primary);
         var secondaryItems = getApiMenuItems(secondary, fallback.secondary);
 
+        loadedMenuData = {
+          primary: primaryItems,
+          secondary: secondaryItems
+        };
         renderApiMenu("default", primaryItems, 7, true);
-        renderApiMenu("secondary-menu", secondaryItems, 7);
+        renderResponsiveEditorialMenu(primaryItems, secondaryItems);
         renderDrawerQuicklinks(secondaryItems, base);
         renderDrawerCatalog(primaryItems, base);
       })
       .catch(function (error) {
+        loadedMenuData = {
+          primary: fallback.primary,
+          secondary: fallback.secondary
+        };
         renderApiMenu("default", fallback.primary, 7, true);
-        renderApiMenu("secondary-menu", fallback.secondary, 7);
+        renderResponsiveEditorialMenu(fallback.primary, fallback.secondary);
         renderDrawerQuicklinks(fallback.secondary, menuApiBases[brand]);
         renderDrawerCatalog(fallback.primary, menuApiBases[brand]);
         qsa("[data-api-menu-status]").forEach(function (status) {
@@ -441,6 +472,19 @@
         });
         console.warn("Unable to load navigation menus", error);
       });
+  }
+
+  function renderResponsiveEditorialMenu(primaryItems, secondaryItems) {
+    var topicsShell = document.querySelector(".site-header__topics-shell");
+    var useMobileSource = topicsShell && !desktopBreakpoint.matches;
+    var source = useMobileSource ? topicsShell.getAttribute("data-mobile-menu-source") : topicsShell && topicsShell.getAttribute("data-desktop-menu-source");
+
+    if (source === "default") {
+      renderApiMenu("secondary-menu", primaryItems, primaryItems.length, true);
+      return;
+    }
+
+    renderApiMenu("secondary-menu", secondaryItems, 7);
   }
 
   function applyDeccanHeraldMode(isDh) {
@@ -452,6 +496,7 @@
     body.classList.toggle("is-dh", isDh);
     root.setAttribute("data-publication", isDh ? "deccan-herald" : "prajavani");
     root.setAttribute("lang", isDh ? "en" : "kn");
+    renderSubscriptionOfferings(isDh);
     document.title = isDh ? "Deccan Herald" : "ಪ್ರಜಾವಾಣಿ";
 
     setPublicationCopy(".site-header__primary-premium > span:last-child", ["Premium"], isDh);
@@ -964,6 +1009,9 @@
     });
 
     desktopBreakpoint.addEventListener("change", function () {
+      if (loadedMenuData) {
+        renderResponsiveEditorialMenu(loadedMenuData.primary, loadedMenuData.secondary);
+      }
       closeDrawer();
       closeAllSubmenus();
       siteHeader.classList.remove("is-compact");
@@ -976,6 +1024,7 @@
 
   function init() {
     buildIcons();
+    renderSubscriptionOfferings(false);
     preventSearchSubmit();
     bindEvents();
     bindScrollBehavior();

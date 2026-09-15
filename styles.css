@@ -4593,6 +4593,11 @@ body.is-dh .site-header__premium-group .site-header__topic-premium > .premium-ic
   color: var(--premium-on-gold) !important;
 }
 
+/* Remove only the non-subscriber ePaper navigation item below the offerings row. */
+body:not(.is-subscriber-view) .site-header__topic-epaper {
+  display: none !important;
+}
+
 @media (max-width: 1023px) {
   .site-header__utility {
     background: var(--brown-900) !important;

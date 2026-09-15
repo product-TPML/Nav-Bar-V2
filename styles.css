@@ -4593,6 +4593,34 @@ body.is-dh .site-header__premium-group .site-header__topic-premium > .premium-ic
   color: var(--premium-on-gold) !important;
 }
 
+@media (max-width: 1023px) {
+  .site-header__utility {
+    background: var(--brown-900) !important;
+  }
+
+  .site-header__utility-link,
+  .site-header__utility-link--highlight {
+    background: transparent !important;
+    color: var(--gold) !important;
+  }
+
+  .site-header__utility-link:not(:last-child)::after {
+    background: rgba(255, 211, 77, 0.45);
+  }
+
+  .site-header__utility-link:not(.site-header__utility-link--highlight) > .premium-icon,
+  .site-header__utility-link:not(.site-header__utility-link--highlight) > .epaper-icon,
+  .site-header__utility-link:not(.site-header__utility-link--highlight) > .magazine-icon,
+  .site-header__utility-link--highlight > .premium-icon {
+    background-color: var(--gold) !important;
+    color: var(--gold) !important;
+  }
+
+  body.is-dh .site-header__utility {
+    background: var(--brand-900) !important;
+  }
+}
+
 /* Keep rectangular chips and buttons consistent with hamburger card corners. */
 .site-header__subscribe,
 .site-header__mobile-epaper,

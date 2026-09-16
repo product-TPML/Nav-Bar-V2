@@ -5674,3 +5674,8 @@ body.is-dh .drawer__toolbar-btn {
     padding-left: 12px;
   }
 }
+
+/* Keep the navigation chrome sharp while visually blurring the article canvas. */
+.news-home {
+  filter: blur(6px);
+}

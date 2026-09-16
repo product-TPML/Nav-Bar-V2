@@ -2921,6 +2921,10 @@ body:not(.is-subscriber-view) .site-header__topics {
     padding-top: 80px;
   }
 
+  .site-header.is-compact.is-utility-hidden ~ .page {
+    padding-top: 40px;
+  }
+
   .is-subscriber-view .site-header.is-compact ~ .page {
     padding-top: 40px;
   }

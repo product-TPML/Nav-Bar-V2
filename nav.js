@@ -922,21 +922,31 @@
         window.clearTimeout(subscriberBottomRevealTimer);
         subscriberBottomRevealTimer = window.setTimeout(function () {
           document.body.classList.remove("is-subscriber-bottom-hidden");
+          siteHeader.classList.remove("is-utility-hidden");
         }, 3000);
       }
-    } else if (currentScrollY <= 8 || scrollingUp) {
+    } else if (currentScrollY <= 8) {
       window.clearTimeout(subscriberBottomRevealTimer);
       siteHeader.classList.remove("is-compact");
+      siteHeader.classList.remove("is-utility-hidden");
       document.body.classList.remove("is-subscriber-bottom-hidden");
       document.body.classList.remove("is-nonsubscriber-bottom-hidden");
     } else if (scrollingDown) {
       window.clearTimeout(subscriberBottomRevealTimer);
       siteHeader.classList.add("is-compact");
+      siteHeader.classList.add("is-utility-hidden");
       document.body.classList.remove("is-subscriber-bottom-hidden");
       document.body.classList.add("is-nonsubscriber-bottom-hidden");
       subscriberBottomRevealTimer = window.setTimeout(function () {
         document.body.classList.remove("is-nonsubscriber-bottom-hidden");
+        siteHeader.classList.remove("is-utility-hidden");
       }, 3000);
+    } else if (scrollingUp) {
+      window.clearTimeout(subscriberBottomRevealTimer);
+      siteHeader.classList.add("is-compact");
+      siteHeader.classList.remove("is-utility-hidden");
+      document.body.classList.remove("is-subscriber-bottom-hidden");
+      document.body.classList.remove("is-nonsubscriber-bottom-hidden");
     }
 
     lastScrollY = currentScrollY;

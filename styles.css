@@ -627,7 +627,7 @@ input:focus-visible {
   min-height: 40px;
   padding: 0 10px;
   background: var(--surface);
-  border-top: 1px solid rgba(0, 0, 0, 0.03);
+  border-top: 0;
 }
 
 .site-header__topics a {
@@ -3156,7 +3156,7 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .site-header__topics {
     background: var(--nav-top-bg);
-    border-top-color: var(--nav-top-border);
+    border-top: 0;
   }
 
   .site-header__topics-shell::after {
@@ -3734,17 +3734,19 @@ body.is-dh .site-header__utility-link > .epaper-icon {
   }
 }
 
-body.is-dh .site-header__topics {
-  border-top-color: var(--brand-900);
-  border-bottom: 1px solid var(--brand-900);
-}
+@media (min-width: 1024px) {
+  body.is-dh .site-header__topics {
+    border-top-color: var(--brand-900);
+    border-bottom: 1px solid var(--brand-900);
+  }
 
-body.is-dh .drawer__topbar::before {
-  border-bottom-color: var(--brand-900);
-}
+  body.is-dh .drawer__topbar::before {
+    border-bottom-color: var(--brand-900);
+  }
 
-body.is-dh .drawer__quicklinks {
-  border-top: 0;
+  body.is-dh .drawer__quicklinks {
+    border-top: 0;
+  }
 }
 
 body.is-subscriber-view .site-header__mobile-epaper,
@@ -5455,6 +5457,16 @@ body.is-dh .drawer__toolbar-btn {
 }
 
 @media (max-width: 1023px) {
+  .site-header {
+    border-bottom: 0 !important;
+  }
+
+  .site-header__topics,
+  body .site-header__secondary .site-header__topics {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+  }
+
   .site-header__topics-shell {
     background: var(--brand-100) !important;
   }
@@ -5629,7 +5641,16 @@ body.is-dh .drawer__toolbar-btn {
   .site-header__topics-shell,
   .drawer__topbar,
   .drawer__quicklinks {
-    border-bottom-width: 1px !important;
-    border-bottom-color: var(--brand-500) !important;
+    border-bottom: 1px solid var(--brand-500) !important;
+  }
+
+  .site-header__topics {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  body:not(.is-subscriber-view) .site-header.is-compact .site-header__utility,
+  body.is-subscriber-view .site-header.is-compact .site-header__topics-shell {
+    border-top: 1px solid var(--brand-500) !important;
   }
 }

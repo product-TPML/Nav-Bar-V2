@@ -30,9 +30,37 @@
     pv: ["premium", "epaper", "sudha", "mayura"],
     dh: ["premium", "epaper"]
   };
+  var colorModeOrder = ["digital", "print-scan", "print"];
+  var colorModeLabels = {
+    digital: "Digital",
+    "print-scan": "Print Scan",
+    print: "Print"
+  };
+  var colorModeMarks = {
+    digital: "D",
+    "print-scan": "PS",
+    print: "P"
+  };
 
   function qsa(selector, context) {
     return Array.prototype.slice.call((context || document).querySelectorAll(selector));
+  }
+
+  function applyColorMode(mode) {
+    var root = document.documentElement;
+    var toggle = document.querySelector("[data-color-mode-toggle]");
+    var normalizedMode = colorModeOrder.indexOf(mode) >= 0 ? mode : "print-scan";
+    var nextMode = colorModeOrder[(colorModeOrder.indexOf(normalizedMode) + 1) % colorModeOrder.length];
+
+    root.setAttribute("data-color-mode", normalizedMode);
+    if (toggle) {
+      toggle.setAttribute("data-color-mode", normalizedMode);
+      toggle.setAttribute("aria-label", "Switch to " + colorModeLabels[nextMode] + " colors");
+      var mark = toggle.querySelector(".color-mode-toggle__mark");
+      var label = toggle.querySelector(".color-mode-toggle__label");
+      if (mark) mark.textContent = colorModeMarks[normalizedMode];
+      if (label) label.textContent = colorModeLabels[normalizedMode];
+    }
   }
 
   function setPublicationCopy(selector, values, isDh) {
@@ -536,7 +564,7 @@
     var root = document.documentElement;
     var body = document.body;
     var publicationToggle = document.querySelector("[data-publication-toggle]");
-    var dhLogoUrl = "https://images.assettype.com/deccanherald/2025-08-20/h9a4ohs5/DH-Logo";
+    var dhLogoUrl = "assets/deccan-herald-logo.svg";
 
     body.classList.toggle("is-dh", isDh);
     root.setAttribute("data-publication", isDh ? "deccan-herald" : "prajavani");
@@ -971,6 +999,7 @@
       var submenuToggle = event.target.closest("[data-toggle-submenu]");
       var subscriberToggle = event.target.closest("[data-subscriber-toggle]");
       var publicationToggle = event.target.closest("[data-publication-toggle]");
+      var colorModeToggle = event.target.closest("[data-color-mode-toggle]");
       var profileTrigger = event.target.closest(".site-header__profile, .drawer__profile");
 
       if (premiumTrigger) {
@@ -1008,6 +1037,14 @@
         event.preventDefault();
         var isDh = publicationToggle.getAttribute("aria-pressed") === "true";
         applyDeccanHeraldMode(!isDh);
+        return;
+      }
+
+      if (colorModeToggle) {
+        event.preventDefault();
+        var currentMode = document.documentElement.getAttribute("data-color-mode") || "print-scan";
+        var currentIndex = colorModeOrder.indexOf(currentMode);
+        applyColorMode(colorModeOrder[(currentIndex + 1) % colorModeOrder.length]);
         return;
       }
 
@@ -1078,6 +1115,7 @@
   }
 
   function init() {
+    applyColorMode(document.documentElement.getAttribute("data-color-mode"));
     buildIcons();
     renderSubscriptionOfferings(false);
     preventSearchSubmit();

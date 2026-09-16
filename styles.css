@@ -101,6 +101,7 @@ html[data-publication="prajavani"] {
   --topic-label: #3a3031;
   --topic-active: var(--brand-500);
   --topic-active-bg: var(--brand-100);
+  --logo-mask: url("assets/prajavani-logo.svg");
 }
 
 html[data-publication="deccan-herald"] {
@@ -144,6 +145,80 @@ html[data-publication="deccan-herald"] {
   --topic-label: #244248;
   --topic-active: var(--brand-500);
   --topic-active-bg: var(--brand-100);
+  --logo-mask: url("assets/deccan-herald-logo.svg");
+}
+
+/* Color modes: Print Scan is the default; each mode swaps the full brand scale. */
+html[data-color-mode="digital"][data-publication="prajavani"] {
+  --brand-50: #fff7f7;
+  --brand-100: #fcebec;
+  --brand-200: #f7d7d9;
+  --brand-300: #eeb3b7;
+  --brand-400: #da7279;
+  --brand-500: #b82831;
+  --brand-600: #a31f28;
+  --brand-700: #891923;
+  --brand-800: #6e141c;
+  --brand-900: #500d13;
+  --brand-950: #2f080b;
+  --nav-offering-bg: var(--brand-500);
+  --nav-offering-fg: var(--gold);
+  --header-border: #e8c4c7;
+  --offering-surface: #fff4f5;
+  --offering-label: #791b23;
+  --offering-divider: #e4bfc2;
+  --topic-active: var(--brand-500);
+  --topic-active-bg: #f7e4e6;
+}
+
+html[data-color-mode="digital"][data-publication="deccan-herald"] {
+  --brand-50: #f1fbfc;
+  --brand-100: #e2f5f7;
+  --brand-200: #b9e5ea;
+  --brand-300: #83ced8;
+  --brand-400: #43b2c1;
+  --brand-500: #0091ac;
+  --brand-600: #007d95;
+  --brand-700: #00697e;
+  --brand-800: #005568;
+  --brand-900: #003e4c;
+  --brand-950: #002934;
+  --nav-offering-bg: var(--brand-500);
+  --nav-offering-fg: var(--gold);
+  --header-border: var(--brand-200);
+  --offering-surface: var(--brand-50);
+  --offering-label: var(--brand-800);
+  --offering-divider: var(--brand-200);
+  --topic-active: var(--brand-500);
+  --topic-active-bg: var(--brand-100);
+}
+
+html[data-color-mode="print"][data-publication="prajavani"] {
+  --brand-50: #fdf1f0;
+  --brand-100: #f8e4e3;
+  --brand-200: #f1c8c6;
+  --brand-300: #e3a19e;
+  --brand-400: #c87470;
+  --brand-500: #af4542;
+  --brand-600: #9c3a37;
+  --brand-700: #82312e;
+  --brand-800: #672623;
+  --brand-900: #4d1c1a;
+  --brand-950: #321211;
+}
+
+html[data-color-mode="print"][data-publication="deccan-herald"] {
+  --brand-50: #e9f8fc;
+  --brand-100: #d8f1f8;
+  --brand-200: #b0e2ef;
+  --brand-300: #7ac9df;
+  --brand-400: #3facce;
+  --brand-500: #0092c8;
+  --brand-600: #007da9;
+  --brand-700: #006987;
+  --brand-800: #00566f;
+  --brand-900: #003e52;
+  --brand-950: #002b39;
 }
 
 * {
@@ -3419,6 +3494,38 @@ body.is-dh .publication-view-toggle {
   color: #ffffff;
 }
 
+.color-mode-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 224px;
+  z-index: var(--header-z);
+  display: inline-flex;
+  min-width: 112px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
+  border: 1px solid var(--brand-500);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  color: var(--brand-700);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.color-mode-toggle__mark {
+  font-size: 14px;
+}
+
+.color-mode-toggle:hover,
+.color-mode-toggle:focus-visible {
+  background: var(--brand-50);
+}
+
 body.is-dh .site-header__utility-link:nth-child(3),
 body.is-dh .site-header__utility-link:nth-child(4),
 body.is-dh .site-header__topic-premium-extra,
@@ -3780,6 +3887,14 @@ body.is-subscriber-view .site-header__epaper {
 
   .publication-view-toggle__label {
     display: none;
+  }
+
+  .color-mode-toggle {
+    right: 16px;
+    bottom: 214px;
+    min-width: 104px;
+    height: 40px;
+    padding: 0 10px;
   }
 }
 
@@ -5692,4 +5807,51 @@ body.is-dh .drawer__toolbar-btn {
 /* Keep the navigation chrome sharp while visually blurring the article canvas. */
 .news-home {
   filter: blur(6px);
+}
+
+html[data-publication] .site-header__logo-image,
+html[data-publication] .drawer__logo-image {
+  opacity: 0;
+}
+
+.site-header__logo,
+.drawer__brand {
+  position: relative;
+}
+
+.site-header__logo::after,
+.drawer__brand::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 118px;
+  height: 38px;
+  background: var(--brand-500);
+  content: "";
+  pointer-events: none;
+  transform: translateY(-50%);
+  -webkit-mask: var(--logo-mask) center / contain no-repeat;
+  mask: var(--logo-mask) center / contain no-repeat;
+}
+
+body.is-dh .site-header__logo::after,
+body.is-dh .drawer__brand::after {
+  -webkit-mask-position: left center;
+  mask-position: left center;
+}
+
+@media (min-width: 1024px) {
+  .site-header__logo::after,
+  .drawer__brand::after {
+    width: 132px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-header__logo::after,
+  .drawer__brand::after {
+    width: 112px;
+    height: 38px;
+  }
 }

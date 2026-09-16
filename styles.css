@@ -82,8 +82,8 @@ html[data-publication="prajavani"] {
   --nav-section-fg: var(--brand-950);
   --nav-active: var(--brand-700);
   --nav-active-bg: var(--brand-200);
-  --nav-offering-bg: var(--brand-900);
-  --nav-offering-fg: var(--gold);
+  --nav-offering-bg: var(--brand-500);
+  --nav-offering-fg: var(--premium-gold-start);
   --nav-offering-border: var(--gold-deep);
   --nav-offering-hover-bg: var(--brand-800);
   --bottomnav-bg: var(--brand-50);
@@ -125,8 +125,8 @@ html[data-publication="deccan-herald"] {
   --nav-section-fg: var(--brand-950);
   --nav-active: var(--brand-700);
   --nav-active-bg: var(--brand-200);
-  --nav-offering-bg: var(--brand-900);
-  --nav-offering-fg: var(--gold);
+  --nav-offering-bg: var(--brand-500);
+  --nav-offering-fg: var(--premium-gold-start);
   --nav-offering-border: var(--gold-deep);
   --nav-offering-hover-bg: var(--brand-800);
   --bottomnav-bg: var(--brand-50);
@@ -4393,12 +4393,12 @@ body.is-dh .publication-view-toggle {
 
 /* Final DH header color cascade. Keep the existing responsive layout unchanged. */
 body.is-dh .site-header__utility {
-  background: var(--offering-surface) !important;
+  background: var(--nav-offering-bg) !important;
 }
 
 body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__topic-epaper {
   border-color: var(--offering-divider) !important;
-  background: var(--offering-surface) !important;
+  background: var(--nav-offering-bg) !important;
   color: var(--offering-label) !important;
 }
 
@@ -4488,7 +4488,7 @@ body.is-subscriber-view .site-header__epaper {
 }
 
 body.is-dh .site-header__utility-link:not(.site-header__utility-link--highlight) {
-  background: var(--offering-surface) !important;
+  background: var(--nav-offering-bg) !important;
   color: var(--offering-label) !important;
 }
 
@@ -4552,7 +4552,7 @@ body .site-header__secondary .site-header__topics {
 
 body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) {
   border-color: var(--offering-divider) !important;
-  background: var(--offering-surface) !important;
+  background: var(--nav-offering-bg) !important;
   color: var(--offering-label) !important;
 }
 
@@ -4602,12 +4602,12 @@ body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper > 
   .site-header__utility-link,
   .site-header__utility-link--highlight {
     background: transparent !important;
-    color: var(--gold) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body.is-dh .site-header__utility-link:not(.site-header__utility-link--highlight) {
     background: transparent !important;
-    color: var(--gold) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   .site-header__utility-link:not(:last-child)::after {
@@ -4618,12 +4618,12 @@ body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper > 
   .site-header__utility-link:not(.site-header__utility-link--highlight) > .epaper-icon,
   .site-header__utility-link:not(.site-header__utility-link--highlight) > .magazine-icon,
   .site-header__utility-link--highlight > .premium-icon {
-    background-color: var(--gold) !important;
-    color: var(--gold) !important;
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body.is-dh .site-header__utility {
-    background: var(--brand-900) !important;
+    background: var(--nav-offering-bg) !important;
   }
 }
 
@@ -4811,55 +4811,55 @@ body.is-dh .drawer__toolbar-btn {
   body:not(.is-subscriber-view) .site-header__premium-group a {
     border-color: rgba(255, 211, 77, 0.45) !important;
     background: var(--nav-offering-bg) !important;
-    color: var(--gold) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a:hover,
   body:not(.is-subscriber-view) .site-header__premium-group a:focus-visible {
     border-color: var(--gold) !important;
     background: var(--nav-offering-hover-bg) !important;
-    color: var(--gold) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a > .premium-icon,
   body:not(.is-subscriber-view) .site-header__premium-group a > .epaper-icon,
   body:not(.is-subscriber-view) .site-header__premium-group a > .magazine-icon {
-    background-color: var(--gold) !important;
-    color: var(--gold) !important;
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body.is-dh:not(.is-subscriber-view) .site-header__premium-group a {
     border-color: rgba(255, 211, 77, 0.45) !important;
-    background: var(--brand-900) !important;
-    color: var(--gold) !important;
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body.is-dh:not(.is-subscriber-view) .site-header__premium-group a:hover,
   body.is-dh:not(.is-subscriber-view) .site-header__premium-group a:focus-visible {
     border-color: var(--gold) !important;
     background: var(--brand-800) !important;
-    color: var(--gold) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   /* Keep every DH desktop sub-offering chip on the same dark/gold treatment. */
   body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__premium-group a {
     border-color: rgba(255, 211, 77, 0.45) !important;
-    background: var(--brand-900) !important;
-    color: var(--gold) !important;
+    background: var(--nav-offering-bg) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__premium-group a:hover,
   body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__premium-group a:focus-visible {
     border-color: var(--gold) !important;
     background: var(--brand-800) !important;
-    color: var(--gold) !important;
+    color: var(--nav-offering-fg) !important;
   }
 
   body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__premium-group a > .premium-icon,
   body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__premium-group a > .epaper-icon,
   body.is-dh:not(.is-subscriber-view) .site-header__topics .site-header__premium-group a > .magazine-icon {
-    background-color: var(--gold) !important;
-    color: var(--gold) !important;
+    background-color: var(--nav-offering-fg) !important;
+    color: var(--nav-offering-fg) !important;
   }
 }
 

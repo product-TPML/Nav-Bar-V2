@@ -5653,4 +5653,20 @@ body.is-dh .drawer__toolbar-btn {
   body.is-subscriber-view .site-header.is-compact .site-header__topics-shell {
     border-top: 1px solid var(--brand-500) !important;
   }
+
+  .drawer__quicklinks {
+    min-height: 28px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+
+  .drawer__quicklead {
+    height: 24px !important;
+  }
+
+  .drawer__quickchip {
+    min-height: 24px !important;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
 }

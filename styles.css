@@ -551,7 +551,7 @@ input:focus-visible {
 .site-header__profile .profile-login-arrow,
 .drawer__profile .profile-login-arrow {
   position: absolute;
-  top: 10px;
+  top: 12px;
   left: 0;
   z-index: 2;
   display: inline-flex;
@@ -560,7 +560,7 @@ input:focus-visible {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--brand-500);
+  background: #ffffff;
   pointer-events: none;
 }
 
@@ -572,9 +572,10 @@ input:focus-visible {
 
 .site-header__profile .profile-login-arrow path,
 .drawer__profile .profile-login-arrow path {
-  fill: #ffffff;
-  stroke: #ffffff;
-  stroke-width: 1.5px;
+  fill: var(--brand-500);
+  stroke: none;
+  stroke-width: 0;
+  paint-order: normal;
 }
 
 .site-header__utility {
@@ -4433,6 +4434,10 @@ body.is-dh .site-header__logo-image {
   fill: var(--topic-active) !important;
 }
 
+.site-header__profile > [data-icon="user"] svg {
+  transform: scale(0.94);
+}
+
 body.is-subscriber-view .site-header__mobile-epaper,
 body.is-subscriber-view .site-header__epaper {
   border-color: transparent !important;
@@ -4646,6 +4651,10 @@ body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper > 
 
 .drawer__profile > [data-icon="user"] svg path {
   fill: var(--topic-active) !important;
+}
+
+.drawer__profile > [data-icon="user"] svg {
+  transform: scale(0.94);
 }
 
 body.is-dh .drawer__logo-image {

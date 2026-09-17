@@ -83,7 +83,7 @@ html[data-publication="prajavani"] {
   --nav-active: var(--brand-700);
   --nav-active-bg: var(--brand-200);
   --nav-offering-bg: var(--brand-500);
-  --nav-offering-fg: var(--premium-gold-start);
+  --nav-offering-fg: #ffd761;
   --nav-offering-border: var(--gold-deep);
   --nav-offering-hover-bg: var(--brand-800);
   --bottomnav-bg: var(--brand-50);
@@ -127,7 +127,7 @@ html[data-publication="deccan-herald"] {
   --nav-active: var(--brand-700);
   --nav-active-bg: var(--brand-200);
   --nav-offering-bg: var(--brand-500);
-  --nav-offering-fg: var(--premium-gold-start);
+  --nav-offering-fg: #ffd54f;
   --nav-offering-border: var(--gold-deep);
   --nav-offering-hover-bg: var(--brand-800);
   --bottomnav-bg: var(--brand-50);
@@ -162,7 +162,7 @@ html[data-color-mode="digital"][data-publication="prajavani"] {
   --brand-900: #500d13;
   --brand-950: #2f080b;
   --nav-offering-bg: var(--brand-500);
-  --nav-offering-fg: var(--gold);
+  --nav-offering-fg: #ffd34d;
   --header-border: #e8c4c7;
   --offering-surface: #fff4f5;
   --offering-label: #791b23;
@@ -184,7 +184,7 @@ html[data-color-mode="digital"][data-publication="deccan-herald"] {
   --brand-900: #003e4c;
   --brand-950: #002934;
   --nav-offering-bg: var(--brand-500);
-  --nav-offering-fg: var(--gold);
+  --nav-offering-fg: #ffc928;
   --header-border: var(--brand-200);
   --offering-surface: var(--brand-50);
   --offering-label: var(--brand-800);
@@ -205,6 +205,7 @@ html[data-color-mode="print"][data-publication="prajavani"] {
   --brand-800: #672623;
   --brand-900: #4d1c1a;
   --brand-950: #321211;
+  --nav-offering-fg: #ffe28e;
 }
 
 html[data-color-mode="print"][data-publication="deccan-herald"] {
@@ -219,6 +220,7 @@ html[data-color-mode="print"][data-publication="deccan-herald"] {
   --brand-800: #00566f;
   --brand-900: #003e52;
   --brand-950: #002b39;
+  --nav-offering-fg: #ffdb6e;
 }
 
 * {

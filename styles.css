@@ -4488,18 +4488,18 @@ body.is-dh .drawer__quicklead {
   }
 
   .site-header__topics > a {
-    border: 1px solid var(--offering-divider) !important;
+    border: 1px solid var(--chip-border) !important;
     border-radius: 4px !important;
-    background: var(--topic-active-bg) !important;
+    background: var(--chip-bg) !important;
     box-shadow: none !important;
-    color: var(--topic-label) !important;
+    color: var(--chip-text) !important;
   }
 
   .site-header__topics > a:hover,
   .site-header__topics > a:focus-visible {
-    border-color: var(--topic-active) !important;
-    background: var(--topic-active-bg) !important;
-    color: var(--topic-active) !important;
+    border-color: var(--chip-border) !important;
+    background: var(--chip-bg) !important;
+    color: var(--chip-text) !important;
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a {
@@ -5091,12 +5091,12 @@ body.is-dh .drawer__quicklead {
 
 /* Keep API-backed secondary labels neutral at every viewport. */
 .site-header__topics > a[data-api-menu-item] {
-  color: #000000 !important;
+  color: var(--chip-text) !important;
 }
 
 .site-header__topics > a[data-api-menu-item]:hover,
 .site-header__topics > a[data-api-menu-item]:focus-visible {
-  color: #000000 !important;
+  color: var(--chip-text) !important;
 }
 
 @media (max-width: 1023px) {
@@ -5118,15 +5118,17 @@ body.is-dh .drawer__quicklead {
   }
 
   .site-header__topics > a[data-api-menu-item] {
-    color: #000000 !important;
-    background: transparent !important;
+    border: 1px solid var(--chip-border) !important;
+    color: var(--chip-text) !important;
+    background: var(--chip-bg) !important;
     box-shadow: none !important;
   }
 
   .site-header__topics > a[data-api-menu-item]:hover,
   .site-header__topics > a[data-api-menu-item]:focus-visible {
-    color: #000000 !important;
-    background: var(--brand-200) !important;
+    border-color: var(--chip-border) !important;
+    color: var(--chip-text) !important;
+    background: var(--chip-bg) !important;
   }
 
   .site-header__topics-shell::before,
@@ -5330,6 +5332,32 @@ body.is-dh .drawer__quicklead {
     padding-right: 12px;
     padding-left: 12px;
   }
+}
+
+/* Quick-link chips: neutral by default, with a brand accent on every fourth chip. */
+.site-header__topics > a[data-api-menu-item]:hover,
+.site-header__topics > a[data-api-menu-item]:focus-visible,
+.drawer__quickchip:hover,
+.drawer__quickchip:focus-visible {
+  border-color: var(--brand-300) !important;
+  background: var(--brand-100) !important;
+  color: var(--brand-800) !important;
+}
+
+.site-header__topics > a[data-api-menu-item]:nth-of-type(4n),
+.drawer__quickchip:nth-of-type(5n) {
+  border-color: var(--brand-500) !important;
+  background: var(--brand-500) !important;
+  color: var(--surface) !important;
+}
+
+.site-header__topics > a[data-api-menu-item]:nth-of-type(4n):hover,
+.site-header__topics > a[data-api-menu-item]:nth-of-type(4n):focus-visible,
+.drawer__quickchip:nth-of-type(5n):hover,
+.drawer__quickchip:nth-of-type(5n):focus-visible {
+  border-color: var(--brand-600) !important;
+  background: var(--brand-600) !important;
+  color: var(--surface) !important;
 }
 
 /* Keep the navigation chrome sharp while visually blurring the article canvas. */

@@ -706,11 +706,23 @@ input:focus-visible {
 }
 
 .site-header__topics {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
   align-items: center;
   min-height: 40px;
   padding: 0 10px;
   border-top: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+
+.site-header__topics::-webkit-scrollbar {
+  display: none;
 }
 
 .site-header__topics a {
@@ -721,6 +733,11 @@ input:focus-visible {
   font-weight: 600;
   line-height: 1.15;
   text-align: center;
+}
+
+.site-header__topics > a,
+.site-header__topics .site-header__premium-group > a {
+  flex: 0 0 auto;
 }
 
 .site-header__topics .site-header__topic-premium {
@@ -2941,28 +2958,6 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 }
 
-/* Keep the topic navigation on one scrollable line at every responsive width. */
-.site-header__topics {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  gap: 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  white-space: nowrap;
-}
-
-.site-header__topics::-webkit-scrollbar {
-  display: none;
-}
-
-.site-header__topics > a,
-.site-header__topics .site-header__premium-group > a {
-  flex: 0 0 auto;
-}
-
 @media (max-width: 1023px) {
   .is-subscriber-view .drawer__profile {
     width: 36px;
@@ -3928,22 +3923,14 @@ body.is-dh .publication-view-toggle {
     min-width: 0;
   }
 
-  .site-header__topics-shell,
-  .site-header__topics {
+  .site-header__topics-shell {
     min-height: 40px;
   }
 
   .site-header__topics {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+    height: 40px;
+    min-height: 40px;
     padding: 0 16px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .site-header__topics::-webkit-scrollbar {
-    display: none;
   }
 
   .site-header__topics a {
@@ -4018,10 +4005,6 @@ body.is-dh .publication-view-toggle {
     background: var(--brand-900);
   }
 
-  .site-header__topics {
-    height: 40px;
-    min-height: 40px;
-  }
 }
 
 /* Desktop drawer parity: expose the compact secondary rail above Premium. */

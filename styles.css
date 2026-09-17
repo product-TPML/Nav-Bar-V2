@@ -1299,6 +1299,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   gap: 12px;
   padding: 10px 12px;
   border: 1px solid #f0ddb0;
+  border-radius: 4px;
   background: var(--surface);
   font-size: 15px;
   font-weight: 500;
@@ -1608,7 +1609,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   border: 1px solid var(--offering-divider);
   background: var(--topic-active-bg);
   box-shadow: none;
-  color: var(--topic-label);
+  color: var(--brand-800);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -4040,7 +4041,7 @@ body.is-dh .publication-view-toggle {
     border: 1px solid var(--chip-border);
     border-radius: 8px;
     background: var(--chip-bg);
-    color: var(--chip-text);
+    color: var(--brand-800);
     font-size: 13px;
     font-weight: 600;
     line-height: 1.15;
@@ -4460,7 +4461,6 @@ body.is-dh .drawer__quicklead {
 .drawer__quickchip,
 .drawer__premium-item,
 .drawer__premium-cta,
-.premium-popup__item,
 .mobile-bottomnav__badge,
 .drawer__footer-contact a {
   border-radius: 4px !important;
@@ -4986,9 +4986,9 @@ body.is-dh .drawer__quicklead {
   }
 }
 
-/* Keep API-backed secondary labels neutral at every viewport. */
+/* Keep API-backed secondary labels brand-colored at every viewport. */
 .site-header__topics > a[data-api-menu-item] {
-  color: var(--chip-text) !important;
+  color: var(--brand-800) !important;
 }
 
 .site-header__topics > a[data-api-menu-item]:hover,
@@ -5015,7 +5015,7 @@ body.is-dh .drawer__quicklead {
   }
 
   .site-header__topics > a[data-api-menu-item] {
-    color: #000000 !important;
+    color: var(--brand-800) !important;
     background: transparent !important;
     box-shadow: none !important;
   }
@@ -5057,7 +5057,7 @@ body.is-dh .drawer__quicklead {
   .drawer__quickchip {
     border-color: var(--chip-border) !important;
     background: var(--chip-bg) !important;
-    color: var(--chip-text) !important;
+    color: var(--brand-800) !important;
   }
 
   .drawer__quicklead {

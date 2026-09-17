@@ -1,6 +1,6 @@
 # Context
 
-Last updated: 2026-09-03
+Last updated: 2026-09-17
 
 ## Current scope
 
@@ -47,6 +47,16 @@ Tool-state folders also exist but are not part of the page runtime:
 - Added the compact desktop drawer Premium strip with the yellow access CTA.
 - Removed the unused standalone drawer search button.
 - Removed the desktop-only Premium duplication from the mobile topics row.
+- Pruned declarations that were already superseded by the same selector in the same responsive context.
+- Consolidated shared subscription-offering colors into one token definition in `:root`.
+- Kept publication and color-mode selectors focused on brand-scale values instead of redefining shared component tokens.
+
+## CSS maintenance rule
+
+- Change an existing component rule instead of appending a new "final override" block.
+- Keep publication differences in semantic custom properties under `html[data-publication]`.
+- Keep subscriber differences under `.is-subscriber-view` and layout differences inside the existing `1023px` breakpoint.
+- Avoid new `!important` declarations. Existing ones remain as migration debt and should be removed component by component with visual regression coverage.
 
 ## Current mobile top-nav structure
 

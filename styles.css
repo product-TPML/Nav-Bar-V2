@@ -29,6 +29,7 @@
   --premium-badge-start: #ffe28e;
   --premium-badge-end: #f8c53b;
   --premium-text: #6b2b00;
+  --premium-text-deep: #4a1f00;
   --brown-900: #3f2933;
   --brown-800: #7e3400;
   --cream: #fff3c6;
@@ -226,7 +227,7 @@ html[data-color-mode="print"][data-publication="deccan-herald"] {
 /* Gold-themed subscription offerings across home and hamburger navigation. */
 html[data-publication][data-color-mode] {
   --nav-offering-bg: linear-gradient(180deg, var(--premium-gold-start) 0%, var(--premium-gold-end) 100%);
-  --nav-offering-fg: var(--premium-on-gold);
+  --nav-offering-fg: var(--premium-text-deep);
   --nav-offering-border: var(--gold-border);
   --nav-offering-hover-bg: linear-gradient(180deg, var(--premium-gold-end) 0%, var(--premium-gold-start) 100%);
 }
@@ -569,15 +570,15 @@ input:focus-visible {
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
     0 2px 0 var(--premium-shadow),
     0 4px 8px rgba(0, 0, 0, 0.18);
-  color: var(--premium-on-gold);
+  color: var(--premium-text-deep);
 }
 
 .is-subscriber-view .drawer__premium-item svg,
 .is-subscriber-view .drawer__premium-item > .premium-icon,
 .is-subscriber-view .drawer__premium-item > .epaper-icon,
 .is-subscriber-view .drawer__premium-item > .magazine-icon {
-  background-color: var(--premium-on-gold);
-  color: var(--premium-on-gold);
+  background-color: var(--premium-text-deep);
+  color: var(--premium-text-deep);
 }
 
 .is-subscriber-view .drawer__subscribe {
@@ -1615,7 +1616,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     0 2px 0 var(--premium-shadow),
     0 4px 8px rgba(0, 0, 0, 0.18);
-  color: var(--premium-on-gold);
+  color: var(--premium-text-deep);
   text-align: center;
   font-size: 14px;
   font-weight: 700;
@@ -1642,7 +1643,7 @@ body:not(.is-subscriber-view) .site-header__topics {
 .drawer__premium-item svg {
   width: 30px;
   height: 30px;
-  color: var(--brown-900);
+  color: var(--premium-text-deep);
 }
 
 .drawer__premium-item span:last-child {
@@ -1652,8 +1653,8 @@ body:not(.is-subscriber-view) .site-header__topics {
 .drawer__premium-item > .premium-icon,
 .drawer__premium-item > .epaper-icon,
 .drawer__premium-item > .magazine-icon {
-  background-color: var(--brown-900);
-  color: var(--brown-900);
+  background-color: var(--premium-text-deep);
+  color: var(--premium-text-deep);
 }
 
 .drawer__premium-cta {
@@ -4817,7 +4818,7 @@ body.is-dh .drawer__logo-image {
   box-shadow:
     inset 0 1px 0 var(--gold-border),
     inset 0 -1px 0 var(--gold-border);
-  color: var(--premium-on-gold);
+  color: var(--premium-text-deep);
   position: relative;
   isolation: isolate;
 }
@@ -4840,14 +4841,14 @@ body.is-dh .drawer__logo-image {
 
 .drawer__premium-item {
   border-color: var(--gold-deep);
-  color: var(--premium-on-gold);
+  color: var(--premium-text-deep);
 }
 
 .drawer__premium-item > .premium-icon,
 .drawer__premium-item > .epaper-icon,
 .drawer__premium-item > .magazine-icon {
-  background-color: var(--premium-on-gold);
-  color: var(--premium-on-gold);
+  background-color: var(--premium-text-deep);
+  color: var(--premium-text-deep);
 }
 
 .drawer-card {
@@ -5779,7 +5780,7 @@ body.is-dh .drawer__toolbar-btn {
   }
 
   .site-header__utility-link:not(:last-child)::after {
-    background: var(--brand-500) !important;
+    background: var(--premium-text-deep) !important;
     width: 2px;
   }
 
@@ -5886,4 +5887,26 @@ body.is-dh .drawer__brand::after {
     width: 112px;
     height: 38px;
   }
+}
+
+/* Use the deep-brown token across gold subscription buttons and their icons. */
+.site-header__subscribe,
+.drawer__subscribe,
+.drawer__premium-cta,
+.drawer__premium-item {
+  color: var(--premium-text-deep) !important;
+}
+
+.site-header__subscribe svg,
+.drawer__subscribe svg,
+.drawer__premium-cta svg,
+.drawer__premium-item svg,
+.site-header__subscribe .premium-icon,
+.drawer__subscribe .premium-icon,
+.drawer__premium-cta .premium-icon,
+.drawer__premium-item > .premium-icon,
+.drawer__premium-item > .epaper-icon,
+.drawer__premium-item > .magazine-icon {
+  background-color: var(--premium-text-deep) !important;
+  color: var(--premium-text-deep) !important;
 }

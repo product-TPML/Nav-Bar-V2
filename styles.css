@@ -36,6 +36,7 @@
     var(--premium-gold-end) 100%
   );
   --nav-offering-fg: var(--premium-text-deep);
+  --nav-offering-chip-border: rgba(255, 211, 77, 0.45);
   --nav-offering-border: var(--gold-border);
   --nav-offering-hover-bg: linear-gradient(
     180deg,
@@ -756,6 +757,12 @@ input:focus-visible {
 
 .site-header__premium-group {
   display: contents;
+}
+
+.site-header__premium-group a > span:first-child {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .page {
@@ -2433,18 +2440,6 @@ body:not(.is-subscriber-view) .site-header__topics {
     display: inline-flex !important;
   }
 
-  .site-header__premium-group {
-    display: contents;
-  }
-
-  .site-header__premium-group a,
-  .site-header__premium-group a.is-active {
-    min-height: 30px;
-    border-color: var(--gold-deep);
-    background: var(--cream);
-    color: var(--premium-text);
-  }
-
   .page {
     padding-right: 0;
     padding-left: 0;
@@ -3960,26 +3955,6 @@ body.is-dh .publication-view-toggle {
     color: var(--nav-active);
   }
 
-  .site-header__premium-group a {
-    gap: 6px;
-    border-radius: 8px;
-    border-color: rgba(255, 211, 77, 0.45);
-    background: var(--brand-900);
-    color: var(--gold);
-  }
-
-  .site-header__premium-group a:hover,
-  .site-header__premium-group a:focus-visible {
-    border-color: var(--gold);
-    background: var(--brand-800);
-    color: var(--gold);
-  }
-
-  .site-header__premium-group a > span:first-child {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
   .site-header {
     background: var(--brand-500);
   }
@@ -4206,17 +4181,17 @@ body.is-dh .site-header__utility {
 body.is-dh:not(.is-subscriber-view)
   .site-header__topics
   .site-header__topic-epaper {
-  border-color: var(--offering-divider) !important;
+  border-color: var(--nav-offering-chip-border) !important;
   background: var(--nav-offering-bg) !important;
-  color: var(--offering-label) !important;
+  color: var(--nav-offering-fg) !important;
 }
 
 body.is-dh:not(.is-subscriber-view)
   .site-header__topics
   .site-header__topic-epaper
   > .epaper-icon {
-  background-color: var(--topic-active) !important;
-  color: var(--topic-active) !important;
+  background-color: var(--nav-offering-fg) !important;
+  color: var(--nav-offering-fg) !important;
 }
 
 .site-header,
@@ -4303,6 +4278,7 @@ body.is-dh
 }
 
 .site-header__premium-group a {
+  gap: 6px;
   border-color: var(--offering-divider);
   background: var(--offering-surface);
   color: var(--offering-label);
@@ -4336,9 +4312,9 @@ body.is-dh
 }
 
 body.is-dh .site-header__premium-group a:not(.site-header__topic-premium) {
-  border-color: var(--offering-divider) !important;
+  border-color: var(--nav-offering-chip-border) !important;
   background: var(--nav-offering-bg) !important;
-  color: var(--offering-label) !important;
+  color: var(--nav-offering-fg) !important;
 }
 
 body.is-dh
@@ -4353,24 +4329,8 @@ body.is-dh
   .site-header__premium-group
   a:not(.site-header__topic-premium)
   > .magazine-icon {
-  background-color: var(--topic-active) !important;
-  color: var(--topic-active) !important;
-}
-
-@media (min-width: 1024px) {
-  body.is-dh .site-header__premium-group .site-header__topic-premium {
-    border-color: var(--gold-deep) !important;
-    background: var(--gold) !important;
-    color: var(--premium-text) !important;
-  }
-
-  body.is-dh
-    .site-header__premium-group
-    .site-header__topic-premium
-    > .premium-icon {
-    background-color: var(--premium-on-gold) !important;
-    color: var(--premium-on-gold) !important;
-  }
+  background-color: var(--nav-offering-fg) !important;
+  color: var(--nav-offering-fg) !important;
 }
 
 body.is-dh.is-subscriber-view .site-header__topics .site-header__topic-epaper {
@@ -4595,14 +4555,14 @@ body.is-dh .drawer__toolbar-btn {
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a {
-    border-color: rgba(255, 211, 77, 0.45) !important;
+    border-color: var(--nav-offering-chip-border) !important;
     background: var(--nav-offering-bg) !important;
     color: var(--nav-offering-fg) !important;
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a:hover,
   body:not(.is-subscriber-view) .site-header__premium-group a:focus-visible {
-    border-color: var(--gold) !important;
+    border-color: var(--nav-offering-fg) !important;
     background: var(--nav-offering-hover-bg) !important;
     color: var(--nav-offering-fg) !important;
   }
@@ -4614,62 +4574,15 @@ body.is-dh .drawer__toolbar-btn {
     color: var(--nav-offering-fg) !important;
   }
 
-  body.is-dh:not(.is-subscriber-view) .site-header__premium-group a {
-    border-color: rgba(255, 211, 77, 0.45) !important;
-    background: var(--nav-offering-bg) !important;
-    color: var(--nav-offering-fg) !important;
-  }
-
   body.is-dh:not(.is-subscriber-view) .site-header__premium-group a:hover,
   body.is-dh:not(.is-subscriber-view)
     .site-header__premium-group
     a:focus-visible {
-    border-color: var(--gold) !important;
-    background: var(--brand-800) !important;
+    border-color: var(--nav-offering-fg) !important;
+    background: var(--nav-offering-hover-bg) !important;
     color: var(--nav-offering-fg) !important;
   }
 
-  /* Keep every DH desktop sub-offering chip on the same dark/gold treatment. */
-  body.is-dh:not(.is-subscriber-view)
-    .site-header__topics
-    .site-header__premium-group
-    a {
-    border-color: rgba(255, 211, 77, 0.45) !important;
-    background: var(--nav-offering-bg) !important;
-    color: var(--nav-offering-fg) !important;
-  }
-
-  body.is-dh:not(.is-subscriber-view)
-    .site-header__topics
-    .site-header__premium-group
-    a:hover,
-  body.is-dh:not(.is-subscriber-view)
-    .site-header__topics
-    .site-header__premium-group
-    a:focus-visible {
-    border-color: var(--gold) !important;
-    background: var(--brand-800) !important;
-    color: var(--nav-offering-fg) !important;
-  }
-
-  body.is-dh:not(.is-subscriber-view)
-    .site-header__topics
-    .site-header__premium-group
-    a
-    > .premium-icon,
-  body.is-dh:not(.is-subscriber-view)
-    .site-header__topics
-    .site-header__premium-group
-    a
-    > .epaper-icon,
-  body.is-dh:not(.is-subscriber-view)
-    .site-header__topics
-    .site-header__premium-group
-    a
-    > .magazine-icon {
-    background-color: var(--nav-offering-fg) !important;
-    color: var(--nav-offering-fg) !important;
-  }
 }
 
 /* Keep rectangular chips and buttons consistent with hamburger card corners. */

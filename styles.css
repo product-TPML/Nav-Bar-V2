@@ -1800,14 +1800,16 @@ body:not(.is-subscriber-view) .site-header__topics {
 
 .drawer__catalog {
   display: grid;
+  gap: 14px;
   padding: 0 16px;
 }
 
 .drawer-card {
   overflow: hidden;
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  border: 0;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: none;
 }
 
 .drawer-card__trigger,
@@ -3642,10 +3644,6 @@ body.is-dh .drawer__premium-grid {
 }
 
 /* Hamburger-only visual polish: surfaces, focus states, and child-link affordances. */
-.drawer__catalog {
-  gap: 14px;
-}
-
 .drawer__catalog .drawer-card {
   transition:
     box-shadow 0.2s ease,
@@ -4402,33 +4400,6 @@ body.is-dh .drawer__logo-image {
   transform: translateX(-50%);
 }
 
-.drawer-card {
-  border-color: var(--offering-divider);
-  background: var(--surface);
-}
-
-.drawer-card__title {
-  color: var(--topic-label);
-}
-
-.drawer-card__icon {
-  border-left-color: var(--offering-divider);
-  color: var(--topic-active);
-}
-
-.drawer-card__submenu {
-  background: var(--topic-surface);
-}
-
-.drawer-card__submenu.is-expanded {
-  border-color: var(--offering-divider);
-  background: var(--topic-active-bg);
-}
-
-.drawer-card__submenu-link {
-  color: var(--topic-label);
-}
-
 .drawer__footer-links a,
 .drawer__footer-contact a {
   border-color: var(--offering-divider);
@@ -4513,16 +4484,6 @@ body.is-dh .drawer__quicklead {
 }
 
 /* Match the live PV hamburger boxes: flat white 75px rows with a 58px arrow area. */
-.drawer__catalog .drawer-card {
-  border-radius: 4px;
-  background: #ffffff;
-  box-shadow: none;
-}
-
-.drawer__catalog .drawer-card:hover {
-  box-shadow: none;
-}
-
 .drawer__catalog .drawer-card__trigger,
 .drawer__catalog .drawer-card--link {
   min-height: 75px;
@@ -4631,14 +4592,6 @@ body.is-dh .drawer__quicklead {
     border-radius: 4px;
     box-shadow: none;
   }
-}
-
-.drawer__catalog .drawer-card {
-  border: 0;
-}
-
-.drawer__catalog .drawer-card:hover {
-  border-color: transparent;
 }
 
 @media (min-width: 1024px) {

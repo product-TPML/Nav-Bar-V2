@@ -55,6 +55,7 @@
   --border: #e5e5e5;
   --border-strong: #dddddd;
   --text-900: #111111;
+  --header-primary-fg: #000000;
   --text-700: #4d4d4d;
   --text-500: #6d6d6d;
   --text-400: #929292;
@@ -2174,6 +2175,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     margin: -8px -10px;
     padding: 8px 10px;
     border-radius: 6px;
+    color: var(--header-primary-fg) !important;
     transition: color 180ms ease;
   }
 
@@ -2200,7 +2202,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   .site-header__primary-item > a:focus-visible {
     background: var(--brand-50);
     border-radius: 0;
-    color: var(--brand-950) !important;
+    color: var(--header-primary-fg) !important;
   }
 
   .site-header__primary-dropdown {
@@ -3994,7 +3996,6 @@ body.is-dh .publication-view-toggle {
     filter: brightness(0) invert(1);
   }
 
-  .site-header__primary a,
   .site-header__search-submit,
   .site-header__icon-btn {
     color: #ffffff;
@@ -4233,7 +4234,6 @@ body.is-dh .site-header__logo-image {
   filter: none !important;
 }
 
-.site-header__primary a,
 .site-header__search-submit,
 .site-header__icon-btn {
   color: var(--topic-active) !important;
@@ -4592,19 +4592,6 @@ body.is-dh .drawer__toolbar-btn {
     border-color: var(--topic-active) !important;
     background: var(--topic-active-bg) !important;
     color: var(--topic-active) !important;
-  }
-
-  .site-header__primary a {
-    color: var(--topic-label) !important;
-  }
-
-  .site-header__primary a:hover,
-  .site-header__primary a:focus-visible {
-    color: var(--topic-active) !important;
-  }
-
-  body.is-subscriber-view .site-header__primary .site-header__primary-premium {
-    color: var(--premium-text) !important;
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a {
@@ -5246,14 +5233,11 @@ body.is-dh .drawer__toolbar-btn {
   }
 }
 
-/* Give primary edit-nav labels a publication-colored treatment at every viewport. */
-.site-header__primary-item > a,
+/* Keep API-backed secondary labels neutral at every viewport. */
 .site-header__topics > a[data-api-menu-item] {
   color: #000000 !important;
 }
 
-.site-header__primary-item > a:hover,
-.site-header__primary-item > a:focus-visible,
 .site-header__topics > a[data-api-menu-item]:hover,
 .site-header__topics > a[data-api-menu-item]:focus-visible {
   color: #000000 !important;

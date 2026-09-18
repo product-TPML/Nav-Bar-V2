@@ -1016,6 +1016,18 @@ input:focus-visible {
   mask-size: contain;
 }
 
+.magazine-icon--asset {
+  background-color: transparent;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.magazine-icon--asset > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .site-header__epaper .epaper-icon,
 .site-header__mobile-epaper .epaper-icon {
   width: 25px;

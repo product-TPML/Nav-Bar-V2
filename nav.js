@@ -41,9 +41,52 @@
     "print-scan": "PS",
     print: "P"
   };
+  var magazineIconSources = {
+    book: "assets/sudha-magazine-icon.svg",
+    map: "assets/mayura-magazine-icon.svg"
+  };
+  var magazineIconMarkup = {};
+  var magazineIconLoads = {};
 
   function qsa(selector, context) {
     return Array.prototype.slice.call((context || document).querySelectorAll(selector));
+  }
+
+  function hydrateMagazineIcons() {
+    Object.keys(magazineIconSources).forEach(function (iconName) {
+      var applyMarkup = function (markup) {
+        qsa('[data-icon="' + iconName + '"]').forEach(function (element) {
+          if (!element.classList.contains("magazine-icon")) {
+            return;
+          }
+          element.innerHTML = markup;
+          element.classList.add("magazine-icon--asset");
+          element.style.backgroundColor = "transparent";
+          element.style.webkitMaskImage = "none";
+          element.style.maskImage = "none";
+        });
+      };
+
+      if (magazineIconMarkup[iconName]) {
+        applyMarkup(magazineIconMarkup[iconName]);
+        return;
+      }
+
+      if (!magazineIconLoads[iconName]) {
+        magazineIconLoads[iconName] = fetch(magazineIconSources[iconName])
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("Unable to load " + iconName + " magazine icon");
+            }
+            return response.text();
+          })
+          .then(function (markup) {
+            magazineIconMarkup[iconName] = markup.replace(/^\s*<\?xml[^>]*\?>\s*/, "");
+            applyMarkup(magazineIconMarkup[iconName]);
+          })
+          .catch(function () {});
+      }
+    });
   }
 
   function applyColorMode(mode) {
@@ -714,6 +757,8 @@
         element.innerHTML = icon;
       }
     });
+
+    hydrateMagazineIcons();
   }
 
   function positionGooNear(trigger) {

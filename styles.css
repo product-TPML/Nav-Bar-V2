@@ -1306,6 +1306,24 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-weight: 500;
 }
 
+@media (max-width: 1023px) {
+  .premium-popup__card {
+    background: var(--drawer-bg);
+  }
+
+  .premium-popup__header {
+    margin: -20px -20px 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--drawer-border);
+    background: var(--brand-100);
+  }
+
+  .premium-popup__item {
+    border-color: var(--drawer-border);
+    background: var(--drawer-raised-bg);
+  }
+}
+
 .drawer {
   position: fixed;
   inset: 0;
@@ -3352,21 +3370,6 @@ body:not(.is-subscriber-view) .site-header__topics {
     color: var(--brand-800);
   }
 
-  .premium-popup__card {
-    background: var(--drawer-bg);
-  }
-
-  .premium-popup__header {
-    margin: -20px -20px 14px;
-    padding: 16px 20px;
-    background: var(--brand-100);
-    border-bottom: 1px solid var(--drawer-border);
-  }
-
-  .premium-popup__item {
-    border-color: var(--drawer-border);
-    background: var(--drawer-raised-bg);
-  }
 }
 
 /* Deccan Herald typography remains publication-specific; tokens are defined above. */

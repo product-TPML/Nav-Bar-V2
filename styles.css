@@ -4904,19 +4904,6 @@ body.is-dh .drawer__quicklead {
     border-bottom-color: var(--brand-500) !important;
   }
 
-  .drawer__topbar,
-  .drawer__topbar::before {
-    border-bottom-color: var(--brand-500) !important;
-  }
-
-  .site-header {
-    border-bottom: 1px solid var(--brand-500) !important;
-  }
-
-  .site-header__secondary {
-    border-top: 0 !important;
-  }
-
   .drawer__topbar {
     position: sticky;
     top: 0;
@@ -5121,10 +5108,6 @@ body.is-dh .drawer__quicklead {
     border-bottom-width: 1px !important;
   }
 
-  .site-header__secondary {
-    border-top-width: 1px !important;
-  }
-
   .drawer__topbar::before,
   .drawer__quicklinks {
     border-bottom-width: 1px !important;
@@ -5174,11 +5157,6 @@ body.is-dh .drawer__quicklead {
   .site-header__topics-shell,
   .drawer__topbar {
     border-bottom: 1px solid var(--brand-500) !important;
-  }
-
-  .site-header__topics {
-    border-top: 0 !important;
-    border-bottom: 0 !important;
   }
 
   body:not(.is-subscriber-view) .site-header.is-compact .site-header__utility,

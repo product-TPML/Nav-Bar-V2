@@ -769,7 +769,7 @@ input:focus-visible {
   display: none;
 }
 
-.site-header__topic-premium-extra {
+.site-header__topics .site-header__topic-premium-extra {
   display: none;
 }
 
@@ -2549,7 +2549,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     display: inline-flex;
   }
 
-  .site-header__topic-premium-extra {
+  .site-header__topics .site-header__topic-premium-extra {
     display: inline-flex;
   }
 

@@ -4382,14 +4382,14 @@ body.is-dh .drawer__quicklead {
     border-radius: 4px !important;
     background: var(--chip-bg) !important;
     box-shadow: none !important;
-    color: var(--chip-text) !important;
+    color: var(--chip-text);
   }
 
   .site-header__topics > a:hover,
   .site-header__topics > a:focus-visible {
     border-color: var(--chip-border) !important;
     background: var(--chip-bg) !important;
-    color: var(--chip-text) !important;
+    color: var(--chip-text);
   }
 
   body:not(.is-subscriber-view) .site-header__premium-group a {
@@ -4960,16 +4960,6 @@ body.is-dh .drawer__quicklead {
   }
 }
 
-/* Keep API-backed secondary labels brand-colored at every viewport. */
-.site-header__topics > a[data-api-menu-item] {
-  color: var(--brand-800) !important;
-}
-
-.site-header__topics > a[data-api-menu-item]:hover,
-.site-header__topics > a[data-api-menu-item]:focus-visible {
-  color: var(--chip-text) !important;
-}
-
 @media (max-width: 1023px) {
   .site-header {
     border-bottom: 0 !important;
@@ -4989,15 +4979,15 @@ body.is-dh .drawer__quicklead {
   }
 
   .site-header__topics > a[data-api-menu-item] {
-    color: var(--brand-800) !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    color: var(--brand-800);
+    background: transparent;
+    box-shadow: none;
   }
 
   .site-header__topics > a[data-api-menu-item]:hover,
   .site-header__topics > a[data-api-menu-item]:focus-visible {
-    color: #000000 !important;
-    background: var(--brand-200) !important;
+    color: #000000;
+    background: var(--brand-200);
   }
 
   .site-header__topics-shell::before,
@@ -5231,11 +5221,15 @@ body.is-dh .drawer__quicklead {
 }
 
 @media (min-width: 1024px) {
+  .site-header__topics > a[data-api-menu-item] {
+    color: var(--brand-800);
+  }
+
   .site-header__topics > a[data-api-menu-item]:hover,
   .site-header__topics > a[data-api-menu-item]:focus-visible {
     border-color: var(--brand-300) !important;
     background: var(--brand-100) !important;
-    color: var(--brand-800) !important;
+    color: var(--brand-800);
   }
 
   .site-header__topics > a[data-api-menu-item]:nth-of-type(4n) {

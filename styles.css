@@ -392,6 +392,7 @@ input:focus-visible {
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
+  color: var(--premium-text-deep);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -1441,6 +1442,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
+  color: var(--premium-text-deep);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -1665,6 +1667,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.1;
+  color: var(--premium-text-deep);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -1718,6 +1721,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.15;
+  color: var(--premium-text-deep);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -5296,29 +5300,4 @@ body.is-dh .drawer__brand::after {
     width: 112px;
     height: 38px;
   }
-}
-
-/* Use the deep-brown token across gold subscription buttons and their icons. */
-.site-header__subscribe,
-.drawer__subscribe,
-.drawer__premium-cta,
-.drawer__premium-item {
-  color: var(--premium-text-deep) !important;
-}
-
-.site-header__subscribe svg,
-.drawer__subscribe svg,
-.drawer__premium-cta svg,
-.drawer__premium-item svg {
-  color: var(--premium-text-deep) !important;
-}
-
-.site-header__subscribe .premium-icon,
-.drawer__subscribe .premium-icon,
-.drawer__premium-cta .premium-icon,
-.drawer__premium-item > .premium-icon,
-.drawer__premium-item > .epaper-icon,
-.drawer__premium-item > .magazine-icon {
-  background-color: var(--premium-text-deep) !important;
-  color: var(--premium-text-deep) !important;
 }

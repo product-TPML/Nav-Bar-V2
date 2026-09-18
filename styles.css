@@ -3138,7 +3138,15 @@ body:not(.is-subscriber-view) .site-header__topics {
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    color: var(--premium-on-gold);
+    color: var(--premium-text-deep);
+  }
+
+  .is-subscriber-view
+    .site-header__topics
+    .site-header__topic-premium
+    > .premium-icon {
+    background-color: var(--premium-text-deep);
+    color: var(--premium-text-deep);
   }
 
   .site-header__topics > a[data-api-menu-item] {

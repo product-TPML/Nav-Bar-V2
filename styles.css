@@ -590,11 +590,11 @@ input:focus-visible {
   align-items: center;
   justify-content: center;
   align-self: center;
-  color: var(--topic-active);
+  color: var(--header-primary-fg);
 }
 
 .site-header__search-submit {
-  color: var(--topic-active);
+  color: var(--header-primary-fg);
 }
 
 .site-header__icon-btn svg {
@@ -649,7 +649,13 @@ input:focus-visible {
   height: 11px;
 }
 
-.site-header__profile .profile-login-arrow path,
+.site-header__profile .profile-login-arrow path {
+  fill: var(--header-primary-fg);
+  stroke: none;
+  stroke-width: 0;
+  paint-order: normal;
+}
+
 .drawer__profile .profile-login-arrow path {
   fill: var(--brand-500);
   stroke: none;
@@ -670,7 +676,7 @@ input:focus-visible {
 }
 
 .site-header__profile > [data-icon="user"] svg path {
-  fill: var(--topic-active);
+  fill: var(--header-primary-fg);
 }
 
 .site-header__utility-link {
@@ -1498,7 +1504,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   height: 36px;
   align-items: center;
   justify-content: center;
-  color: var(--topic-active);
+  color: var(--header-primary-fg);
 }
 
 .drawer__mobile-search svg {
@@ -1571,7 +1577,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   align-items: center;
   justify-content: center;
   align-self: center;
-  color: var(--topic-active);
+  color: var(--header-primary-fg);
 }
 
 .drawer__toolbar-btn svg {
@@ -1586,7 +1592,7 @@ body:not(.is-subscriber-view) .site-header__topics {
 }
 
 .drawer__profile > [data-icon="user"] svg path {
-  fill: var(--topic-active);
+  fill: var(--header-primary-fg);
 }
 
 .drawer__profile-badge {

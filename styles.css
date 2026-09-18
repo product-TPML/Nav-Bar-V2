@@ -4520,10 +4520,10 @@ body.is-dh .drawer__quicklead {
 }
 
 .drawer__catalog .drawer-card__submenu.is-expanded {
-  border: 0;
+  border: 1px solid var(--drawer-border);
   border-radius: 4px;
   overflow: hidden;
-  background: var(--drawer-raised-bg);
+  background: var(--drawer-expanded-bg);
   box-shadow: none;
   padding-bottom: 8px;
 }
@@ -4603,12 +4603,12 @@ body.is-dh .drawer__quicklead {
 @media (min-width: 1024px) {
   /* Keep every parent card surfaced while the desktop submenu is open. */
   .drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main {
-    border-top: 1px solid var(--brand-300) !important;
-    border-right: 1px solid var(--brand-300) !important;
-    border-bottom: 4px solid var(--brand-300) !important;
-    border-left: 1px solid var(--brand-300) !important;
-    border-radius: 4px !important;
-    padding: 0 20px !important;
+    border-top: 1px solid var(--brand-300);
+    border-right: 1px solid var(--brand-300);
+    border-bottom: 4px solid var(--brand-300);
+    border-left: 1px solid var(--brand-300);
+    border-radius: 4px;
+    padding: 0 20px;
   }
 
   .drawer__catalog.has-expanded-card
@@ -4623,20 +4623,20 @@ body.is-dh .drawer__quicklead {
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__trigger {
-    border-radius: 4px !important;
+    border-radius: 4px;
     overflow: hidden;
   }
 
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__main {
-    border-radius: 4px 0 0 4px !important;
+    border-radius: 4px 0 0 4px;
   }
 
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__icon {
-    border-radius: 0 4px 4px 0 !important;
+    border-radius: 0 4px 4px 0;
   }
 
   .drawer__catalog.has-expanded-card
@@ -4645,28 +4645,28 @@ body.is-dh .drawer__quicklead {
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__icon {
-    border-top-color: var(--brand-500) !important;
-    border-bottom-color: var(--brand-500) !important;
+    border-top-color: var(--brand-500);
+    border-bottom-color: var(--brand-500);
   }
 
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__main {
-    border-left-color: var(--brand-500) !important;
+    border-left-color: var(--brand-500);
   }
 
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__icon {
-    border-left-color: var(--brand-400) !important;
-    border-right-color: var(--brand-500) !important;
+    border-left-color: var(--brand-400);
+    border-right-color: var(--brand-500);
   }
 
   .drawer__catalog.has-expanded-card .drawer-card__submenu.is-expanded {
     background: var(--brand-50);
-    max-height: none !important;
+    max-height: none;
     overflow: visible;
-    padding: 8px 16px 12px !important;
+    padding: 8px 16px 12px;
   }
 }
 

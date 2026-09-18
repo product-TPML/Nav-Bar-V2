@@ -1035,8 +1035,8 @@ input:focus-visible {
   > .epaper-icon,
 .site-header__utility-link:not(.site-header__utility-link--highlight)
   > .magazine-icon {
-  background-color: var(--topic-active) !important;
-  color: var(--topic-active) !important;
+  background-color: var(--topic-active);
+  color: var(--topic-active);
 }
 
 .site-header__utility-link--highlight > .premium-icon {
@@ -3101,7 +3101,7 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .site-header__topics-shell,
   .site-header__topics {
-    background: var(--brand-50);
+    background: var(--brand-500);
   }
 
   .site-header__topics {
@@ -3161,15 +3161,16 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .site-header__topics > a[data-api-menu-item] {
-    color: var(--brand-800);
+    color: var(--surface);
     background: transparent;
     box-shadow: none;
   }
 
   .site-header__topics > a[data-api-menu-item]:hover,
-  .site-header__topics > a[data-api-menu-item]:focus-visible {
-    color: #000000;
-    background: var(--brand-200);
+  .site-header__topics > a[data-api-menu-item]:focus-visible,
+  .site-header__topics > a[data-api-menu-item].is-active {
+    color: var(--surface);
+    background: var(--brand-600);
   }
 
   .site-header__utility-link:not(:last-child)::after {
@@ -3191,7 +3192,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     right: -9px;
     width: 2px;
     height: 14px;
-    background: var(--brand-500);
+    background: var(--surface);
     content: "";
     transform: translateY(-50%);
   }
@@ -3336,7 +3337,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   .site-header__topics-shell::after {
     background: linear-gradient(
       90deg,
-      var(--brand-50) 0%,
+      var(--brand-500) 0%,
       rgba(255, 255, 255, 0) 100%
     );
   }
@@ -3345,7 +3346,7 @@ body:not(.is-subscriber-view) .site-header__topics {
     background: linear-gradient(
       90deg,
       rgba(255, 255, 255, 0),
-      var(--brand-50) 82%
+      var(--brand-500) 82%
     );
   }
   .page {
@@ -3975,7 +3976,7 @@ body.is-dh .publication-view-toggle {
     width: 24px;
     background: linear-gradient(
       90deg,
-      var(--nav-top-bg) 0%,
+      var(--brand-500) 0%,
       rgba(255, 255, 255, 0) 100%
     );
     content: "";
@@ -3989,7 +3990,7 @@ body.is-dh .publication-view-toggle {
     background: linear-gradient(
       90deg,
       rgba(255, 255, 255, 0),
-      var(--nav-top-bg) 82%
+      var(--brand-500) 82%
     );
   }
 }

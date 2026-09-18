@@ -1,4 +1,5 @@
 .playwright-mcp/
+.deja/
+/debug/
 /*-screenshot.*
 /screenshot-*.*
-/desktop-secondary-nav.png

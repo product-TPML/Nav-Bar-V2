@@ -1327,10 +1327,88 @@
     });
   }
 
+  function bindSubscribeFit() {
+    var button = document.querySelector(".site-header__subscribe");
+    var top = document.querySelector(".site-header__top");
+    var logo = document.querySelector(".site-header__logo");
+    var actions = document.querySelector(".site-header__actions");
+    if (!button || !top || !logo || !actions) return;
+
+    function updateFit() {
+      button.classList.remove("is-icon-hidden");
+      if (desktopBreakpoint.matches || !button.getBoundingClientRect().width) return;
+      var topBounds = top.getBoundingClientRect();
+      var actionBounds = actions.getBoundingClientRect();
+      var logoBounds = logo.getBoundingClientRect();
+      var style = getComputedStyle(top);
+      var gap = Math.max(4, parseFloat(style.columnGap) || 0);
+      button.classList.toggle("is-icon-hidden",
+        actionBounds.left <= logoBounds.right + gap + 1 ||
+        actionBounds.right > topBounds.right - parseFloat(style.paddingRight) + 1);
+    }
+
+    var observer = new ResizeObserver(updateFit);
+    observer.observe(top);
+    observer.observe(button.querySelector(".site-header__subscribe-label"));
+    new MutationObserver(updateFit).observe(button, { childList: true, subtree: true, characterData: true });
+    new MutationObserver(updateFit).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    window.addEventListener("resize", updateFit);
+    if (document.fonts) {
+      document.fonts.ready.then(updateFit);
+      document.fonts.addEventListener("loadingdone", updateFit);
+    }
+    updateFit();
+  }
+
+  function bindOfferingFit() {
+    var bar = document.querySelector(".site-header__utility");
+    if (!bar) return;
+
+    function updateFit() {
+      // Measure the full icon-and-label layout even when icons were hidden.
+      // Both changes happen before painting, so narrow screens never flash icons.
+      bar.classList.remove("is-icons-hidden");
+      bar.classList.remove("is-spacing-tight");
+      if (desktopBreakpoint.matches || document.body.classList.contains("is-dh") ||
+          document.body.classList.contains("is-subscriber-view") || !bar.clientWidth) return;
+
+      function contentIsTight() {
+        return qsa(".site-header__utility-link", bar).some(function (link) {
+          var bounds = link.getBoundingClientRect();
+          var style = getComputedStyle(link);
+          var left = bounds.left + parseFloat(style.paddingLeft);
+          var right = bounds.right - parseFloat(style.paddingRight);
+          return Array.prototype.some.call(link.children, function (child) {
+            var content = child.getBoundingClientRect();
+            return content.width > 0 && (content.left <= left + 1 || content.right >= right - 1);
+          });
+        });
+      }
+      if (contentIsTight()) bar.classList.add("is-spacing-tight");
+      bar.classList.toggle("is-icons-hidden", contentIsTight());
+    }
+
+    var observer = new ResizeObserver(updateFit);
+    observer.observe(bar);
+    qsa(".site-header__utility-link > span:last-child", bar).forEach(function (label) {
+      observer.observe(label);
+    });
+    new MutationObserver(updateFit).observe(bar, { childList: true, subtree: true, characterData: true });
+    new MutationObserver(updateFit).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    window.addEventListener("resize", updateFit);
+    if (document.fonts) {
+      document.fonts.ready.then(updateFit);
+      document.fonts.addEventListener("loadingdone", updateFit);
+    }
+    updateFit();
+  }
+
   function init() {
     applyColorMode(document.documentElement.getAttribute("data-color-mode"));
     buildIcons();
     renderSubscriptionOfferings(false);
+    bindSubscribeFit();
+    bindOfferingFit();
     syncDrawerSearchLayout();
     preventSearchSubmit();
     bindEvents();

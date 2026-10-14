@@ -30,11 +30,11 @@
   --premium-card-end: #ffe9a0;
   --premium-border: #d29a10;
   --premium-shadow: #b77d08;
-  --premium-on-gold: #211700;
+  --premium-on-gold: #000000;
   --premium-badge-start: #ffe28e;
   --premium-badge-end: #f8c53b;
-  --premium-text: #6b2b00;
-  --premium-text-deep: #4a1f00;
+  --premium-text: #000000;
+  --premium-text-deep: #000000;
   --nav-offering-bg: linear-gradient(
     180deg,
     var(--premium-gold-start) 0%,
@@ -1075,6 +1075,7 @@ body.is-nonsubscriber-bottom-hidden .bottom-ad {
 
 .premium-badge {
   display: inline-flex;
+  color: var(--premium-on-gold);
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -2238,8 +2239,7 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .drawer__premium-grid {
     gap: 7px;
-    margin-right: 4px;
-    margin-left: 4px;
+    margin-inline: 0;
   }
 
   .drawer__premium-item {
@@ -2329,9 +2329,9 @@ body:not(.is-subscriber-view) .site-header__topics {
     margin-left: 0;
     min-width: 0;
     width: max-content;
-    height: 36px;
-    min-height: 36px;
-    align-self: center;
+    /* Leave a 1px inset above and below inside the 32px secondary bar. */
+    height: 30px;
+    min-height: 30px;
     align-items: center;
     justify-content: flex-start;
     gap: 6px;
@@ -3329,7 +3329,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   body.is-subscriber-view .site-header__mobile-epaper:focus-visible {
     border-color: var(--gold);
     background: var(--nav-offering-hover-bg);
-    color: var(--gold);
+    color: var(--premium-on-gold);
   }
 
   body.is-subscriber-view .site-header__mobile-epaper > .epaper-icon {
@@ -4310,6 +4310,7 @@ body.is-dh .publication-view-toggle {
 
   .deskchip--offering {
     background: var(--premium-gold-start);
+    color: var(--premium-on-gold);
   }
 
   .deskchip--offering:hover,
@@ -5479,9 +5480,14 @@ body.is-dh .drawer__brand::after {
     border-radius: 4px;
     background: linear-gradient(180deg, #ffd65f 0%, #f9c942 100%);
     box-shadow: 0 2px 0 0 #d29a10;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: #000000;
+  }
+
+  .site-header__subscribe .premium-icon {
+    width: 24px;
+    height: 24px;
   }
 
   .site-header__subscribe::after {
@@ -5514,53 +5520,48 @@ body.is-dh .drawer__brand::after {
     }
   }
 
-  @media (max-width: 359px) {
-    body:not(.is-subscriber-view) .site-header__subscribe {
-      font-size: 13px;
-    }
-
-    body:not(.is-subscriber-view) .site-header__subscribe > .premium-icon {
-      display: none;
-    }
+  /* Preserve the brand logo's size; hide Nandhi when the top row is tight. */
+  .site-header__subscribe.is-icon-hidden > .premium-icon {
+    display: none;
   }
 
-  /* ---- Row 2: Offerings strip (38px, gold) ---- */
+  /* ---- Row 2: Offerings strip (32px, gold) ---- */
   .site-header__utility {
-    height: 38px;
+    height: 32px;
     padding: 0 8px;
     background: #ffd34d;
   }
 
-  /* Fit all four PV offerings (with icons) in the row without a horizontal
-     scroll. Each item sizes to its own text instead of being forced to the
-     widest item's width, so the row fits comfortably down to ~300px. */
+  /* Keep all four PV offerings in one row; fit detection hides icons before
+     their content reaches the neighbouring column. */
   body:not(.is-dh):not(.is-subscriber-view) .site-header__utility {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
     overflow: hidden;
   }
 
+  /* Give each offering an equal quarter of the bar with its label centred, so
+     the items spread evenly on wide screens AND the per-item right divider sits
+     exactly on the column boundary — i.e. centred in the gap between labels. */
   body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link {
-    flex: 0 1 auto;
+    flex: 1 1 0;
     min-width: 0;
+    justify-content: center;
   }
 
-  /* On narrow phones (<=410px) the four labels + icons get cramped, so drop the
-     icons and keep text-only. Above 410px there is room, so the icons stay. */
-  @media (max-width: 410px) {
-    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link > .premium-icon,
-    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link > .epaper-icon,
-    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link > .magazine-icon {
-      display: none;
-    }
+  /* Before hiding icons, share space according to label width and tighten
+     padding so the complete offerings still fit on a 340px phone. */
+  body:not(.is-dh):not(.is-subscriber-view) .site-header__utility.is-spacing-tight .site-header__utility-link {
+    flex: 1 1 auto;
+    padding-inline: 2px;
+    gap: 2px;
+  }
 
-    /* With the icons gone, give each offering an equal share of the row so the
-       labels sit centred instead of hugging the edges. */
-    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link {
-      flex: 1 1 0;
-      justify-content: center;
-    }
+  /* Driven by actual content width, including font and device-size changes. */
+  body:not(.is-dh):not(.is-subscriber-view) .site-header__utility.is-icons-hidden .site-header__utility-link > .premium-icon,
+  body:not(.is-dh):not(.is-subscriber-view) .site-header__utility.is-icons-hidden .site-header__utility-link > .epaper-icon,
+  body:not(.is-dh):not(.is-subscriber-view) .site-header__utility.is-icons-hidden .site-header__utility-link > .magazine-icon {
+    display: none;
   }
 
   /* Keep the premium offerings pinned on scroll, just like the topics bar —
@@ -5575,12 +5576,12 @@ body.is-dh .drawer__brand::after {
   .site-header__utility-link {
     min-height: 22px;
     height: 22px;
-    gap: 6px;
-    padding: 0 6px;
+    gap: 4px;
+    padding: 0 4px;
     border-radius: 6px;
     background: #ffd761;
-    color: #111111;
-    font-size: 16px;
+    color: var(--premium-on-gold);
+    font-size: 14px;
   }
 
   .site-header__utility-link--highlight {
@@ -5588,17 +5589,22 @@ body.is-dh .drawer__brand::after {
     color: #000000;
   }
 
-  /* ---- Row 3: Topics strip (38px) ---- */
+  /* ---- Row 3: Topics strip (32px) ---- */
   .site-header__topics-shell,
   .site-header__topics {
-    height: 38px;
+    height: 32px;
+  }
+
+  /* Override the base min-height: 40px so the bar can actually shrink to 32px. */
+  .site-header__topics {
+    min-height: 32px;
   }
 
   .site-header__topics a,
   .site-header__topics .site-header__topic-premium,
   .site-header__topics .site-header__topic-epaper,
   .site-header__topics .site-header__topic-premium-extra {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   /* ---- Subscriber view (mobile) ----
@@ -5610,7 +5616,7 @@ body.is-dh .drawer__brand::after {
     padding: 0 8px;
     border-radius: 6px;
     background: #ffd761;
-    color: #111111;
+    color: var(--premium-on-gold);
     font-size: 16px;
     font-weight: 700;
   }
@@ -5618,13 +5624,6 @@ body.is-dh .drawer__brand::after {
   .is-subscriber-view .site-header__mobile-epaper .epaper-icon {
     width: 19px;
     height: 16px;
-  }
-
-  /* The inner topics nav must fill the 38px shell so there's no red gap below,
-     and the 36px pinned premium chip centres with a 1px top/bottom inset. */
-  .is-subscriber-view .site-header__topics {
-    height: 38px;
-    min-height: 38px;
   }
 
   /* ---- Hamburger menu cards (mobile accordion) ----

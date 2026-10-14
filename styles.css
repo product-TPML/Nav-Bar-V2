@@ -5451,7 +5451,7 @@ body.is-dh .drawer__brand::after {
   }
 
   .site-header__actions {
-    gap: 16px;
+    gap: 12px;
   }
 
   /* Figma mobile top bar has no search icon. */
@@ -5488,10 +5488,6 @@ body.is-dh .drawer__brand::after {
   .site-header__subscribe .premium-icon {
     width: 24px;
     height: 24px;
-  }
-
-  .site-header__subscribe::after {
-    display: none;
   }
 
   /* Compact non-subscriber home header without shrinking the visible logo. */

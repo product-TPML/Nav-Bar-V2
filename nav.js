@@ -13,6 +13,7 @@
   var siteHeader = document.querySelector(".site-header");
   var desktopBreakpoint = window.matchMedia("(min-width: 1024px)");
   var lastScrollY = window.scrollY;
+  var lastDesktopScrollY = window.scrollY;
   var lastScrollAt = Date.now();
   var lastScrollDirection = "stationary";
   var upwardBurstActive = false;
@@ -218,7 +219,7 @@
   }
 
   function isDrawerMenuItemExcluded(item) {
-    return !item || !item.title || /premium|sudha|mayura|subscribe|subscription/i.test(item.title);
+    return !item || !item.title || /premium|e[\s–—-]?paper|sudha|mayura|subscribe|subscription|ಇ[–—-]?ಪೇಪರ್/i.test(item.title);
   }
 
   function renderDrawerQuicklinks(items, base) {
@@ -273,6 +274,11 @@
         directTitle.className = "drawer-card__title";
         directTitle.textContent = rootItem.title.trim();
         directMain.appendChild(directTitle);
+        var directChevron = document.createElement("span");
+        directChevron.className = "drawer-card__link-chevron";
+        directChevron.setAttribute("data-icon", "arrow");
+        directChevron.setAttribute("aria-hidden", "true");
+        directMain.appendChild(directChevron);
         directLink.appendChild(directMain);
         fragment.appendChild(directLink);
         return;
@@ -547,6 +553,41 @@
     };
   }
 
+  /* Static Deccan Herald hamburger catalog — the 15 categories from the Figma
+     design (the live DH menu API returns a sparse, submenu-less set). Each
+     category carries a submenu so it renders as a full card with a chevron. */
+  function getDhHamburgerMenu() {
+    /* A third entry of [] means no submenu — the card renders as a plain link
+       (no chevron), matching the single-line cards in the Figma. */
+    var groups = [
+      ["India", "/national", ["Politics", "Karnataka", "South", "North", "Elections"]],
+      ["World", "/international", ["Americas", "Europe", "Asia", "Middle East"]],
+      ["Entertainment", "/entertainment", []],
+      ["Health", "/health", []],
+      ["Karnataka", "/state", ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi"]],
+      ["Business", "/business", ["Markets", "Economy", "Startups", "Budget"]],
+      ["Politics", "/national/politics", ["National", "State", "Elections", "Analysis"]],
+      ["Education", "/education", []],
+      ["Sports", "/sports", ["Cricket", "Football", "Tennis", "Motorsport"]],
+      ["Bengaluru", "/city/bengaluru", []],
+      ["Technology", "/technology", ["Gadgets", "AI", "Apps", "Science"]],
+      ["Opinion", "/opinion", ["Editorial", "Columns", "Analysis", "Letters"]],
+      ["Video", "/video", []],
+      ["Features", "/features", ["Lifestyle", "Travel", "Food", "Books"]],
+      ["DH Brandspot", "/brandspot", []]
+    ];
+    var items = [];
+    groups.forEach(function (group, index) {
+      var rootId = "dh-ham-" + index;
+      items.push(fallbackMenuItem(rootId, group[0], group[1], null));
+      group[2].forEach(function (childTitle, childIndex) {
+        var slug = childTitle.toLowerCase().replace(/\s+/g, "-");
+        items.push(fallbackMenuItem(rootId + "-" + childIndex, childTitle, group[1] + "/" + slug, rootId));
+      });
+    });
+    return items;
+  }
+
   function loadApiMenus() {
     var brand = document.body.classList.contains("is-dh") ? "dh" : "pv";
     var fallback = getFallbackMenus(brand);
@@ -569,20 +610,18 @@
           primary: primaryItems,
           secondary: secondaryItems
         };
-        renderApiMenu("default", primaryItems, 7, true);
         renderResponsiveEditorialMenu(primaryItems, secondaryItems);
         renderDrawerQuicklinks(secondaryItems, base);
-        renderDrawerCatalog(primaryItems, base);
+        renderDrawerCatalog(brand === "dh" ? getDhHamburgerMenu() : primaryItems, base);
       })
       .catch(function (error) {
         loadedMenuData = {
           primary: fallback.primary,
           secondary: fallback.secondary
         };
-        renderApiMenu("default", fallback.primary, 7, true);
         renderResponsiveEditorialMenu(fallback.primary, fallback.secondary);
         renderDrawerQuicklinks(fallback.secondary, menuApiBases[brand]);
-        renderDrawerCatalog(fallback.primary, menuApiBases[brand]);
+        renderDrawerCatalog(brand === "dh" ? getDhHamburgerMenu() : fallback.primary, menuApiBases[brand]);
         qsa("[data-api-menu-status]").forEach(function (status) {
           status.hidden = true;
         });
@@ -638,7 +677,20 @@
     setPublicationCopy(".story__summary", ["Rain moves towards the highways linking the southern and northern districts of Karnataka", "Good yields and better prices bring smiles to farmers"], isDh);
     setPublicationCopy(".feature-card__label, .rail-link", ["More →", "Stay connected for the latest news"], isDh);
 
-    setPublicationCopy(".mobile-bottomnav__item > span:last-child, .mobile-bottomnav__premium-label", ["Home", "Podcast", "Premium", "Menu"], isDh);
+    setPublicationCopy(".mobile-bottomnav__item > span:last-child", ["Home", "Podcast", "Video", "News Shots", "Menu"], isDh);
+
+    // The 4th bottom-nav slot is PV's Dharane; DH has no Dharane, so swap it
+    // for News Shots (icon + label) in DH.
+    var bottomNavItems = qsa(".mobile-bottomnav__item");
+    if (bottomNavItems[3]) {
+      var slotIcon = bottomNavItems[3].querySelector(".mobile-bottomnav__icon");
+      if (slotIcon) {
+        slotIcon.setAttribute("data-icon", isDh ? "newspaper" : "dharane");
+        slotIcon.innerHTML = "";
+        buildIcons();
+      }
+    }
+    setPublicationCopy(".bottom-ad__tag", ["Advertisement."], isDh);
     setPublicationCopy(".premium-popup__title > span:last-child, .premium-popup__item > span:last-child", ["Premium", "Premium news", "E-paper", "Sudha", "Mayura"], isDh);
 
     setPublicationCopy(".drawer__tagline", ["The Kannada Press, Mysuru"], isDh);
@@ -710,6 +762,9 @@
       youtube: '<svg viewBox="0 0 30 22" fill="currentColor"><path d="M29.4 3.45a3.7 3.7 0 0 0-2.6-2.6C24.5.2 15 .2 15 .2S5.5.2 3.2.85a3.7 3.7 0 0 0-2.6 2.6C0 5.75 0 11 0 11s0 5.25.6 7.55a3.7 3.7 0 0 0 2.6 2.6c2.3.65 11.8.65 11.8.65s9.5 0 11.8-.65a3.7 3.7 0 0 0 2.6-2.6C30 16.25 30 11 30 11s0-5.25-.6-7.55ZM12 15.9V6.1l8 4.9-8 4.9Z"></path></svg>',
       telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 3.3 18.4 20c-.25 1.18-.91 1.47-1.85.92l-5.1-3.76-2.46 2.37c-.27.27-.5.5-1.02.5l.36-5.2 9.47-8.55c.41-.36-.09-.56-.64-.2L5.46 13.57.42 11.99c-1.1-.35-1.12-1.1.23-1.6L20.35 2.8c.91-.34 1.7.2 1.35.5Z"></path></svg>'
       ,mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"></rect><path d="m4 7 8 6 8-6"></path></svg>'
+      ,newspaper: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20H5a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12a2 2 0 0 0 2 2 2 2 0 0 0 2-2V9a1 1 0 0 0-1-1h-3"></path><line x1="7" y1="9" x2="13" y2="9"></line><line x1="7" y1="12.5" x2="13" y2="12.5"></line><line x1="7" y1="16" x2="11" y2="16"></line></svg>'
+      ,video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"></rect><path d="m16 10 6-3v10l-6-3z"></path></svg>'
+      ,dharane: '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#dharaneClip)"><path d="M50.708 45.1905C49.5643 25.8328 66.3325 8.56632 86.6016 11.295L90 11.752L90.041 15.2013C90.9184 34.6928 75.7958 50.65 57.2402 52.3878C57.2114 52.4175 57.135 52.4551 57 52.5001C54.0128 53.4958 52.017 59.6836 52 59.7364C49.7664 68.8701 49.7903 83.1702 49.7969 88.4991C47.5004 86.4993 47.9999 86.9985 44.5 83.7491L45.7891 61.8067C45.8079 50.0246 47.2829 34.3986 34.4258 28.5597C34.7838 32.2465 34.5834 35.6855 32.3418 38.7706C29.8186 42.2426 26.4924 43.7587 22.3984 44.4659C27.8717 51.1477 34.7341 58.7535 42.5117 62.5011C41.7785 62.2516 40.9924 62.0367 40.249 61.8067C32.1264 59.2934 23.829 55.5067 17.8799 49.2491C15.2365 46.4066 13.1729 43.6249 12.21 39.8038C15.6635 40.1967 21.0891 40.2027 24.1533 38.6046C26.4919 37.3845 27.5517 36.07 28.3633 33.6378L10.7031 33.6241C10.654 31.9466 10.5655 30.2195 10.4902 28.5411C13.8113 28.5084 17.0268 28.5929 20.4756 28.5929C23.513 28.5929 26.2162 28.629 28.9189 28.629C26.4586 24.4401 21.5179 24.4505 16.1592 24.4581C14.1779 24.4662 12.1961 24.4621 10.2148 24.4464C10.1851 22.6013 10.0665 20.6809 10 18.8282C19.1338 18.037 32.2078 19.0873 39.3408 25.3351C47.8101 32.7536 48.7739 43.7354 49.5957 54.0343C50.1006 53.0943 50.3717 48.032 50.708 45.1905ZM86.2588 15.7501C84.1611 16.6908 82.0734 17.6555 79.9971 18.6427C80.7887 19.1262 81.5833 19.6376 82.3691 20.1329C81.7792 21.2853 80.5033 23.2439 79.7891 24.3985C78.3609 26.7047 76.9479 29.0207 75.5508 31.3458C75.1482 31.4413 74.7483 31.5677 74.3506 31.6856C73.2755 31.0403 71.9796 30.3186 70.9521 29.5831C70.6266 29.226 70.5044 28.414 70.0791 28.1476C68.172 26.9572 66.8749 28.6308 67.2256 30.5235C65.613 33.0176 63.7989 35.4768 62.1514 37.9581C61.2364 39.3356 59.5318 36.5213 58.5527 38.0528C57.6412 39.4793 55.0273 44.9968 52.9434 49.6964L52 53.0001L52.9141 52.0851C55.2844 48.1378 58.0667 42.4221 59.5293 40.5226C60.2294 40.309 60.8496 41.9367 61.6748 41.8409C63.1666 41.6668 63.3485 40.8048 63.3359 39.6095C65.1454 37.1827 67.0095 34.2277 68.7588 31.6827L68.8457 31.67C69.3951 31.5856 69.4523 31.5896 69.9766 31.3282C71.1408 31.991 72.4177 32.8256 73.5645 33.5411C73.5731 33.5921 73.5821 33.6444 73.5908 33.6954C73.6938 34.2238 74.013 34.6856 74.4717 34.9669C76.0192 35.8972 77.6202 34.4365 77.0645 32.5509C79.2486 29.0128 81.799 24.6954 84.0986 21.2765L86.4014 22.8829C86.3975 20.6829 86.3655 17.9319 86.2588 15.7501Z" fill="currentColor"/><path d="M67 151C67 112.34 35.6599 81 -3 81C-41.6599 81 -73 112.34 -73 151C-73 189.66 -41.6599 221 -3 221C35.6599 221 67 189.66 67 151ZM75 151C75 194.078 40.0782 229 -3 229C-46.0782 229 -81 194.078 -81 151C-81 107.922 -46.0782 73 -3 73C40.0782 73 75 107.922 75 151Z" fill="currentColor"/><path d="M57 151C57 117.863 30.1371 91 -3 91C-36.1371 91 -63 117.863 -63 151C-63 184.137 -36.1371 211 -3 211C30.1371 211 57 184.137 57 151ZM65 151C65 188.555 34.5554 219 -3 219C-40.5554 219 -71 188.555 -71 151C-71 113.445 -40.5554 83 -3 83C34.5554 83 65 113.445 65 151Z" fill="currentColor"/><path d="M47 151C47 123.386 24.6142 101 -3 101C-30.6142 101 -53 123.386 -53 151C-53 178.614 -30.6142 201 -3 201C24.6142 201 47 178.614 47 151ZM55 151C55 183.033 29.0325 209 -3 209C-35.0325 209 -61 183.033 -61 151C-61 118.967 -35.0325 93 -3 93C29.0325 93 55 118.967 55 151Z" fill="currentColor"/><path d="M104 73C147.078 73 182 107.922 182 151C182 194.078 147.078 229 104 229C83.0416 229 64.0148 220.733 50 207.283C51.9246 205.436 53.7548 203.492 55.4824 201.457C68.0651 213.559 85.1633 221 104 221C142.66 221 174 189.66 174 151C174 112.34 142.66 81 104 81C85.1636 81 68.0651 88.4403 55.4824 100.542C53.7548 98.5074 51.9246 96.5628 50 94.7158C64.0148 81.2663 83.0419 73 104 73Z" fill="currentColor"/><path d="M104 83C141.555 83 172 113.445 172 151C172 188.555 141.555 219 104 219C86.3689 219 70.3049 212.29 58.2227 201.284C59.9101 199.199 61.4954 197.027 62.9697 194.776C73.7 204.838 88.13 211 104 211C137.137 211 164 184.137 164 151C164 117.863 137.137 91 104 91C88.1302 91 73.6999 97.1617 62.9697 107.223C61.4954 104.972 59.9101 102.8 58.2227 100.715C70.3049 89.7094 86.3691 83 104 83Z" fill="currentColor"/><path d="M104 93C136.033 93 162 118.967 162 151C162 183.033 136.033 209 104 209C88.5232 209 74.4628 202.938 64.0625 193.059C65.5194 190.706 66.8589 188.273 68.0703 185.767C77.1603 195.159 89.897 201 104 201C131.614 201 154 178.614 154 151C154 123.386 131.614 101 104 101C89.8973 101 77.1603 106.841 68.0703 116.232C66.8589 113.726 65.5194 111.293 64.0625 108.94C74.4628 99.0617 88.5235 93 104 93Z" fill="currentColor"/><path d="M100 0V78H94V6H6V78H0V0H100Z" fill="currentColor"/></g><defs><clipPath id="dharaneClip"><rect width="100" height="100" rx="8" fill="white"/></clipPath></defs></svg>'
     };
 
     icons.loginArrow = '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="10" viewBox="0 0 11 10" fill="none" style="overflow:visible"><path d="M0 4.12509H7.78474L4.73854 1.15503L5.92317 0L11.0002 4.95011L5.92317 9.90022L4.73854 8.74519L7.78474 5.77513H0V4.12509Z" fill="black" stroke="white" stroke-width="3" stroke-linejoin="round" paint-order="stroke"></path></svg>';
@@ -807,6 +862,15 @@
     }, 220);
   }
 
+  function syncDrawerSearchLayout() {
+    var form = drawer.querySelector(".drawer__searchform");
+    if (desktopBreakpoint.matches) {
+      drawer.querySelector(".drawer__toolbar").insertBefore(form, drawer.querySelector(".drawer__mobile-search"));
+    } else {
+      drawer.querySelector(".drawer__search-row").appendChild(form);
+    }
+  }
+
   function openDrawer() {
     if (!drawer) {
       return;
@@ -815,6 +879,17 @@
     drawer.classList.add("is-open");
     drawer.setAttribute("aria-hidden", "false");
     setBodyLock(true);
+
+    // Start the quick-links row at the beginning each time so the left fade
+    // is hidden until the user scrolls.
+    var quicklinks = drawer.querySelector(".drawer__quicklinks");
+    var quicklinksShell = drawer.querySelector(".drawer__quicklinks-shell");
+    if (quicklinks) {
+      quicklinks.scrollLeft = 0;
+    }
+    if (quicklinksShell) {
+      quicklinksShell.classList.remove("is-scrolled");
+    }
   }
 
   function closeDrawer() {
@@ -822,7 +897,8 @@
       return;
     }
 
-    drawer.classList.remove("is-open");
+    drawer.classList.remove("is-open", "is-search-open");
+    drawer.querySelector(".drawer__mobile-search").setAttribute("aria-expanded", "false");
     drawer.setAttribute("aria-hidden", "true");
 
     if (!popup.classList.contains("is-open")) {
@@ -1031,21 +1107,108 @@
     }
   }
 
+  function updateDesktopHeader() {
+    if (!siteHeader || !desktopBreakpoint.matches) {
+      return;
+    }
+
+    var currentScrollY = window.scrollY;
+    var secondaryHidden = siteHeader.classList.contains("is-secondary-hidden");
+
+    // Near the top: always show.
+    if (currentScrollY <= 8) {
+      if (secondaryHidden) {
+        siteHeader.classList.remove("is-secondary-hidden");
+      }
+      lastDesktopScrollY = currentScrollY;
+      return;
+    }
+
+    var delta = currentScrollY - lastDesktopScrollY;
+
+    // Hysteresis: only flip after a sustained move (> 6px) in one direction,
+    // and leave the baseline untouched for smaller moves so that the tiny
+    // scroll bounce caused by the reveal/hide layout change can't re-toggle
+    // the bar (which produced the shiver).
+    if (!secondaryHidden && delta > 6 && currentScrollY > 90) {
+      siteHeader.classList.add("is-secondary-hidden");
+      lastDesktopScrollY = currentScrollY;
+    } else if (secondaryHidden && delta < -6) {
+      siteHeader.classList.remove("is-secondary-hidden");
+      lastDesktopScrollY = currentScrollY;
+    } else if ((delta > 0) === secondaryHidden) {
+      // Moving further in the current state's "safe" direction (shown while
+      // scrolling up, or hidden while scrolling down): advance the baseline to
+      // track that extreme, so the opposite move is always measured from the
+      // most recent turning point rather than every frame.
+      lastDesktopScrollY = currentScrollY;
+    }
+  }
+
   function bindScrollBehavior() {
     window.addEventListener("scroll", updateCompactHeader, { passive: true });
+    window.addEventListener("scroll", updateDesktopHeader, { passive: true });
+  }
+
+  function bindQuicklinksFade() {
+    var shell = document.querySelector(".drawer__quicklinks-shell");
+    var rail = shell && shell.querySelector(".drawer__quicklinks");
+    if (!rail) {
+      return;
+    }
+
+    rail.addEventListener("scroll", function () {
+      shell.classList.toggle("is-scrolled", rail.scrollLeft > 1);
+    }, { passive: true });
   }
 
   function bindEvents() {
     document.body.addEventListener("click", function (event) {
       var premiumTrigger = event.target.closest("[data-premium-badge]");
       var drawerTrigger = event.target.closest("[data-open-drawer]");
+      var drawerSearchTrigger = event.target.closest(".drawer__mobile-search");
       var closeDrawerTrigger = event.target.closest("[data-close-drawer]");
       var closePopupTrigger = event.target.closest("[data-close-popup]");
       var submenuToggle = event.target.closest("[data-toggle-submenu]");
       var subscriberToggle = event.target.closest("[data-subscriber-toggle]");
       var publicationToggle = event.target.closest("[data-publication-toggle]");
-      var colorModeToggle = event.target.closest("[data-color-mode-toggle]");
       var profileTrigger = event.target.closest(".site-header__profile, .drawer__profile");
+      var primaryNavLink = event.target.closest(".site-header__primary-link");
+      var bottomNavItem = event.target.closest(".mobile-bottomnav__item");
+      var closeAdTrigger = event.target.closest("[data-close-ad]");
+
+      if (closeAdTrigger) {
+        event.preventDefault();
+        document.body.classList.add("is-ad-dismissed");
+        return;
+      }
+
+      // Bottom-nav selected state. The Menu item opens the drawer instead of
+      // becoming selected, so it is excluded here and handled by drawerTrigger.
+      if (bottomNavItem && !bottomNavItem.hasAttribute("data-open-drawer")) {
+        event.preventDefault();
+        qsa(".mobile-bottomnav__item").forEach(function (item) {
+          item.classList.remove("is-active");
+          item.removeAttribute("aria-current");
+        });
+        bottomNavItem.classList.add("is-active");
+        bottomNavItem.setAttribute("aria-current", "page");
+        return;
+      }
+
+      if (primaryNavLink) {
+        event.preventDefault();
+        var primaryRow = primaryNavLink.closest(".site-header__primary-links");
+        if (primaryRow) {
+          qsa(".site-header__primary-link", primaryRow).forEach(function (link) {
+            link.classList.remove("is-active");
+            link.removeAttribute("aria-current");
+          });
+        }
+        primaryNavLink.classList.add("is-active");
+        primaryNavLink.setAttribute("aria-current", "page");
+        return;
+      }
 
       if (premiumTrigger) {
         event.preventDefault();
@@ -1085,14 +1248,6 @@
         return;
       }
 
-      if (colorModeToggle) {
-        event.preventDefault();
-        var currentMode = document.documentElement.getAttribute("data-color-mode") || "print-scan";
-        var currentIndex = colorModeOrder.indexOf(currentMode);
-        applyColorMode(colorModeOrder[(currentIndex + 1) % colorModeOrder.length]);
-        return;
-      }
-
       if (profileTrigger) {
         event.preventDefault();
         if (document.body.classList.contains("is-subscriber-view")) {
@@ -1111,6 +1266,16 @@
           loginArrow.remove();
         }
         buildIcons();
+        return;
+      }
+
+      if (drawerSearchTrigger && !desktopBreakpoint.matches) {
+        event.preventDefault();
+        var searchOpen = drawer.classList.toggle("is-search-open");
+        drawerSearchTrigger.setAttribute("aria-expanded", String(searchOpen));
+        if (searchOpen) {
+          drawer.querySelector(".drawer__searchform-input").focus();
+        }
         return;
       }
 
@@ -1146,6 +1311,7 @@
     });
 
     desktopBreakpoint.addEventListener("change", function () {
+      syncDrawerSearchLayout();
       if (loadedMenuData) {
         renderResponsiveEditorialMenu(loadedMenuData.primary, loadedMenuData.secondary);
       }
@@ -1154,6 +1320,8 @@
       siteHeader.classList.remove("is-compact");
       siteHeader.classList.remove("is-menu-hidden");
       siteHeader.classList.remove("is-utility-hidden");
+      siteHeader.classList.remove("is-secondary-hidden");
+      lastDesktopScrollY = window.scrollY;
       document.body.classList.remove("is-subscriber-bottom-hidden");
       document.body.classList.remove("is-nonsubscriber-bottom-hidden");
     });
@@ -1163,9 +1331,11 @@
     applyColorMode(document.documentElement.getAttribute("data-color-mode"));
     buildIcons();
     renderSubscriptionOfferings(false);
+    syncDrawerSearchLayout();
     preventSearchSubmit();
     bindEvents();
     bindScrollBehavior();
+    bindQuicklinksFade();
     loadApiMenus();
   }
 

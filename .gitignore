@@ -3,3 +3,7 @@
 /debug/
 /*-screenshot.*
 /screenshot-*.*
+
+# Local dev tooling and generated root screenshots (not part of the deployed site)
+node_modules/
+/*.png

@@ -16,6 +16,11 @@
 
 :root {
   --drawer-raised-bg: #fffcfc;
+  /* Fallbacks for hamburger menu tints; overridden per publication theme. */
+  --menu-card-tint: #fff5f5;
+  --menu-arrow-tint: #ffe2e2;
+  --submenu-tint: #fff5f5;
+  --submenu-tint-border: #f2d4d4;
   --gold: #ffd34d;
   --gold-deep: #d5a22d;
   --gold-border: #c98900;
@@ -112,6 +117,11 @@ html[data-publication="prajavani"] {
   --topic-label: #3a3031;
   --topic-active: var(--brand-500);
   --topic-active-bg: var(--brand-100);
+  /* Hamburger menu hover/active tints (Figma-exact, not derived from brand ramp). */
+  --menu-card-tint: #fff5f5;
+  --menu-arrow-tint: #ffe2e2;
+  --submenu-tint: #fff5f5;
+  --submenu-tint-border: #f2d4d4;
   --logo-mask: url("assets/prajavani-logo.svg");
 }
 
@@ -152,6 +162,11 @@ html[data-publication="deccan-herald"] {
   --topic-label: #244248;
   --topic-active: var(--brand-500);
   --topic-active-bg: var(--brand-100);
+  /* Hamburger menu hover/active tints (Figma-exact). */
+  --menu-card-tint: #ffffff;
+  --menu-arrow-tint: #dbf6ff;
+  --submenu-tint: #eefbff;
+  --submenu-tint-border: #f3fcff;
   --logo-mask: url("assets/deccan-herald-logo.svg");
 }
 
@@ -241,6 +256,9 @@ body {
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Stop scroll anchoring from fighting the sticky-header show/hide animation
+     (it caused the secondary nav to shiver when revealed on scroll-up). */
+  overflow-anchor: none;
 }
 
 body.is-locked {
@@ -961,6 +979,100 @@ input:focus-visible {
   text-align: center;
 }
 
+/* Non-subscriber sticky bottom ad. Sits above the bottom nav while the nav is
+   visible, and drops to the very bottom when the nav hides on scroll-down. */
+.bottom-ad {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 56px; /* height of the mobile bottom nav */
+  z-index: calc(var(--header-z) - 1);
+  display: none;
+  flex-direction: column;
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  transition: bottom 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* When the bottom nav hides on scroll-down, stick the ad to the very bottom. */
+body.is-nonsubscriber-bottom-hidden .bottom-ad {
+  bottom: 0;
+}
+
+.bottom-ad__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 22px;
+  padding: 3px 34px;
+}
+
+.bottom-ad__tag {
+  color: #8a8a8a;
+  font-size: 11px;
+}
+
+.bottom-ad__lite {
+  color: var(--brand-600);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.bottom-ad__close {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #555555;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.bottom-ad__close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.bottom-ad__creative {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  background: linear-gradient(180deg, #f3f3f3, #e9e9e9);
+  color: #9a9a9a;
+  text-decoration: none;
+}
+
+.bottom-ad__creative-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Only show in the non-subscriber mobile view, and never while the drawer is
+   open or after the user dismisses it. */
+@media (max-width: 1023px) {
+  body:not(.is-subscriber-view):not(.is-ad-dismissed) .bottom-ad {
+    display: flex;
+  }
+
+  body:has(.drawer.is-open) .bottom-ad {
+    display: none;
+  }
+}
+
 .premium-badge {
   display: inline-flex;
   align-items: center;
@@ -1506,7 +1618,52 @@ body:not(.is-subscriber-view) .site-header__topics {
   );
 }
 
+/* Shared search styling for desktop and the expandable mobile row. */
 .drawer__searchform {
+  display: none;
+  width: min(100%, 430px);
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-left: auto;
+  padding: 0 4px 0 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: var(--radius-full);
+  background: #f3f3f3;
+  overflow: hidden;
+}
+
+.drawer__searchform-input {
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-900);
+  font-size: 13px;
+  outline: 0;
+}
+
+.drawer__searchform-submit {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: var(--brand-500);
+  color: #fff;
+}
+
+.drawer__searchform-submit svg {
+  width: 18px;
+  height: 18px;
+}
+
+.drawer__search-row {
   display: none;
 }
 
@@ -1682,6 +1839,25 @@ body:not(.is-subscriber-view) .site-header__topics {
   pointer-events: none;
 }
 
+/* Left fade mirrors the right ::after but only appears once the row has been
+   scrolled (is-scrolled is toggled in nav.js on horizontal scroll). */
+.drawer__quicklinks-shell::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 42px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  content: "";
+  pointer-events: none;
+}
+
+.drawer__quicklinks-shell.is-scrolled::before {
+  opacity: 1;
+}
+
 .drawer__quicklinks::-webkit-scrollbar {
   display: none;
 }
@@ -1741,7 +1917,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-size: 15px;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--nav-offering-fg);
+  color: #000000;
 }
 
 .drawer__premium-grid {
@@ -1772,7 +1948,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-size: 14px;
   font-weight: 700;
   line-height: 1.1;
-  color: var(--premium-text-deep);
+  color: #000000;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -1818,8 +1994,8 @@ body:not(.is-subscriber-view) .site-header__topics {
   font-size: 12px;
   font-weight: 700;
   line-height: 1.15;
-  color: var(--premium-text-deep);
-  text-decoration: underline;
+  color: #000000;
+  text-decoration: none;
   text-underline-offset: 3px;
 }
 
@@ -1843,7 +2019,8 @@ body:not(.is-subscriber-view) .site-header__topics {
 .drawer__premium-cta:focus-visible {
   transform: none;
   box-shadow: none;
-  color: var(--premium-text);
+  color: #000000;
+  text-decoration: underline;
   text-decoration-thickness: 2px;
 }
 
@@ -1938,6 +2115,13 @@ body:not(.is-subscriber-view) .site-header__topics {
 
 .drawer-card__trigger[aria-expanded="true"] .drawer-card__icon svg,
 .drawer-card__icon[aria-expanded="true"] svg {
+  transform: rotate(-90deg);
+}
+
+/* Hovering a collapsed chevron previews the expand by pointing it down;
+   an open card's chevron stays pointing up. */
+.drawer__catalog .drawer-card__icon:not([aria-expanded="true"]):hover svg,
+.drawer__catalog .drawer-card__icon:not([aria-expanded="true"]):focus-visible svg {
   transform: rotate(90deg);
 }
 
@@ -2145,11 +2329,12 @@ body:not(.is-subscriber-view) .site-header__topics {
     margin-left: 0;
     min-width: 0;
     width: max-content;
-    height: 32px;
-    min-height: 32px;
+    height: 36px;
+    min-height: 36px;
+    align-self: center;
     align-items: center;
     justify-content: flex-start;
-    gap: 4px;
+    gap: 6px;
     padding: 0 8px 0 0;
     font-weight: 700;
   }
@@ -2161,9 +2346,9 @@ body:not(.is-subscriber-view) .site-header__topics {
     left: -16px;
     z-index: 3;
     width: calc(100% + 16px);
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 6px 6px 0;
     background: var(--gold);
-    box-shadow: 4px 2px 8px rgba(0, 0, 0, 0.18);
+    box-shadow: 3px 0 4px rgba(0, 0, 0, 0.25);
     content: "";
   }
 
@@ -2177,8 +2362,8 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .is-subscriber-view .site-header__topics .site-header__topic-premium svg {
-    width: 17px;
-    height: 17px;
+    width: 22px;
+    height: 16px;
     flex-shrink: 0;
   }
 
@@ -2196,34 +2381,52 @@ body:not(.is-subscriber-view) .site-header__topics {
 }
 
 @media (min-width: 1024px) {
+  /* The whole header is one sticky unit so both rows paint above the page
+     content; the secondary row collapses on scroll-down. */
   .site-header {
-    position: static;
-    display: contents;
+    position: sticky;
+    top: 0;
+    z-index: var(--header-z);
+    display: block;
+    border-bottom: 0;
+    background: var(--header-surface);
   }
 
   .site-header__inner {
-    display: contents;
+    display: block;
   }
 
-  .is-subscriber-view .site-header__profile,
   .is-subscriber-view .drawer__profile {
     width: 40px;
     height: 40px;
   }
 
+  /* Subscriber user icon matches the non-subscriber icon size (24px) with a
+     crown badge overlaid at the top-right. */
+  .is-subscriber-view .site-header__profile {
+    width: 24px;
+    height: 24px;
+  }
+
+  .is-subscriber-view .site-header__profile > [data-icon="user"] svg {
+    width: 24px;
+    height: 24px;
+  }
+
   .site-header__top {
-    position: sticky;
-    top: 0;
-    z-index: var(--header-z);
+    position: relative;
+    z-index: 2;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     width: 100%;
     max-width: none;
     margin: 0;
     gap: 12px;
+    height: 64px;
     min-height: 64px;
-    padding-right: max(12px, calc((100% - var(--desktop-content-width)) / 2));
-    padding-left: max(12px, calc((100% - var(--desktop-content-width)) / 2));
+    padding-right: max(16px, calc((100% - 1280px) / 2));
+    padding-left: max(16px, calc((100% - 1280px) / 2));
+    background: var(--header-surface);
     border-bottom: 1px solid var(--brand-500);
   }
 
@@ -2232,8 +2435,15 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .site-header__logo-image {
-    width: 132px;
-    max-height: 42px;
+    width: auto;
+    height: 56px;
+    max-height: 56px;
+  }
+
+  body.is-dh .site-header__logo-image,
+  body.is-dh .drawer__logo-image {
+    height: 51px;
+    max-height: 51px;
   }
 
   .site-header__logo-tag {
@@ -2253,6 +2463,59 @@ body:not(.is-subscriber-view) .site-header__topics {
     font-size: 15px;
     font-weight: 700;
     line-height: 1;
+  }
+
+  .site-header__primary-links {
+    display: none;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .site-header__primary-links[data-pub="pv"] {
+    display: flex;
+  }
+
+  body.is-dh .site-header__primary-links[data-pub="pv"] {
+    display: none;
+  }
+
+  body.is-dh .site-header__primary-links[data-pub="dh"] {
+    display: flex;
+  }
+
+  .site-header__primary-links .site-header__primary-link {
+    color: #111;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    white-space: nowrap;
+    transition: color 160ms ease;
+  }
+
+  .site-header__primary-links .site-header__primary-link:hover,
+  .site-header__primary-links .site-header__primary-link:focus-visible {
+    color: var(--brand-500);
+  }
+
+  /* Persistent selected state after a click (distinct from the color-only hover). */
+  .site-header__primary-links .site-header__primary-link.is-active {
+    color: var(--brand-500);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
+  .site-header__primary-sep {
+    flex: 0 0 auto;
+    width: 1.5px;
+    height: 16px;
+    background: #ffb8b8;
+  }
+
+  body.is-dh .site-header__primary-sep {
+    height: 16px;
+    background: rgba(0, 121, 160, 0.3);
   }
 
   .site-header__primary-item {
@@ -2356,75 +2619,11 @@ body:not(.is-subscriber-view) .site-header__topics {
     color: var(--brand-700) !important;
   }
 
-  .is-subscriber-view .site-header__primary .site-header__primary-premium {
-    display: inline-flex;
-    height: auto;
-    min-height: 0;
-    align-items: center;
-    gap: 6px;
-    align-self: center;
-    margin: -8px -10px;
-    padding: 8px 10px;
-    border: 0;
-    border-radius: 0;
-    background: var(--premium-gold-start);
-    box-shadow: none;
-    color: var(--premium-text);
-    position: relative;
-  }
-
-  .is-subscriber-view
-    .site-header__primary
-    .site-header__primary-premium::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    border-radius: 999px;
-    background: var(--gold-border);
-    content: "";
-    transform: scaleX(1);
-    transform-origin: center;
-    transition: transform 180ms ease;
-  }
-
-  .is-subscriber-view
-    .site-header__primary
-    .site-header__primary-premium
-    > span:first-child {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-
-  .is-subscriber-view .site-header__primary .site-header__primary-premium:hover,
-  .is-subscriber-view
-    .site-header__primary
-    .site-header__primary-premium:focus-visible {
-    background: var(--premium-gold-end);
-    border-radius: 0;
-    color: var(--premium-text);
-  }
-
-  .is-subscriber-view
-    .site-header__primary
-    .site-header__primary-premium:hover::after,
-  .is-subscriber-view
-    .site-header__primary
-    .site-header__primary-premium:focus-visible::after {
-    background: var(--gold-border);
-    transform: scaleX(1);
-  }
-
+  /* Desktop resting state matches Figma for both subscriber and
+     non-subscriber: search is a 24px icon inside the actions cluster, so the
+     standalone search form is hidden. */
   .site-header__search {
-    display: flex;
-    width: 40px;
-    flex: 0 0 40px;
-    align-items: center;
-    justify-content: center;
-    max-width: none;
-    margin-left: 0;
+    display: none;
   }
 
   .site-header__search-input {
@@ -2446,70 +2645,53 @@ body:not(.is-subscriber-view) .site-header__topics {
     height: 25px;
   }
 
-  .is-subscriber-view .site-header__search {
-    width: 146px;
-    flex-basis: 146px;
-    gap: 12px;
-    justify-content: flex-start;
+  /* ---- Subscriber view (desktop) ----
+     Same spacing/sizing as non-subscriber; the Subscribe button is replaced
+     by the Premium + E-paper pills in the actions, the user icon gains a crown
+     badge, and the secondary row shows only the editorial section chips. */
+  .is-subscriber-view .site-header__subscribe {
+    display: none;
   }
 
-  .is-subscriber-view .site-header__search-submit {
-    flex: 0 0 40px;
-  }
-
-  .is-subscriber-view .site-header__epaper {
-    display: inline-flex;
-    width: auto;
-    height: 36px;
+  .is-subscriber-view .site-header__sub-offerings {
+    display: flex;
     align-items: center;
-    gap: 4px;
-    justify-content: center;
-    padding: 0 6px;
-    border: 1px solid var(--gold-deep);
-    border-radius: 8px;
-    background: transparent;
-    box-shadow: none;
-    color: var(--premium-text);
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1;
-    white-space: nowrap;
+    gap: 16px;
   }
 
-  .is-subscriber-view .site-header__profile {
-    width: 40px;
-    height: 40px;
-  }
-
-  .is-subscriber-view .site-header__epaper .epaper-icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  body.is-subscriber-view .site-header__epaper {
-    border-color: var(--nav-offering-chip-border);
-    background: var(--nav-offering-bg);
-    color: var(--nav-offering-fg);
-  }
-
-  body.is-subscriber-view .site-header__epaper:hover,
-  body.is-subscriber-view .site-header__epaper:focus-visible {
-    border-color: var(--gold);
-    background: var(--nav-offering-hover-bg);
-    color: var(--gold);
-  }
-
-  body.is-subscriber-view .site-header__epaper > .epaper-icon {
-    background-color: var(--nav-offering-fg);
-    color: var(--nav-offering-fg);
-  }
-
+  /* The mobile subscriber e-paper link stays hidden on desktop (replaced by
+     the sub-offering pills above). */
   .is-subscriber-view .site-header__mobile-epaper {
     display: none;
   }
 
+  .site-header__sub-offerings-group {
+    display: none;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .site-header__sub-offerings-group[data-pub="pv"] {
+    display: flex;
+  }
+
+  body.is-dh .site-header__sub-offerings-group[data-pub="pv"] {
+    display: none;
+  }
+
+  body.is-dh .site-header__sub-offerings-group[data-pub="dh"] {
+    display: flex;
+  }
+
+  /* Subscriber secondary nav: editorial section chips only. */
+  .is-subscriber-view .site-header__deskchips .deskchip--premium,
+  .is-subscriber-view .site-header__deskchips .deskchip--offering,
+  .is-subscriber-view .site-header__deskchips .deskchip__divider {
+    display: none;
+  }
+
   .site-header__actions {
-    gap: 10px;
+    gap: 16px;
     justify-self: end;
   }
 
@@ -2518,21 +2700,59 @@ body:not(.is-subscriber-view) .site-header__topics {
     display: inline-flex;
   }
 
-  .site-header__subscribe,
   .drawer__subscribe {
     min-height: 36px;
     padding: 0 13px;
     font-size: 13px;
   }
 
+  /* Subscribe button — exact Figma spec (flat gold, 32px tall). */
+  .site-header__subscribe {
+    min-height: 0;
+    height: 32px;
+    padding: 0 13px;
+    gap: 6px;
+    border: 1px solid var(--premium-border);
+    border-radius: 4px;
+    background: linear-gradient(180deg, #ffd65f 0%, #f9c942 100%);
+    box-shadow: 0 2px 0 var(--premium-border);
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  body.is-dh .site-header__subscribe {
+    font-weight: 700;
+  }
+
+  .site-header__subscribe::after {
+    content: "";
+  }
+
+  .site-header__subscribe:hover,
+  .site-header__subscribe:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 var(--premium-border);
+  }
+
+  .site-header__subscribe:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 var(--premium-border);
+  }
+
+  .site-header__subscribe .premium-icon {
+    width: 28px;
+    height: 20px;
+  }
+
   .site-header__icon-btn {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
   }
 
   .site-header__icon-btn svg {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
 
   .site-header__topics .site-header__topic-premium {
@@ -2593,9 +2813,11 @@ body:not(.is-subscriber-view) .site-header__topics {
     font-size: 32px;
   }
 
+  /* Match the home header logo exactly so it doesn't resize when the drawer opens. */
   .drawer__logo-image {
-    width: 132px;
-    max-height: 42px;
+    width: auto;
+    height: 56px;
+    max-height: 56px;
   }
 
   .drawer__tagline {
@@ -2608,47 +2830,17 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .drawer__toolbar {
     display: flex;
-    gap: 12px;
+    gap: 16px;
     flex: 1;
     justify-content: flex-end;
   }
 
   .drawer__searchform {
     display: flex;
-    width: min(100%, 430px);
-    align-items: center;
-    justify-content: flex-end;
-    margin-left: auto;
   }
 
   .drawer__mobile-search {
     display: none;
-  }
-
-  .drawer__searchform-input {
-    width: 100%;
-    min-height: 40px;
-    padding: 0 22px;
-    border: 1px solid var(--border);
-    border-right: 0;
-    border-radius: var(--radius-full) 0 0 var(--radius-full);
-    color: var(--text-900);
-    outline: 0;
-  }
-
-  .drawer__searchform-submit {
-    display: inline-flex;
-    width: 58px;
-    min-height: 40px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0 var(--radius-full) var(--radius-full) 0;
-    color: var(--surface);
-  }
-
-  .drawer__searchform-submit svg {
-    width: 26px;
-    height: 26px;
   }
 
   .drawer__subscribe {
@@ -2660,14 +2852,15 @@ body:not(.is-subscriber-view) .site-header__topics {
     height: 15px;
   }
 
+  /* Match the home header icon buttons so the close sits where the menu was. */
   .drawer__toolbar-btn {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
   }
 
   .drawer__toolbar-btn svg {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
   }
 
   .drawer__premium {
@@ -3367,14 +3560,14 @@ body:not(.is-subscriber-view) .site-header__topics {
 
   .mobile-bottomnav__item,
   .mobile-bottomnav__badge-wrap {
-    width: 25%;
+    width: 20%;
     min-width: 0;
-    flex: 0 0 25%;
+    flex: 0 0 20%;
   }
 
   .mobile-bottomnav__item {
-    gap: 2px;
-    font-size: 10px;
+    gap: 6px;
+    font-size: 12px;
     font-weight: 700;
     line-height: 1;
     white-space: nowrap;
@@ -3468,20 +3661,43 @@ body:not(.is-subscriber-view) .site-header__topics {
     order: 1;
   }
 
-  .drawer__premium {
+  .drawer__search-row {
     order: 3;
+    padding: 8px 14px 10px;
+    background: var(--surface);
+  }
+
+  .drawer.is-search-open .drawer__search-row {
+    display: block;
+  }
+
+  .drawer__search-row .drawer__searchform {
+    display: flex;
+    width: 100%;
+  }
+
+  .drawer__search-row .drawer__searchform-input:focus-visible,
+  .drawer__search-row .drawer__searchform-submit:focus-visible {
+    outline: none;
+  }
+
+  .drawer__premium {
+    order: 4;
   }
 
   .drawer__quicklinks-shell {
     order: 2;
+    position: sticky;
+    top: 50px; /* height of the sticky drawer topbar */
+    z-index: 25;
   }
 
   .drawer__catalog {
-    order: 4;
+    order: 5;
   }
 
   .drawer__footer {
-    order: 5;
+    order: 6;
   }
 
   .mobile-bottomnav {
@@ -3490,13 +3706,14 @@ body:not(.is-subscriber-view) .site-header__topics {
   }
 
   .mobile-bottomnav__item {
+    position: relative;
     color: var(--nav-top-fg);
     text-align: center;
   }
 
   .mobile-bottomnav__item,
   .mobile-bottomnav__badge-wrap {
-    height: 43px;
+    height: 100%;
   }
 
   .mobile-bottomnav__item > span:last-child {
@@ -3504,40 +3721,28 @@ body:not(.is-subscriber-view) .site-header__topics {
     text-align: center;
   }
 
-  .mobile-bottomnav__item:not(.is-active) > span:last-child {
-    transform: translateY(4px);
-  }
-
-  .mobile-bottomnav__premium-label {
-    transform: translateY(4.5px);
-  }
-
   .mobile-bottomnav__item.is-active,
   .mobile-bottomnav__item:hover {
     color: var(--nav-active);
   }
 
-  .mobile-bottomnav__item.is-active .mobile-bottomnav__icon {
-    width: 31px;
-    height: 31px;
-    padding: 4px;
-    border-radius: var(--radius-full);
-    background: var(--brand-100);
+  /* Selected state: brand-colored indicator bar across the top edge plus a
+     bold, brand-colored icon and label. */
+  .mobile-bottomnav__item.is-active > span:last-child {
+    font-weight: 700;
   }
 
-  .mobile-bottomnav__item.is-active:first-child {
-    color: var(--nav-top-fg);
-  }
-
-  .mobile-bottomnav__item.is-active:first-child .mobile-bottomnav__icon {
-    width: 23px;
-    height: 23px;
-    padding: 0;
-    background: transparent;
-  }
-
-  .mobile-bottomnav__item.is-active:first-child > span:last-child {
-    transform: translateY(4px);
+  .mobile-bottomnav__item.is-active::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 60%;
+    max-width: 48px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--nav-active);
+    content: "";
+    transform: translateX(-50%);
   }
 
   .mobile-bottomnav__icon {
@@ -3584,8 +3789,9 @@ body:not(.is-subscriber-view) .site-header__topics {
     background: var(--drawer-expanded-bg);
   }
 
-  .drawer-card__submenu-link {
+  .drawer__catalog .drawer-card__submenu-link {
     color: var(--brand-800);
+    font-size: 16px;
   }
 
 }
@@ -3746,7 +3952,8 @@ body.is-dh .drawer__premium-grid {
 
 .drawer__catalog .drawer-card__icon:hover,
 .drawer__catalog .drawer-card__icon:focus-visible {
-  background: rgba(0, 0, 0, 0.06);
+  background: var(--menu-arrow-tint);
+  color: var(--brand-700);
 }
 
 .drawer__catalog .drawer-card__submenu {
@@ -3762,7 +3969,6 @@ body.is-dh .drawer__premium-grid {
 
 .drawer__catalog .drawer-card__submenu-link {
   min-height: 34px;
-  font-size: 14px;
   font-weight: 400;
   text-decoration: none;
   transition: color 0.2s ease;
@@ -3948,8 +4154,6 @@ body.is-dh h2,
 body.is-dh h3,
 body.is-dh .story__title,
 body.is-dh .feature-card__title,
-body.is-dh .drawer-card__title,
-body.is-dh .drawer__premium-title,
 body.is-dh .premium-popup__title,
 body.is-dh .publication-view-toggle {
   font-family: "Playfair Display", Georgia, serif;
@@ -4001,28 +4205,171 @@ body.is-dh .publication-view-toggle {
   display: contents;
 }
 
+/* Desktop-only Figma chips bar; hidden on tablet/mobile (which keep the
+   dynamic topics-shell). */
+.site-header__deskchips {
+  display: none;
+}
+
+/* Subscriber-only offering pills live in the desktop top-bar actions; hidden
+   everywhere else (mobile keeps its own layout). */
+.site-header__sub-offerings {
+  display: none;
+}
+
 @media (min-width: 1024px) {
   .site-header__secondary {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 40px;
-    align-items: stretch;
+    display: block;
+    position: relative;
+    z-index: 1;
+    background: var(--header-surface);
+    transition: margin-top 0.34s ease;
+  }
+
+  /* Scroll down tucks the secondary nav up behind the top bar (which sits on
+     a higher layer); scroll up / top slides it back out smoothly. The
+     negative margin also pulls the page content up so no gap is left. */
+  .site-header.is-secondary-hidden .site-header__secondary {
+    margin-top: -49px;
+    pointer-events: none;
   }
 
   .site-header__utility {
     display: none;
   }
 
+  /* Desktop uses the static Figma chips bar instead of the dynamic shell. */
   .site-header__topics-shell {
-    height: 40px;
-    width: auto;
-    grid-column: 1;
-    grid-row: 1;
-    min-width: 0;
+    display: none;
   }
 
-  .site-header__topics-shell {
-    min-height: 40px;
+  .site-header__deskchips {
+    display: flex;
+    height: 49px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 max(16px, calc((100% - 1280px) / 2));
+    border-bottom: 1px solid var(--brand-500);
+    background: var(--header-surface);
+  }
+
+  .site-header__deskchips-group {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .site-header__deskchips-group[data-pub="pv"] {
+    display: flex;
+  }
+
+  body.is-dh .site-header__deskchips-group[data-pub="pv"] {
+    display: none;
+  }
+
+  body.is-dh .site-header__deskchips-group[data-pub="dh"] {
+    display: flex;
+  }
+
+  .deskchip {
+    display: inline-flex;
+    height: 32px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    font-size: 16px;
+    line-height: normal;
+  }
+
+  .deskchip--premium,
+  .deskchip--offering {
+    padding: 0 10px;
+    border-radius: 6px;
+    color: #111;
+    font-weight: 400;
+    transition: background 160ms ease;
+  }
+
+  body.is-dh .deskchip--premium,
+  body.is-dh .deskchip--offering {
+    font-weight: 500;
+  }
+
+  .deskchip--premium {
+    background: var(--gold);
+    color: #000;
+  }
+
+  .deskchip--premium:hover,
+  .deskchip--premium:focus-visible {
+    background: #f7c53c;
+  }
+
+  .deskchip--offering {
+    background: var(--premium-gold-start);
+  }
+
+  .deskchip--offering:hover,
+  .deskchip--offering:focus-visible {
+    background: var(--premium-gold-end);
+  }
+
+  .deskchip--premium .premium-icon {
+    width: 28px;
+    height: 20px;
+    background-color: var(--premium-on-gold);
+    color: var(--premium-on-gold);
+  }
+
+  .deskchip--offering .epaper-icon {
+    width: 19px;
+    height: 16px;
+  }
+
+  .deskchip--offering .magazine-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .deskchip__divider {
+    flex: 0 0 auto;
+    width: 1px;
+    height: 24px;
+    margin: 0 4px;
+    background: var(--chip-border);
+  }
+
+  .deskchip--section {
+    padding: 0 12px;
+    border: 1px solid var(--chip-border);
+    border-radius: 4px;
+    background: var(--chip-bg);
+    color: #000;
+    font-weight: 400;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease;
+  }
+
+  body.is-dh .deskchip--section {
+    font-weight: 500;
+  }
+
+  .deskchip--section.is-active {
+    border-color: var(--brand-500);
+    background: var(--brand-500);
+    color: #fff;
+  }
+
+  .deskchip--section:not(.is-active):hover,
+  .deskchip--section:not(.is-active):focus-visible {
+    border-color: var(--brand-300);
+    background: var(--brand-100);
+    color: var(--brand-700);
   }
 
   .site-header__topics {
@@ -4123,11 +4470,13 @@ body.is-dh .publication-view-toggle {
     background: var(--drawer-bg);
   }
 
+  /* Use the exact same horizontal centering as the home header top bar so the
+     drawer header doesn't shift sideways at widths below ~1328px. */
   .drawer__topbar {
-    width: var(--desktop-content-width);
+    width: 100%;
     max-width: none;
-    margin: 0 auto;
-    padding: 0;
+    margin: 0;
+    padding: 0 max(16px, calc((100% - 1280px) / 2));
   }
 
   .drawer__topbar::before {
@@ -4160,16 +4509,27 @@ body.is-dh .publication-view-toggle {
   }
 
   .drawer__searchform-input {
-    border-color: var(--brand-200);
-    background: var(--drawer-raised-bg);
+    border: 0;
+    background: transparent;
   }
 
   .drawer__searchform-submit {
-    background: var(--brand-600);
+    background: var(--brand-500);
+  }
+
+  /* Keep the top bar and the chip (sub-menu) bar pinned while the drawer scrolls. */
+  .drawer__topbar {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    background: var(--header-surface);
   }
 
   .drawer__quicklinks-shell {
     display: block;
+    position: sticky;
+    top: 64px;
+    z-index: 5;
     width: 100%;
     max-width: none;
     margin: 0 auto;
@@ -4179,11 +4539,13 @@ body.is-dh .publication-view-toggle {
   .drawer__quicklinks {
     display: flex;
     width: 100%;
-    height: 40px;
-    min-height: 40px;
+    height: 49px;
+    min-height: 49px;
     align-items: center;
     justify-content: center;
-    padding: 4px 24px 6px;
+    gap: 8px;
+    /* Match the home-page secondary nav padding (equals 80px at 1440). */
+    padding: 0 max(16px, calc((100% - 1280px) / 2));
     border-bottom: 1px solid var(--brand-600);
     background: var(--header-surface);
   }
@@ -4193,16 +4555,23 @@ body.is-dh .publication-view-toggle {
     background: linear-gradient(90deg, transparent, var(--header-surface) 82%);
   }
 
+  .drawer__quicklinks-shell::before {
+    width: 24px;
+    background: linear-gradient(90deg, var(--header-surface) 18%, transparent);
+  }
+
+  /* Match the home-page section chips exactly (size, padding, font). */
   .drawer__quickchip {
-    min-height: 30px;
-    padding: 0 14px;
+    min-height: 32px;
+    height: 32px;
+    padding: 0 12px;
     border: 1px solid var(--chip-border);
     border-radius: 4px;
     background: var(--chip-bg);
-    color: var(--brand-800);
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.15;
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
   }
 
   .drawer__quicklead {
@@ -4220,73 +4589,74 @@ body.is-dh .publication-view-toggle {
     color: var(--brand-600);
   }
 
+  /* Figma: offering cards are fixed 150x65, centered as a group (not stretched). */
   .drawer__premium {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin-top: 0;
-    padding: 10px 0;
+    padding: 16px 0 14px;
     border: 0;
     clip-path: inset(0 -100vmax);
   }
 
   .drawer__premium-title {
-    align-self: start;
-    grid-column: 1 / -1;
-    justify-self: center;
     margin: 0;
     text-align: center;
     white-space: nowrap;
+    font-size: 18px;
   }
 
   .drawer__premium-grid {
-    grid-column: 1;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
     min-width: 0;
-  }
-
-  body.is-dh .drawer__premium {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  body.is-dh .drawer__premium-grid {
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
   }
 
   .drawer__premium-item {
+    width: 150px;
+    flex: 0 0 150px;
     min-width: 0;
-    min-height: 72px;
+    height: 65px;
+    min-height: 65px;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
     justify-content: center;
-    padding: 6px 4px 4px;
+    gap: 6px;
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
   }
 
-  body.is-dh .drawer__premium-item {
-    flex-direction: row;
-    gap: 10px;
-    padding: 6px 14px;
-    font-size: 18px;
-    text-align: left;
-  }
-
-  body.is-dh .drawer__premium-item .premium-icon,
-  body.is-dh .drawer__premium-item .epaper-icon,
-  body.is-dh .drawer__premium-item .magazine-icon {
-    width: 36px;
-    height: 36px;
+  .drawer__premium-item .premium-icon,
+  .drawer__premium-item .epaper-icon,
+  .drawer__premium-item .magazine-icon {
+    width: 22px;
+    height: 20px;
   }
 
   .drawer__premium-cta {
-    grid-column: 1 / -1;
     min-height: 0;
     align-self: center;
+    gap: 8px;
+    padding: 10px 0;
+    font-size: 16px;
+  }
+
+  /* Bigger Nandi emblem on the subscribe CTA. */
+  .drawer__premium-cta .premium-icon,
+  .drawer__premium-cta > span:first-child svg {
+    width: 32px;
+    height: 28px;
+  }
+
+  .drawer__premium-cta > span:last-child svg {
+    width: 16px;
+    height: 16px;
   }
 
   .drawer__catalog {
@@ -4334,6 +4704,14 @@ body.is-dh.is-subscriber-view
     90deg,
     rgba(255, 255, 255, 0),
     var(--topic-surface) 82%
+  );
+}
+
+.drawer__quicklinks-shell::before {
+  background: linear-gradient(
+    90deg,
+    var(--topic-surface) 18%,
+    rgba(255, 255, 255, 0)
   );
 }
 
@@ -4430,7 +4808,10 @@ body.is-dh .drawer__quicklead {
 }
 
 .drawer__catalog .drawer-card--link .drawer-card__main {
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 16px;
   height: 75px;
   min-height: 75px;
   padding: 0 20px;
@@ -4442,6 +4823,14 @@ body.is-dh .drawer__quicklead {
   padding: 0;
 }
 
+.drawer-card__link-chevron,
+.drawer-card__link-chevron svg {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  color: var(--brand-800);
+}
+
 .drawer__catalog .drawer-card.is-expanded .drawer-card__trigger {
   border: 0;
   background: var(--brand-50);
@@ -4449,10 +4838,10 @@ body.is-dh .drawer__quicklead {
 }
 
 .drawer__catalog .drawer-card__submenu.is-expanded {
-  border: 1px solid var(--drawer-border);
+  border: 1px solid var(--submenu-tint-border);
   border-radius: 4px;
   overflow: hidden;
-  background: var(--drawer-expanded-bg);
+  background: var(--submenu-tint);
   box-shadow: none;
   padding-bottom: 8px;
 }
@@ -4465,11 +4854,12 @@ body.is-dh .drawer__quicklead {
   display: none;
 }
 
-.drawer__catalog > .drawer-card:not(.is-expanded) {
-  height: 75px;
-}
-
 @media (min-width: 1024px) {
+  /* Mobile cards grow with their larger text and padding. */
+  .drawer__catalog > .drawer-card:not(.is-expanded) {
+    height: 75px;
+  }
+
   .drawer__catalog.has-expanded-card .drawer-card__trigger,
   .drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main {
     box-shadow: none;
@@ -4478,7 +4868,7 @@ body.is-dh .drawer__quicklead {
   }
 
   .drawer__catalog.has-expanded-card .drawer-card__submenu.is-expanded {
-    border: 1px solid var(--brand-300);
+    border: 1px solid var(--submenu-tint-border);
     border-radius: 4px;
     box-shadow: none;
   }
@@ -4497,25 +4887,27 @@ body.is-dh .drawer__quicklead {
   }
 }
 
+/* Figma: default (non-hover) menu cards use neutral grey borders; brand color
+   appears only on hover/active. */
 .drawer__catalog .drawer-card__main,
 .drawer__catalog .drawer-card__icon {
-  border-top: 1px solid var(--brand-300);
-  border-bottom: 4px solid var(--brand-300);
+  border-top: 1px solid #d6d6d6;
+  border-bottom: 3px solid #d6d6d6;
 }
 
 .drawer__catalog .drawer-card__main {
-  border-left: 1px solid var(--brand-300);
+  border-left: 1px solid #d6d6d6;
   border-radius: 4px 0 0 4px;
 }
 
 .drawer__catalog .drawer-card__icon {
-  border-right: 1px solid var(--brand-300);
-  border-left: 1px solid var(--brand-200);
+  border-right: 1px solid #d6d6d6;
+  border-left: 1px solid #d6d6d6;
   border-radius: 0 4px 4px 0;
 }
 
 .drawer__catalog .drawer-card--link .drawer-card__main {
-  border-right: 1px solid var(--brand-300);
+  border-right: 1px solid #d6d6d6;
   border-radius: 4px;
 }
 
@@ -4525,8 +4917,58 @@ body.is-dh .drawer__quicklead {
 
 .drawer__catalog .drawer-card__submenu-link:hover,
 .drawer__catalog .drawer-card__submenu-link:focus-visible {
-  background: var(--brand-100);
-  color: var(--brand-800);
+  background: transparent;
+  color: var(--brand-500);
+}
+
+@media (min-width: 1024px) {
+  /* Full brand hover on desktop menu cards — mirrors the active/open card:
+     brand border all around, brand text, and a tinted chevron box. */
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__main,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon,
+  .drawer__catalog .drawer-card--link:hover .drawer-card__main,
+  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
+    border-top-color: var(--brand-500);
+    border-bottom-color: var(--brand-500);
+  }
+
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__main,
+  .drawer__catalog .drawer-card--link:hover .drawer-card__main,
+  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
+    border-left-color: var(--brand-500);
+    background: var(--menu-card-tint);
+  }
+
+  .drawer__catalog .drawer-card--link:hover .drawer-card__main,
+  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
+    border-right-color: var(--brand-500);
+  }
+
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon {
+    border-left-color: var(--brand-400);
+    border-right-color: var(--brand-500);
+    background: var(--menu-arrow-tint);
+    color: var(--brand-700);
+  }
+
+  /* Extra hover state: hovering the arrow/chevron box alone tints just it. */
+  .drawer__catalog .drawer-card__icon:hover {
+    background: var(--menu-arrow-tint);
+    color: var(--brand-700);
+  }
+
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__title,
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__meta,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__title,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__meta,
+  .drawer__catalog .drawer-card--link:hover .drawer-card__title,
+  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__title {
+    color: var(--brand-700);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -4542,11 +4984,14 @@ body.is-dh .drawer__quicklead {
 
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
-    .drawer-card__main,
+    .drawer-card__main {
+    background: var(--menu-card-tint);
+  }
+
   .drawer__catalog.has-expanded-card
     .drawer-card.is-expanded
     .drawer-card__icon {
-    background: var(--brand-100);
+    background: var(--menu-arrow-tint);
   }
 
   .drawer__catalog.has-expanded-card
@@ -4592,7 +5037,8 @@ body.is-dh .drawer__quicklead {
   }
 
   .drawer__catalog.has-expanded-card .drawer-card__submenu.is-expanded {
-    background: var(--brand-50);
+    background: var(--submenu-tint);
+    border-color: var(--submenu-tint-border);
     max-height: none;
     overflow: visible;
     padding: 8px 16px 12px;
@@ -4715,6 +5161,11 @@ body.is-dh .drawer__quicklead {
   white-space: nowrap;
 }
 
+/* DH uses a light-blue contact pill instead of the PV pink one. */
+body.is-dh .drawer__footer-contact a {
+  background: #e0faff;
+}
+
 .drawer__footer-contact a:hover,
 .drawer__footer-contact a:focus-visible {
   color: var(--brand-500);
@@ -4751,8 +5202,8 @@ body.is-dh .drawer__quicklead {
     flex-direction: column;
     min-height: 0;
     gap: 24px;
-    margin-top: 20px;
-    padding: 24px 16px 28px;
+    margin-top: 4px;
+    padding: 12px 16px 28px;
   }
 
   .drawer__footer-group:nth-child(2) {
@@ -4770,7 +5221,7 @@ body.is-dh .drawer__quicklead {
 
   .drawer__footer-contact {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -4883,6 +5334,48 @@ body.is-dh .drawer__quicklead {
   filter: blur(6px);
 }
 
+/* Blurred skeleton filler to make the page scrollable for testing nav-on-scroll. */
+.page-filler {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px 18px;
+  width: var(--desktop-content-width);
+  max-width: 1280px;
+  margin: 28px auto 96px;
+  padding: 0 16px;
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.page-filler__card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page-filler__thumb {
+  height: 160px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #dadada, #f0f0f0);
+}
+
+.page-filler__line {
+  height: 12px;
+  border-radius: 6px;
+  background: #e4e4e4;
+}
+
+.page-filler__line--title {
+  width: 92%;
+  height: 18px;
+  margin-bottom: 2px;
+  background: #d3d3d3;
+}
+
+.page-filler__line--short {
+  width: 56%;
+}
+
 html[data-publication] .site-header__logo-image,
 html[data-publication] .drawer__logo-image {
   opacity: 0;
@@ -4927,5 +5420,385 @@ body.is-dh .drawer__brand::after {
   .drawer__brand::after {
     width: 112px;
     height: 38px;
+  }
+}
+
+/* ============================================================
+   Mobile top nav — exact Figma replication (non-subscriber).
+   Scoped to mobile only; desktop (>=1024px) is unaffected.
+   PV: node 10633-2713   DH: node 10633-2950
+   ============================================================ */
+@media (max-width: 1023px) {
+  /* ---- Row 1: Top bar (50px) ---- */
+  /* NOTE: never set min-height on the scroll-collapsible rows — it overrides the
+     max-height:0 used to hide them on scroll and breaks the show/hide behaviour. */
+  .site-header__top {
+    height: 50px;
+    padding: 0 8px;
+    gap: 8px;
+  }
+
+  .site-header__logo-image {
+    width: auto;
+    height: 28px;
+    max-height: 28px;
+  }
+
+  body.is-dh .site-header__logo-image {
+    height: 40px;
+    max-height: 40px;
+  }
+
+  .site-header__actions {
+    gap: 16px;
+  }
+
+  /* Figma mobile top bar has no search icon. */
+  .site-header__search,
+  .site-header__search-trigger {
+    display: none !important;
+  }
+
+  /* Adopt the hamburger (drawer) icon size on the home header too. */
+  .site-header__icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .site-header__icon-btn svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .site-header__subscribe {
+    height: 32px;
+    min-height: 32px;
+    gap: 6px;
+    padding: 0 10px;
+    border: 1px solid #d29a10;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #ffd65f 0%, #f9c942 100%);
+    box-shadow: 0 2px 0 0 #d29a10;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  .site-header__subscribe::after {
+    display: none;
+  }
+
+  /* Compact non-subscriber home header without shrinking the visible logo. */
+  @media (max-width: 390px) {
+    body:not(.is-subscriber-view) .site-header__top {
+      gap: 4px;
+    }
+
+    body:not(.is-subscriber-view) .site-header__logo {
+      flex: 0 0 112px;
+      min-width: 112px;
+    }
+
+    body:not(.is-subscriber-view) .site-header__actions {
+      gap: 6px;
+    }
+
+    body:not(.is-subscriber-view) .site-header__subscribe {
+      font-size: 14px;
+      padding: 0 6px;
+      gap: 4px;
+    }
+
+    body:not(.is-subscriber-view) .site-header__icon-btn {
+      flex-shrink: 0;
+    }
+  }
+
+  @media (max-width: 359px) {
+    body:not(.is-subscriber-view) .site-header__subscribe {
+      font-size: 13px;
+    }
+
+    body:not(.is-subscriber-view) .site-header__subscribe > .premium-icon {
+      display: none;
+    }
+  }
+
+  /* ---- Row 2: Offerings strip (38px, gold) ---- */
+  .site-header__utility {
+    height: 38px;
+    padding: 0 8px;
+    background: #ffd34d;
+  }
+
+  /* Fit all four PV offerings (with icons) in the row without a horizontal
+     scroll. Each item sizes to its own text instead of being forced to the
+     widest item's width, so the row fits comfortably down to ~300px. */
+  body:not(.is-dh):not(.is-subscriber-view) .site-header__utility {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  /* On narrow phones (<=410px) the four labels + icons get cramped, so drop the
+     icons and keep text-only. Above 410px there is room, so the icons stay. */
+  @media (max-width: 410px) {
+    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link > .premium-icon,
+    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link > .epaper-icon,
+    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link > .magazine-icon {
+      display: none;
+    }
+
+    /* With the icons gone, give each offering an equal share of the row so the
+       labels sit centred instead of hugging the edges. */
+    body:not(.is-dh):not(.is-subscriber-view) .site-header__utility-link {
+      flex: 1 1 0;
+      justify-content: center;
+    }
+  }
+
+  /* Keep the premium offerings pinned on scroll, just like the topics bar —
+     only the top bar collapses. (Full hide via is-menu-hidden still applies.) */
+  .site-header.is-utility-hidden:not(.is-menu-hidden) .site-header__utility {
+    max-height: 48px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .site-header__utility-link {
+    min-height: 22px;
+    height: 22px;
+    gap: 6px;
+    padding: 0 6px;
+    border-radius: 6px;
+    background: #ffd761;
+    color: #111111;
+    font-size: 16px;
+  }
+
+  .site-header__utility-link--highlight {
+    background: #ffd34d;
+    color: #000000;
+  }
+
+  /* ---- Row 3: Topics strip (38px) ---- */
+  .site-header__topics-shell,
+  .site-header__topics {
+    height: 38px;
+  }
+
+  .site-header__topics a,
+  .site-header__topics .site-header__topic-premium,
+  .site-header__topics .site-header__topic-epaper,
+  .site-header__topics .site-header__topic-premium-extra {
+    font-size: 16px;
+  }
+
+  /* ---- Subscriber view (mobile) ----
+     E-paper button replaces Subscribe; user icon gains a crown badge; the
+     premium chip is pinned on the topics bar; no offerings strip. */
+  .is-subscriber-view .site-header__mobile-epaper {
+    height: 32px;
+    gap: 6px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: #ffd761;
+    color: #111111;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .is-subscriber-view .site-header__mobile-epaper .epaper-icon {
+    width: 19px;
+    height: 16px;
+  }
+
+  /* The inner topics nav must fill the 38px shell so there's no red gap below,
+     and the 36px pinned premium chip centres with a 1px top/bottom inset. */
+  .is-subscriber-view .site-header__topics {
+    height: 38px;
+    min-height: 38px;
+  }
+
+  /* ---- Hamburger menu cards (mobile accordion) ----
+     Chevron points DOWN when collapsed and UP when expanded (Figma). */
+  .drawer__catalog .drawer-card__icon svg {
+    transform: rotate(90deg);
+  }
+
+  .drawer__catalog .drawer-card__trigger[aria-expanded="true"] .drawer-card__icon svg,
+  .drawer__catalog .drawer-card__icon[aria-expanded="true"] svg {
+    transform: rotate(-90deg);
+  }
+}
+
+/* ============================================================
+   Mobile hamburger — exact Figma sizes/text/chips (PV 10635-3462,
+   DH 10635-4391). Horizontal padding matches the home top menu (8px).
+   Scoped to mobile; desktop (>=1024px) is unaffected.
+   ============================================================ */
+@media (max-width: 1023px) {
+  /* ---- Menu list ---- */
+  .drawer__catalog {
+    gap: 10px;
+    padding: 16px 8px 24px;
+  }
+
+  /* Tighten the catalog cards: drop the fixed 75px/36px/34px floors and the
+     stacked paddings so the row height follows the title + meta content. */
+  .drawer__catalog .drawer-card__trigger,
+  .drawer__catalog .drawer-card--link,
+  .drawer__catalog .drawer-card--link .drawer-card__main {
+    min-height: 0;
+    height: auto;
+  }
+
+  .drawer__catalog .drawer-card__main,
+  .drawer__catalog .drawer-card--link .drawer-card__main {
+    padding: 10px 14px;
+    gap: 2px;
+  }
+
+  .drawer__catalog .drawer-card__title {
+    min-height: 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .drawer__catalog .drawer-card__meta {
+    min-height: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: #555555;
+  }
+
+  .drawer__catalog .drawer-card__icon {
+    width: 70px;
+    min-width: 70px;
+  }
+
+  /* Mobile cards use a 1px grey border all round (no 3px bottom accent). */
+  .drawer__catalog .drawer-card__main,
+  .drawer__catalog .drawer-card__icon {
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  /* ---- Premium strip ---- */
+  .drawer__premium {
+    gap: 8px;
+    padding: 12px 8px 10px;
+    background: #fff8d9;
+  }
+
+  .drawer__premium-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  /* Figma: fixed 88.8px cards, centred group. PV gap 6px, DH gap 10px. */
+  .drawer__premium-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+  }
+
+  body.is-dh .drawer__premium-grid {
+    gap: 10px;
+  }
+
+  .drawer__premium-item {
+    width: 88.8px;
+    min-width: 0;
+    height: 61.7px;
+    min-height: 61.7px;
+    gap: 6px;
+    padding: 0 10px;
+    border: 1px solid #d29a10;
+    border-radius: 4px;
+    box-shadow: 0 2px 0 0 #d29a10;
+    font-size: 16px;
+  }
+
+  /* "Subscribe now for full access" CTA — 16px text link, not shrunk. */
+  .drawer__premium-cta {
+    gap: 5px;
+    padding: 12px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .drawer__premium-cta .premium-icon,
+  .drawer__premium-cta > span:first-child svg {
+    width: 32px;
+    height: 28px;
+  }
+
+  .drawer__premium-cta > span:last-child svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ---- Topics chips row (white bar, grey chips) ---- */
+  .drawer__quicklinks {
+    height: 45px;
+    gap: 4px;
+    padding: 0 8px;
+  }
+
+  .drawer__quickchip {
+    height: 28px;
+    min-height: 28px;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+}
+
+/* ============================================================
+   Hamburger (mobile) interaction fixes.
+   ============================================================ */
+
+/* Hide the fixed mobile bottom nav while the hamburger drawer is open so it
+   doesn't overlap / clip the bottom of the menu list. */
+body:has(.drawer.is-open) .mobile-bottomnav {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* On touch devices :hover sticks after a tap, leaving menu cards highlighted
+   ("not closing"). Only the expanded (is-expanded) state should show the tint. */
+@media (hover: none) {
+  .drawer__catalog .drawer-card__trigger:hover,
+  .drawer__catalog .drawer-card--link:hover,
+  .drawer__catalog .drawer-card__trigger:focus-within {
+    background: transparent;
+    color: var(--brand-950);
+  }
+
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
+  .drawer__catalog .drawer-card__icon:hover {
+    background: inherit;
+    color: inherit;
+    border-color: #d6d6d6;
+  }
+
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__title,
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__meta {
+    color: inherit;
   }
 }

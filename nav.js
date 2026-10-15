@@ -256,6 +256,10 @@
 
     var allItems = Array.isArray(items) ? items : [];
     var fragment = document.createDocumentFragment();
+    /* Demo: mark the first section card (one with a submenu) as the "you are
+       here" active section, standing in for the section the open article
+       belongs to. Only one card is marked since the articles are dummies. */
+    var activeMarked = false;
 
     roots.forEach(function (rootItem) {
       var children = allItems.filter(function (item) {
@@ -286,6 +290,11 @@
 
       var card = document.createElement("div");
       card.className = "drawer-card";
+      var isActiveCard = !activeMarked;
+      if (isActiveCard) {
+        card.classList.add("is-active");
+        activeMarked = true;
+      }
       var trigger = document.createElement("div");
       trigger.className = "drawer-card__trigger";
       var submenuId = "api-submenu-" + rootItem.id;
@@ -294,6 +303,9 @@
       main.className = "drawer-card__main";
       main.href = rootHref;
       main.setAttribute("data-api-menu-item", "true");
+      if (isActiveCard) {
+        main.setAttribute("aria-current", "page");
+      }
       var title = document.createElement("span");
       title.className = "drawer-card__title";
       title.textContent = rootItem.title.trim();
@@ -1174,6 +1186,7 @@
       var publicationToggle = event.target.closest("[data-publication-toggle]");
       var profileTrigger = event.target.closest(".site-header__profile, .drawer__profile");
       var primaryNavLink = event.target.closest(".site-header__primary-link");
+      var mobileSectionLink = event.target.closest(".site-header__topics > a[data-api-menu-item]");
       var bottomNavItem = event.target.closest(".mobile-bottomnav__item");
       var closeAdTrigger = event.target.closest("[data-close-ad]");
 
@@ -1193,6 +1206,18 @@
         });
         bottomNavItem.classList.add("is-active");
         bottomNavItem.setAttribute("aria-current", "page");
+        return;
+      }
+
+      // Preview section selection without leaving the mobile navigation demo.
+      if (mobileSectionLink && !desktopBreakpoint.matches) {
+        event.preventDefault();
+        qsa(".site-header__topics > a[data-api-menu-item]").forEach(function (link) {
+          link.classList.remove("is-active");
+          link.removeAttribute("aria-current");
+        });
+        mobileSectionLink.classList.add("is-active");
+        mobileSectionLink.setAttribute("aria-current", "page");
         return;
       }
 

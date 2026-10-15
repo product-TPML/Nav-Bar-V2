@@ -19,6 +19,10 @@
   /* Fallbacks for hamburger menu tints; overridden per publication theme. */
   --menu-card-tint: #fff5f5;
   --menu-arrow-tint: #ffe2e2;
+  /* Hamburger card state fills: hover (transient) + pressed + selected (persistent). */
+  --menu-hover-bg: #fff0f0;
+  --menu-active-bg: #ffe6e6;
+  --menu-selected-bg: #ffd4d4;
   --submenu-tint: #fff5f5;
   --submenu-tint-border: #f2d4d4;
   --gold: #ffd34d;
@@ -120,6 +124,9 @@ html[data-publication="prajavani"] {
   /* Hamburger menu hover/active tints (Figma-exact, not derived from brand ramp). */
   --menu-card-tint: #fff5f5;
   --menu-arrow-tint: #ffe2e2;
+  --menu-hover-bg: #fff0f0;
+  --menu-active-bg: #ffe6e6;
+  --menu-selected-bg: #ffd4d4;
   --submenu-tint: #fff5f5;
   --submenu-tint-border: #f2d4d4;
   --logo-mask: url("assets/prajavani-logo.svg");
@@ -163,8 +170,11 @@ html[data-publication="deccan-herald"] {
   --topic-active: var(--brand-500);
   --topic-active-bg: var(--brand-100);
   /* Hamburger menu hover/active tints (Figma-exact). */
-  --menu-card-tint: #ffffff;
+  --menu-card-tint: #eef8ff;
   --menu-arrow-tint: #dbf6ff;
+  --menu-hover-bg: #eef8ff;
+  --menu-active-bg: #dbf1fc;
+  --menu-selected-bg: #cbe8f8;
   --submenu-tint: #eefbff;
   --submenu-tint-border: #f3fcff;
   --logo-mask: url("assets/deccan-herald-logo.svg");
@@ -1303,15 +1313,17 @@ body:not(.is-subscriber-view) .site-header__topics {
 
 @media (max-width: 1023px) {
   body:not(.is-subscriber-view) .site-header__topics {
+    --mobile-topic-gap: 16px;
     height: 32px;
     min-height: 32px;
-    column-gap: 16px;
+    column-gap: var(--mobile-topic-gap);
   }
 
   .is-subscriber-view .site-header__topics {
+    --mobile-topic-gap: 12px;
     height: 32px;
     min-height: 32px;
-    column-gap: 12px;
+    column-gap: var(--mobile-topic-gap);
   }
 
   body:not(.is-subscriber-view) .site-header__topics a {
@@ -3357,13 +3369,23 @@ body:not(.is-subscriber-view) .site-header__topics {
     color: var(--surface);
     background: transparent;
     box-shadow: none;
+    height: 28px;
+    min-height: 28px;
+    padding: 4px 8px;
+    font-weight: 700;
   }
 
   .site-header__topics > a[data-api-menu-item]:hover,
-  .site-header__topics > a[data-api-menu-item]:focus-visible,
-  .site-header__topics > a[data-api-menu-item].is-active {
+  .site-header__topics > a[data-api-menu-item]:focus-visible {
     color: var(--surface);
     background: var(--brand-600);
+  }
+
+  .site-header__topics > a[data-api-menu-item].is-active {
+    color: var(--brand-500);
+    background: var(--surface);
+    box-shadow: none;
+    text-decoration: none;
   }
 
   .site-header__utility-link:not(:last-child)::after {
@@ -3382,7 +3404,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   .site-header__topics > a[data-api-menu-item]:not(:last-of-type)::after {
     position: absolute;
     top: 50%;
-    right: -9px;
+    right: calc(-1px - var(--mobile-topic-gap) / 2);
     width: 2px;
     height: 14px;
     background: var(--surface);
@@ -3976,12 +3998,12 @@ body.is-dh .drawer__premium-grid {
 
 .drawer__catalog .drawer-card__trigger:hover,
 .drawer__catalog .drawer-card--link:hover {
-  background: var(--brand-50);
+  background: var(--menu-hover-bg);
   color: var(--brand-700);
 }
 
 .drawer__catalog.has-expanded-card .drawer-card--link .drawer-card__main:hover {
-  background: var(--brand-50);
+  background: var(--menu-hover-bg);
   color: var(--brand-700);
 }
 
@@ -3999,7 +4021,7 @@ body.is-dh .drawer__premium-grid {
 
   .drawer__catalog.has-expanded-card .drawer-card__trigger:hover,
   .drawer__catalog.has-expanded-card .drawer-card__trigger:focus-within {
-    background: var(--brand-50);
+    background: var(--menu-hover-bg);
     color: var(--brand-700);
   }
 }
@@ -4014,7 +4036,7 @@ body.is-dh .drawer__premium-grid {
 
   .drawer__catalog .drawer-card__trigger:hover,
   .drawer__catalog .drawer-card--link:hover {
-    background: var(--brand-50);
+    background: var(--menu-hover-bg);
   }
 }
 
@@ -4230,7 +4252,7 @@ body.is-dh .publication-view-toggle {
      a higher layer); scroll up / top slides it back out smoothly. The
      negative margin also pulls the page content up so no gap is left. */
   .site-header.is-secondary-hidden .site-header__secondary {
-    margin-top: -49px;
+    margin-top: -40px;
     pointer-events: none;
   }
 
@@ -4245,7 +4267,7 @@ body.is-dh .publication-view-toggle {
 
   .site-header__deskchips {
     display: flex;
-    height: 49px;
+    height: 40px;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -4274,13 +4296,13 @@ body.is-dh .publication-view-toggle {
 
   .deskchip {
     display: inline-flex;
-    height: 32px;
+    height: 28px;
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     gap: 6px;
     white-space: nowrap;
-    font-size: 16px;
+    font-size: 14px;
     line-height: normal;
   }
 
@@ -4319,26 +4341,26 @@ body.is-dh .publication-view-toggle {
   }
 
   .deskchip--premium .premium-icon {
-    width: 28px;
-    height: 20px;
+    width: 24px;
+    height: 17px;
     background-color: var(--premium-on-gold);
     color: var(--premium-on-gold);
   }
 
   .deskchip--offering .epaper-icon {
-    width: 19px;
-    height: 16px;
+    width: 17px;
+    height: 14px;
   }
 
   .deskchip--offering .magazine-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 
   .deskchip__divider {
     flex: 0 0 auto;
     width: 1px;
-    height: 24px;
+    height: 20px;
     margin: 0 4px;
     background: var(--chip-border);
   }
@@ -4932,7 +4954,7 @@ body.is-dh .drawer__quicklead {
   .drawer__catalog .drawer-card--link:hover .drawer-card__main,
   .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
     border-top-color: var(--brand-500);
-    border-bottom-color: var(--brand-500);
+    /* Bottom stroke stays resting grey on hover; reserved for selected/pressed. */
   }
 
   .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
@@ -4940,7 +4962,7 @@ body.is-dh .drawer__quicklead {
   .drawer__catalog .drawer-card--link:hover .drawer-card__main,
   .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
     border-left-color: var(--brand-500);
-    background: var(--menu-card-tint);
+    background: var(--menu-hover-bg);
   }
 
   .drawer__catalog .drawer-card--link:hover .drawer-card__main,
@@ -5044,6 +5066,105 @@ body.is-dh .drawer__quicklead {
     overflow: visible;
     padding: 8px 16px 12px;
   }
+}
+
+/* ── Hamburger menu item states (mobile + desktop) ───────────────────────
+   Three clearly-ranked tiers that read on both the PV (red) and DH (blue)
+   themes and on every viewport:
+     1. HOVER / focus  — transient light brand fill + brand text + tinted chevron.
+     2. PRESSED (:active) — one step deeper fill + inset press shadow.
+     3. ACTIVE (.is-active) — persistent "you are here": deeper fill, full brand
+        borders, a solid left accent bar, and a bold brand title; out-ranks hover
+        so it stays distinct while a sibling card is hovered.
+   Only the section card is styled (no sub-item), demonstrated on one card.
+   The desktop chevron rotation animation is intentionally left untouched. */
+
+/* Smooth the transitions between the three tiers. */
+.drawer__catalog .drawer-card__main,
+.drawer__catalog .drawer-card__icon {
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* ── Tier 1: hover / focus-visible (transient) ─────────────────────────── */
+.drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
+.drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__main,
+.drawer__catalog .drawer-card--link:hover .drawer-card__main,
+.drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
+  border-top-color: var(--brand-500);
+  /* Bottom stroke stays the resting grey on hover; only selected/pressed go brand. */
+  border-left-color: var(--brand-500);
+  background: var(--menu-hover-bg);
+}
+
+.drawer__catalog .drawer-card--link:hover .drawer-card__main,
+.drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
+  border-right-color: var(--brand-500);
+}
+
+/* ── Tier 2: pressed / selected (:active, momentary) ───────────────────── */
+.drawer__catalog .drawer-card__trigger:active .drawer-card__main,
+.drawer__catalog .drawer-card--link:active .drawer-card__main {
+  border-top-color: var(--brand-500);
+  border-bottom-color: var(--brand-600);
+  border-left-color: var(--brand-500);
+  background: var(--menu-active-bg);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.drawer__catalog .drawer-card--link:active .drawer-card__main {
+  border-right-color: var(--brand-500);
+}
+
+/* ── Tier 3: active "you are here" (.is-active, persistent) ────────────── */
+.drawer__catalog .drawer-card.is-active .drawer-card__main {
+  border-top-color: var(--brand-500);
+  border-bottom-color: var(--brand-600);
+  border-left-color: var(--brand-500);
+  /* Deeper fill than hover/pressed marks the persistent selection. */
+  background: var(--menu-selected-bg);
+  /* Thick solid left accent bar marks the current location. */
+  box-shadow: inset 6px 0 0 var(--brand-600);
+}
+
+.drawer__catalog .drawer-card--link.is-active .drawer-card__main {
+  border-right-color: var(--brand-500);
+}
+
+/* Chevron box picks up the brand tint across all three tiers. */
+.drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
+.drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon,
+.drawer__catalog .drawer-card__trigger:active .drawer-card__icon,
+.drawer__catalog .drawer-card.is-active .drawer-card__icon {
+  border-top-color: var(--brand-500);
+  border-bottom-color: var(--brand-500);
+  border-left-color: var(--brand-400);
+  border-right-color: var(--brand-500);
+  background: var(--menu-arrow-tint);
+  color: var(--brand-700);
+}
+
+/* Text turns brand across hover / pressed / active. */
+.drawer__catalog .drawer-card__trigger:hover .drawer-card__title,
+.drawer__catalog .drawer-card__trigger:hover .drawer-card__meta,
+.drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__title,
+.drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__meta,
+.drawer__catalog .drawer-card__trigger:active .drawer-card__title,
+.drawer__catalog .drawer-card__trigger:active .drawer-card__meta,
+.drawer__catalog .drawer-card--link:hover .drawer-card__title,
+.drawer__catalog .drawer-card--link:focus-visible .drawer-card__title,
+.drawer__catalog .drawer-card--link:active .drawer-card__title,
+.drawer__catalog .drawer-card.is-active .drawer-card__meta {
+  color: var(--brand-700);
+}
+
+/* Active section: bolder, darker title so it out-ranks a hovered sibling. */
+.drawer__catalog .drawer-card.is-active .drawer-card__title {
+  font-weight: 700;
+  color: var(--brand-800);
 }
 
 /* Hamburger footer: social links and compact contact details. */
@@ -5472,8 +5593,8 @@ body.is-dh .drawer__brand::after {
   }
 
   .site-header__subscribe {
-    height: 32px;
-    min-height: 32px;
+    height: 28px;
+    min-height: 28px;
     gap: 6px;
     padding: 0 10px;
     border: 1px solid #d29a10;

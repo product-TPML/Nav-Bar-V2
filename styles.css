@@ -1907,7 +1907,7 @@ body:not(.is-subscriber-view) .site-header__topics {
   box-shadow: none;
   color: var(--brand-800);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   white-space: nowrap;
 }
@@ -2337,13 +2337,16 @@ body:not(.is-subscriber-view) .site-header__topics {
     left: 0;
     z-index: 10;
     display: inline-flex;
-    align-self: center;
+    /* Fill the secondary bar flush — the gold spans the full bar height with
+       no top/bottom gap, whatever the bar's rendered height. */
+    align-self: stretch;
+    margin-top: 0;
+    margin-bottom: 0;
     margin-left: 0;
     min-width: 0;
     width: max-content;
-    /* Leave a 1px inset above and below inside the 32px secondary bar. */
-    height: 30px;
-    min-height: 30px;
+    height: auto;
+    min-height: 0;
     align-items: center;
     justify-content: flex-start;
     gap: 6px;
@@ -4252,7 +4255,7 @@ body.is-dh .publication-view-toggle {
      a higher layer); scroll up / top slides it back out smoothly. The
      negative margin also pulls the page content up so no gap is left. */
   .site-header.is-secondary-hidden .site-header__secondary {
-    margin-top: -40px;
+    margin-top: -34px;
     pointer-events: none;
   }
 
@@ -4267,7 +4270,7 @@ body.is-dh .publication-view-toggle {
 
   .site-header__deskchips {
     display: flex;
-    height: 40px;
+    height: 34px;
     align-items: center;
     justify-content: center;
     gap: 8px;
@@ -4371,7 +4374,7 @@ body.is-dh .publication-view-toggle {
     border-radius: 4px;
     background: var(--chip-bg);
     color: #000;
-    font-weight: 400;
+    font-weight: 600;
     transition:
       background 160ms ease,
       border-color 160ms ease,
@@ -4379,7 +4382,7 @@ body.is-dh .publication-view-toggle {
   }
 
   body.is-dh .deskchip--section {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .deskchip--section.is-active {
@@ -4562,14 +4565,14 @@ body.is-dh .publication-view-toggle {
   .drawer__quicklinks {
     display: flex;
     width: 100%;
-    height: 49px;
-    min-height: 49px;
+    height: 34px;
+    min-height: 34px;
     align-items: center;
     justify-content: center;
     gap: 8px;
     /* Match the home-page secondary nav padding (equals 80px at 1440). */
     padding: 0 max(16px, calc((100% - 1280px) / 2));
-    border-bottom: 1px solid var(--brand-600);
+    border-bottom: 1px solid var(--brand-500);
     background: var(--header-surface);
   }
 
@@ -4585,15 +4588,15 @@ body.is-dh .publication-view-toggle {
 
   /* Match the home-page section chips exactly (size, padding, font). */
   .drawer__quickchip {
-    min-height: 32px;
-    height: 32px;
+    min-height: 28px;
+    height: 28px;
     padding: 0 12px;
     border: 1px solid var(--chip-border);
     border-radius: 4px;
     background: var(--chip-bg);
     color: #000;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 600;
     line-height: normal;
   }
 
@@ -4945,51 +4948,34 @@ body.is-dh .drawer__quicklead {
 }
 
 @media (min-width: 1024px) {
-  /* Full brand hover on desktop menu cards — mirrors the active/open card:
-     brand border all around, brand text, and a tinted chevron box. */
+  /* Hover on desktop menu cards: light brand tint fill + brand-coloured title,
+     sub-text and chevron. The resting grey strokes stay as-is (not recoloured).
+     Tint and brand colour both resolve per-brand (PV / DH) via the vars. */
   .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
   .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
   .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__main,
   .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon,
   .drawer__catalog .drawer-card--link:hover .drawer-card__main,
   .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
-    border-top-color: var(--brand-500);
-    /* Bottom stroke stays resting grey on hover; reserved for selected/pressed. */
-  }
-
-  .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
-  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__main,
-  .drawer__catalog .drawer-card--link:hover .drawer-card__main,
-  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
-    border-left-color: var(--brand-500);
     background: var(--menu-hover-bg);
-  }
-
-  .drawer__catalog .drawer-card--link:hover .drawer-card__main,
-  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
-    border-right-color: var(--brand-500);
-  }
-
-  .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
-  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon {
-    border-left-color: var(--brand-400);
-    border-right-color: var(--brand-500);
-    background: var(--menu-arrow-tint);
-    color: var(--brand-700);
   }
 
   /* Extra hover state: hovering the arrow/chevron box alone tints just it. */
   .drawer__catalog .drawer-card__icon:hover {
-    background: var(--menu-arrow-tint);
+    background: var(--menu-hover-bg);
     color: var(--brand-700);
   }
 
+  .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
+  .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon,
   .drawer__catalog .drawer-card__trigger:hover .drawer-card__title,
   .drawer__catalog .drawer-card__trigger:hover .drawer-card__meta,
   .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__title,
   .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__meta,
   .drawer__catalog .drawer-card--link:hover .drawer-card__title,
-  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__title {
+  .drawer__catalog .drawer-card--link:hover .drawer-card__meta,
+  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__title,
+  .drawer__catalog .drawer-card--link:focus-visible .drawer-card__meta {
     color: var(--brand-700);
   }
 }
@@ -5090,19 +5076,14 @@ body.is-dh .drawer__quicklead {
 }
 
 /* ── Tier 1: hover / focus-visible (transient) ─────────────────────────── */
+/* Hover adds only the light brand tint fill. The resting grey strokes stay
+   as-is — they are NOT recoloured to brand. Pressed/selected tiers below
+   are the ones that go brand. */
 .drawer__catalog .drawer-card__trigger:hover .drawer-card__main,
 .drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__main,
 .drawer__catalog .drawer-card--link:hover .drawer-card__main,
 .drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
-  border-top-color: var(--brand-500);
-  /* Bottom stroke stays the resting grey on hover; only selected/pressed go brand. */
-  border-left-color: var(--brand-500);
   background: var(--menu-hover-bg);
-}
-
-.drawer__catalog .drawer-card--link:hover .drawer-card__main,
-.drawer__catalog .drawer-card--link:focus-visible .drawer-card__main {
-  border-right-color: var(--brand-500);
 }
 
 /* ── Tier 2: pressed / selected (:active, momentary) ───────────────────── */
@@ -5134,9 +5115,14 @@ body.is-dh .drawer__quicklead {
   border-right-color: var(--brand-500);
 }
 
-/* Chevron box picks up the brand tint across all three tiers. */
+/* Chevron box, hover/focus: light tint fill + brand chevron; grey strokes stay. */
 .drawer__catalog .drawer-card__trigger:hover .drawer-card__icon,
-.drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon,
+.drawer__catalog .drawer-card__trigger:focus-visible .drawer-card__icon {
+  background: var(--menu-hover-bg);
+  color: var(--brand-700);
+}
+
+/* Chevron box, pressed / selected: keep the brand strokes + tint. */
 .drawer__catalog .drawer-card__trigger:active .drawer-card__icon,
 .drawer__catalog .drawer-card.is-active .drawer-card__icon {
   border-top-color: var(--brand-500);
@@ -5155,7 +5141,9 @@ body.is-dh .drawer__quicklead {
 .drawer__catalog .drawer-card__trigger:active .drawer-card__title,
 .drawer__catalog .drawer-card__trigger:active .drawer-card__meta,
 .drawer__catalog .drawer-card--link:hover .drawer-card__title,
+.drawer__catalog .drawer-card--link:hover .drawer-card__meta,
 .drawer__catalog .drawer-card--link:focus-visible .drawer-card__title,
+.drawer__catalog .drawer-card--link:focus-visible .drawer-card__meta,
 .drawer__catalog .drawer-card--link:active .drawer-card__title,
 .drawer__catalog .drawer-card.is-active .drawer-card__meta {
   color: var(--brand-700);
